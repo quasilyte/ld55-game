@@ -14,12 +14,7 @@ Theme: summoning
 
 TODO:
 
-* floating damage text
 * add graphic layers
-* laser sfx (sfxr)
-* vessel weapon model
-* implement projectile node
-* hp/energy mechanics
 * weapon 1 thread
 * attack-related instruction
 * test weapon threads
