@@ -36,6 +36,7 @@ const (
 
 	RotateToInstruction
 	MoveForwardInstruction
+	MoveAndRotateInstruction
 )
 
 type ProgInstructionInfo struct {
@@ -47,12 +48,13 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 		UnknownInstruction: {},
 
 		RandomPosInstruction:    {},
-		RotateToInstruction:     {},
 		RandomOffsetInstruction: {},
 		VesselPosInstruction:    {},
 		TargetPosInstruction:    {},
 
-		MoveForwardInstruction: {},
+		RotateToInstruction:      {},
+		MoveForwardInstruction:   {},
+		MoveAndRotateInstruction: {},
 	}
 
 	for kind, inst := range insts {

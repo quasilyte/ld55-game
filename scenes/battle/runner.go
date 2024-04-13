@@ -4,6 +4,7 @@ import (
 	"math"
 	"time"
 
+	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/battle"
@@ -68,7 +69,7 @@ func (r *Runner) Init() {
 								// 	Params: []any{100.0},
 								// },
 
-								{Info: game.ProgInstInfoTab[game.VesselPosInstruction]},
+								{Info: game.ProgInstInfoTab[game.TargetPosInstruction]},
 								{
 									Info:   game.ProgInstInfoTab[game.RandomOffsetInstruction],
 									Params: []any{40.0},
@@ -86,9 +87,25 @@ func (r *Runner) Init() {
 		},
 	}
 
+	enemyVessel := &battle.Vessel{
+		Alliance: 1,
+		Pos:      gmath.Vec{X: 256, Y: 256},
+		Rotation: 0,
+
+		Design: battle.VesselDesign{
+			Image:         assets.ImageVesselNormal1,
+			RotationSpeed: 2.0,
+			MaxSpeed:      150,
+			Acceleration:  150,
+		},
+
+		Prog: &game.BotProg{},
+	}
+
 	r.world = &battle.World{
 		Vessels: []*battle.Vessel{
 			playerVessel,
+			enemyVessel,
 		},
 		Size: r.ctx.WindowSize,
 	}
@@ -106,6 +123,22 @@ func (r *Runner) Init() {
 			Vessel: playerVessel,
 		})
 		r.executors = append(r.executors, e)
+	}
+	{
+		enemyVesselNode := newVesselNode(enemyVessel)
+		r.vessels = append(r.vessels, enemyVesselNode)
+		r.scene.AddObject(enemyVesselNode)
+
+		e := progsim.NewExecutor(progsim.ExecutorConfig{
+			Prog:   enemyVessel.Prog,
+			World:  r.world,
+			Vessel: enemyVessel,
+		})
+		r.executors = append(r.executors, e)
+	}
+	{
+		r.vessels[0].data.Target = r.world.Vessels[1]
+		r.vessels[1].data.Target = r.world.Vessels[0]
 	}
 }
 

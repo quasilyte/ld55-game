@@ -24,6 +24,8 @@ type Vessel struct {
 
 	Prog *game.BotProg
 
+	Target *Vessel
+
 	Design VesselDesign
 }
 

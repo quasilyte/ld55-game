@@ -196,6 +196,34 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 			tag:   "vessel pos",
 		})
 
+	case game.TargetPosInstruction:
+		t.stack.Push(stackValue{
+			value: e.vessel.Target.Pos,
+			tag:   "target pos",
+		})
+
+	case game.MoveAndRotateInstruction:
+		if inst.firstTick {
+			p := t.stack.PopVec()
+			inst.rotation = e.vessel.Pos.AngleToPoint(p).Normalized()
+			inst.amount = inst.Params[0].(float64)
+		}
+		vesselRotation := e.vessel.Rotation.Normalized()
+		delta := vesselRotation.AngleDelta(inst.rotation)
+		absDelta := delta.Abs()
+		if absDelta >= float64(e.vessel.Design.RotationSpeed)*e.delta {
+			if delta < 0 {
+				e.commands.RotateLeft = true
+			} else {
+				e.commands.RotateRight = true
+			}
+		}
+		if inst.amount > 0 {
+			inst.amount -= e.delta * e.vessel.Design.MaxSpeed
+			e.commands.MoveForward = true
+			return instRunning
+		}
+
 	case game.RotateToInstruction:
 		if inst.firstTick {
 			p := t.stack.PopVec()

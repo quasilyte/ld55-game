@@ -32,6 +32,10 @@ func (n *vesselNode) Init(s *scene) {
 	n.sprite.Pos.Base = &n.data.Pos
 	n.sprite.Rotation = &n.data.Rotation
 	s.AddGraphics(n.sprite)
+
+	if n.data.Alliance != 0 {
+		n.sprite.SetColorScale(graphics.ColorScale{R: 1.1, G: 0.5, B: 1.2, A: 1})
+	}
 }
 
 func (n *vesselNode) Dispose() {
