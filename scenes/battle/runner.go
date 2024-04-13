@@ -52,6 +52,8 @@ func (r *Runner) Init() {
 		Design: battle.VesselDesign{
 			Image:         assets.ImageVesselNormal1,
 			RotationSpeed: 1.5,
+			MaxSpeed:      150,
+			Acceleration:  100,
 		},
 
 		Prog: &game.BotProg{
@@ -63,10 +65,10 @@ func (r *Runner) Init() {
 							Instructions: []game.ProgInstruction{
 								{Info: game.ProgInstInfoTab[game.RandomPosInstruction]},
 								{Info: game.ProgInstInfoTab[game.RotateToInstruction]},
-								// {
-								// 	Info:   game.ProgInstInfoTab[game.MoveForwardInstruction],
-								// 	Params: []any{100},
-								// },
+								{
+									Info:   game.ProgInstInfoTab[game.MoveForwardInstruction],
+									Params: []any{100.0},
+								},
 							},
 						},
 					},

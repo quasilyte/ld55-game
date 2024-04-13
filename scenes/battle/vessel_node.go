@@ -47,6 +47,27 @@ func (n *vesselNode) SetCommands(c progsim.VesselCommands) {
 }
 
 func (n *vesselNode) Update(delta float64) {
+	n.processRotation(delta)
+	n.processMovement(delta)
+}
+
+func (n *vesselNode) processMovement(delta float64) {
+	v := n.data.Velocity
+
+	if n.commands.MoveForward {
+		speed := n.data.Design.MaxSpeed * delta
+		v = gmath.RadToVec(n.data.Rotation).Mulf(speed)
+	} else {
+		v = gmath.Vec{}
+	}
+
+	n.data.Velocity = v
+	if !v.IsZero() {
+		n.data.Pos = n.data.Pos.Add(v)
+	}
+}
+
+func (n *vesselNode) processRotation(delta float64) {
 	rotation := gmath.Rad(0)
 	if n.commands.RotateLeft {
 		rotation = -n.data.Design.RotationSpeed

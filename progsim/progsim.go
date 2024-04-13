@@ -71,6 +71,7 @@ type runningBranch struct {
 type runningInst struct {
 	firstTick bool
 	rotation  gmath.Rad
+	amount    float64
 	game.ProgInstruction
 }
 
@@ -122,7 +123,10 @@ func (e *Executor) RunTick(delta float64) VesselCommands {
 }
 
 func (e *Executor) runThread(t *runningThread) {
-	for _, b := range t.branches[t.currentBranch:] {
+	// TODO: handle current branch when multi-branches are supported.
+
+	for i := t.currentBranch; i < len(t.branches); i++ {
+		b := t.branches[i]
 		t.stack.Clear()
 
 		s := e.runBranch(t, b)
@@ -140,7 +144,8 @@ func (e *Executor) runThread(t *runningThread) {
 }
 
 func (e *Executor) runBranch(t *runningThread, b *runningBranch) branchStatus {
-	for i, inst := range b.insts[b.currentInst:] {
+	for i := b.currentInst; i < len(b.insts); i++ {
+		inst := b.insts[i]
 		if inst.firstTick {
 			b.currentInst = i
 		}
@@ -197,6 +202,16 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 			e.commands.RotateRight = true
 		}
 		return instRunning
+
+	case game.MoveForwardInstruction:
+		if inst.firstTick {
+			inst.amount = inst.Params[0].(float64)
+		}
+		if inst.amount > 0 {
+			inst.amount -= e.delta * e.vessel.Design.MaxSpeed
+			e.commands.MoveForward = true
+			return instRunning
+		}
 	}
 
 	return instFinished
