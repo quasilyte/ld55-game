@@ -38,7 +38,7 @@ func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 			Text: "Hardware",
 			OnClick: func() {
 			},
-			Tooltip: eui.NewTooltip(uiRes, tt),
+			Tooltip: eui.NewSimpleTooltip(uiRes, tt),
 		})
 		rows.AddChild(b)
 	}
@@ -53,7 +53,7 @@ func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 			OnClick: func() {
 				game.ChangeScene(c.ctx, NewSoftwareController(c.ctx))
 			},
-			Tooltip: eui.NewTooltip(uiRes, tt),
+			Tooltip: eui.NewSimpleTooltip(uiRes, tt),
 		})
 		rows.AddChild(b)
 	}
@@ -67,7 +67,7 @@ func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 			Text: "Journal",
 			OnClick: func() {
 			},
-			Tooltip: eui.NewTooltip(uiRes, tt),
+			Tooltip: eui.NewSimpleTooltip(uiRes, tt),
 		})
 		rows.AddChild(b)
 	}
@@ -88,7 +88,7 @@ func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 			OnClick: func() {
 				game.ChangeScene(c.ctx, NewBattleController(c.ctx))
 			},
-			Tooltip: eui.NewTooltip(uiRes, tt),
+			Tooltip: eui.NewSimpleTooltip(uiRes, tt),
 		})
 		rows.AddChild(b)
 	}

@@ -32,6 +32,7 @@ type softwareTab struct {
 type softwareSlot struct {
 	branchIndex      int
 	instructionIndex int
+	tooltipText      *widget.Text
 	button           *eui.SlotButton
 }
 
@@ -64,7 +65,7 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 
 		movButton := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "MOV",
-			Tooltip: eui.NewTooltip(uiRes, strings.Join([]string{
+			Tooltip: eui.NewSimpleTooltip(uiRes, strings.Join([]string{
 				"Configure [Movement] beharior.",
 				"This subprogram controls the vessel's movement.",
 				"",
@@ -85,7 +86,7 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 
 		w1button := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "WP1",
-			Tooltip: eui.NewTooltip(uiRes, strings.Join([]string{
+			Tooltip: eui.NewSimpleTooltip(uiRes, strings.Join([]string{
 				"Configure [Weapon 1] beharior.",
 				"This subprogram controls the weapon usage.",
 				"",
@@ -104,7 +105,7 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 
 		w2button := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "WP2",
-			Tooltip: eui.NewTooltip(uiRes, strings.Join([]string{
+			Tooltip: eui.NewSimpleTooltip(uiRes, strings.Join([]string{
 				"Configure [Weapon 2] beharior.",
 				"This subprogram controls the weapon usage.",
 				"",
@@ -123,7 +124,7 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 
 		defButton := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "DEF",
-			Tooltip: eui.NewTooltip(uiRes, strings.Join([]string{
+			Tooltip: eui.NewSimpleTooltip(uiRes, strings.Join([]string{
 				"Configure [Defense] beharior.",
 				"This subprogram controls the shield/dodge behavior.",
 				"",
@@ -150,7 +151,7 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 
 		saveButton := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "Save",
-			Tooltip: eui.NewTooltip(uiRes, strings.Join([]string{
+			Tooltip: eui.NewSimpleTooltip(uiRes, strings.Join([]string{
 				"Save edits and go back.",
 			}, "\n")),
 		})
@@ -173,11 +174,15 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 		for row := 0; row < numRows; row++ {
 			grid.AddChild(eui.NewLabel(fmt.Sprintf("Branch %d", row+1), assets.Font1))
 			for col := 0; col < numCols; col++ {
-				slotButton := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{})
+				tt := eui.NewTooltip(uiRes, "")
+				slotButton := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{
+					Tooltip: tt.Container,
+				})
 				c.slots[row] = append(c.slots[row], &softwareSlot{
 					branchIndex:      row,
 					instructionIndex: col,
 					button:           slotButton,
+					tooltipText:      tt.Text,
 				})
 				grid.AddChild(slotButton.Container)
 				if col != numCols-1 {
@@ -220,6 +225,7 @@ func (c *SoftwareController) updateInstructionSlots() {
 			}
 			inst := branch.Instructions[j]
 			b.button.Icon.Image = c.ctx.Loader.LoadImage(inst.Info.Icon).Data
+			b.tooltipText.Label = c.instDoc(inst)
 		}
 	}
 }
@@ -234,6 +240,30 @@ func (c *SoftwareController) selectTab(index int) {
 			t.button.TextColor.Idle = styles.NormalTextColor
 		}
 	}
+}
+
+func (c *SoftwareController) instDoc(inst game.ProgInstruction) string {
+	var lines []string
+
+	switch inst.Info.Kind {
+	case game.RandomPosInstruction:
+		lines = []string{
+			"Push a random pos to the stack.",
+		}
+	case game.RotateToInstruction:
+		lines = []string{
+			"Rotate to the destination point.",
+			"Keeps the engines offline while rotating.",
+			"The destination point will be popped from the stack.",
+		}
+	case game.MoveForwardInstruction:
+		lines = []string{
+			"Turns on the engine.",
+			"Moves forward for the specified amount of units.",
+		}
+	}
+
+	return strings.Join(lines, "\n")
 }
 
 func (c *SoftwareController) Update(delta float64) {}

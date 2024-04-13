@@ -189,6 +189,14 @@ func NewSlotButton(res *Resources, config SlotButtonConfig) *SlotButton {
 		// widget.ButtonOpts.WidgetOpts(widget.WidgetOpts.MinSize(64, 64)),
 	}
 
+	if config.Tooltip != nil {
+		tt := widget.NewToolTip(
+			widget.ToolTipOpts.Content(config.Tooltip),
+			widget.ToolTipOpts.Delay(time.Second),
+		)
+		options = append(options, widget.ButtonOpts.WidgetOpts(widget.WidgetOpts.ToolTip(tt)))
+	}
+
 	b := widget.NewButton(options...)
 	container.AddChild(b)
 
@@ -244,7 +252,12 @@ func NewButton(res *Resources, config ButtonConfig) *widget.Button {
 	return widget.NewButton(options...)
 }
 
-func NewTooltip(res *Resources, text string) *widget.Container {
+type Tooltip struct {
+	Container *widget.Container
+	Text      *widget.Text
+}
+
+func NewTooltip(res *Resources, s string) *Tooltip {
 	tt := widget.NewContainer(
 		widget.ContainerOpts.BackgroundImage(res.tooltip.Background),
 		widget.ContainerOpts.Layout(widget.NewRowLayout(
@@ -252,11 +265,19 @@ func NewTooltip(res *Resources, text string) *widget.Container {
 			widget.RowLayoutOpts.Padding(res.tooltip.Padding),
 			widget.RowLayoutOpts.Spacing(2),
 		)))
-	tt.AddChild(widget.NewText(
+	text := widget.NewText(
 		widget.TextOpts.MaxWidth(800),
-		widget.TextOpts.Text(text, res.tooltip.FontFace, res.tooltip.TextColor),
-	))
-	return tt
+		widget.TextOpts.Text(s, res.tooltip.FontFace, res.tooltip.TextColor),
+	)
+	tt.AddChild(text)
+	return &Tooltip{
+		Container: tt,
+		Text:      text,
+	}
+}
+
+func NewSimpleTooltip(res *Resources, text string) *widget.Container {
+	return NewTooltip(res, text).Container
 }
 
 func NewColoredLabel(text string, ff font.Face, clr color.RGBA, options ...widget.TextOpt) *widget.Text {
