@@ -12,14 +12,25 @@ Theme: summoning
 - Final testing - 1:00
 - Deploy - 1:00 (wasm)
 
+TODO (top priority):
+
+* hardware shop
+* software editor
+
 TODO:
 
-* add graphic layers
-* add game title to the main menu
 * weapon/vessel balancing
 * vessel explosion effect (animation)
 * cpu costs for different actions (snap/normal/snipe)
+* sound level balancing (sfx)
+
+TODO (polishing):
+
 * optimize sfx (if needed)
+* add input system
+* add graphic layers
+* add hotkeys support (at least "go back" at esc)
+* button press sfx
 
 Game loop:
 
@@ -40,3 +51,4 @@ battle:
 * add Animation to graphics pkg
 * need audio sys package
 * make graphics work with NRGBA
+* how to reuse code with parametrized scenes? (e.g. effectNode)

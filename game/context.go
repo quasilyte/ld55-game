@@ -27,6 +27,8 @@ type Context struct {
 
 	Rand gmath.Rand
 
+	Session *Session
+
 	scene gscene.GameRunner
 }
 

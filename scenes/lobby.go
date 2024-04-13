@@ -1,23 +1,24 @@
 package scenes
 
 import (
-	"os"
+	"fmt"
 
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/game"
 	"github.com/quasilyte/ld55-game/gameui/eui"
+	"github.com/quasilyte/ld55-game/styles"
 )
 
-type MainMenuController struct {
+type LobbyController struct {
 	ctx *game.Context
 }
 
-func NewMainMenuController(ctx *game.Context) *MainMenuController {
-	return &MainMenuController{ctx: ctx}
+func NewLobbyController(ctx *game.Context) *LobbyController {
+	return &LobbyController{ctx: ctx}
 }
 
-func (c *MainMenuController) Init(scene *gscene.SimpleRootScene) {
+func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 	uiRes := c.ctx.UIResources
 	root := eui.NewRootContainer()
 
@@ -25,21 +26,11 @@ func (c *MainMenuController) Init(scene *gscene.SimpleRootScene) {
 		MinWidth: 320,
 	})
 
-	rows.AddChild(eui.NewCenteredLabel("AstroHeart", assets.Font3))
+	rows.AddChild(eui.NewCenteredLabel("Hangar", assets.Font3))
 
 	{
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
-			Text: "Play",
-			OnClick: func() {
-				game.ChangeScene(c.ctx, NewPlayController(c.ctx))
-			},
-		})
-		rows.AddChild(b)
-	}
-
-	{
-		b := eui.NewButton(uiRes, eui.ButtonConfig{
-			Text: "Settings",
+			Text: "Hardware",
 			OnClick: func() {
 			},
 		})
@@ -48,7 +39,16 @@ func (c *MainMenuController) Init(scene *gscene.SimpleRootScene) {
 
 	{
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
-			Text: "Credits",
+			Text: "Software",
+			OnClick: func() {
+			},
+		})
+		rows.AddChild(b)
+	}
+
+	{
+		b := eui.NewButton(uiRes, eui.ButtonConfig{
+			Text: "Journal",
 			OnClick: func() {
 			},
 		})
@@ -57,10 +57,26 @@ func (c *MainMenuController) Init(scene *gscene.SimpleRootScene) {
 	}
 
 	{
+		s := fmt.Sprintf("Level %d", c.ctx.Session.Level+1)
+		rows.AddChild(eui.NewCenteredLabel(s, assets.Font1))
+	}
+
+	{
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
-			Text: "Exit",
+			Text: "Start Battle",
 			OnClick: func() {
-				os.Exit(0)
+				game.ChangeScene(c.ctx, NewBattleController(c.ctx))
+			},
+		})
+		rows.AddChild(b)
+	}
+
+	rows.AddChild(eui.NewSeparator(nil, styles.TransparentColor))
+
+	{
+		b := eui.NewButton(uiRes, eui.ButtonConfig{
+			Text: "Save and Exit",
+			OnClick: func() {
 			},
 		})
 		rows.AddChild(b)
@@ -71,4 +87,4 @@ func (c *MainMenuController) Init(scene *gscene.SimpleRootScene) {
 	initUI(scene, root)
 }
 
-func (c *MainMenuController) Update(delta float64) {}
+func (c *LobbyController) Update(delta float64) {}

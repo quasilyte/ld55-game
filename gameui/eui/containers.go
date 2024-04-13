@@ -16,6 +16,7 @@ func NewRootContainer() *widget.Container {
 type RowContainerConfig struct {
 	RowScale []bool
 	Spacing  int
+	MinWidth int
 }
 
 func NewRowContainer(config RowContainerConfig) *widget.Container {
@@ -28,6 +29,7 @@ func NewRowContainer(config RowContainerConfig) *widget.Container {
 			StretchHorizontal: true,
 			StretchVertical:   true,
 		})),
+		widget.ContainerOpts.WidgetOpts(widget.WidgetOpts.MinSize(config.MinWidth, 0)),
 		widget.ContainerOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.AnchorLayoutData{
 				HorizontalPosition: widget.AnchorLayoutPositionCenter,
