@@ -31,6 +31,8 @@ const (
 	RandomOffsetInstruction
 	VesselPosInstruction
 	TargetPosInstruction
+	CenterPosInstruction
+	ChanceInstruction
 
 	// Movement instructions.
 
@@ -51,6 +53,8 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 		RandomOffsetInstruction: {},
 		VesselPosInstruction:    {},
 		TargetPosInstruction:    {},
+		CenterPosInstruction:    {},
+		ChanceInstruction:       {},
 
 		RotateToInstruction:      {},
 		MoveForwardInstruction:   {},

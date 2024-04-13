@@ -79,6 +79,10 @@ func (r *Runner) Init() {
 								// 	Params: []any{100.0},
 								// },
 
+								{
+									Info:   game.ProgInstInfoTab[game.ChanceInstruction],
+									Params: []any{0.5},
+								},
 								{Info: game.ProgInstInfoTab[game.TargetPosInstruction]},
 								{
 									Info:   game.ProgInstInfoTab[game.RandomOffsetInstruction],
@@ -89,6 +93,13 @@ func (r *Runner) Init() {
 									Info:   game.ProgInstInfoTab[game.MoveForwardInstruction],
 									Params: []any{100.0},
 								},
+							},
+						},
+
+						{
+							Instructions: []game.ProgInstruction{
+								{Info: game.ProgInstInfoTab[game.CenterPosInstruction]},
+								{Info: game.ProgInstInfoTab[game.RotateToInstruction]},
 							},
 						},
 					},

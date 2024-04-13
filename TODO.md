@@ -4,7 +4,7 @@ Theme: summoning
 
 + Main Menu UI - 30
 - Gameplay (out of combat) - 8:00
-- Gameplay (in combat) - 3:00
+-+ Gameplay (in combat) - 3:00
 - Sprites - 1:30
 - SFX - 15
 - Music - 30
@@ -14,11 +14,7 @@ Theme: summoning
 
 TODO:
 
-* space bg
-* vessel image
-* vessel node
-* program context
-* program execution
+* multi-branch
 
 Game loop:
 

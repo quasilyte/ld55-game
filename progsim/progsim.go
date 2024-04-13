@@ -120,8 +120,6 @@ func (e *Executor) RunTick(delta float64) VesselCommands {
 }
 
 func (e *Executor) runThread(t *runningThread) {
-	// TODO: handle current branch when multi-branches are supported.
-
 	for i := t.currentBranch; i < len(t.branches); i++ {
 		b := t.branches[i]
 		t.stack.Clear()
@@ -135,6 +133,7 @@ func (e *Executor) runThread(t *runningThread) {
 		if s == branchRunning {
 			return
 		}
+		t.currentBranch++
 	}
 
 	t.currentBranch = 0
@@ -201,6 +200,18 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 			value: e.vessel.Target.Pos,
 			tag:   "target pos",
 		})
+
+	case game.CenterPosInstruction:
+		t.stack.Push(stackValue{
+			value: e.world.Size.Mulf(0.5),
+			tag:   "center pos",
+		})
+
+	case game.ChanceInstruction:
+		chance := inst.Params[0].(float64)
+		if !e.rand.Chance(chance) {
+			return instCancelled
+		}
 
 	case game.MoveAndRotateInstruction:
 		if inst.firstTick {
