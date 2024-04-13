@@ -26,6 +26,8 @@ type WeaponDesign struct {
 
 	EnergyCost float64 // Per shot
 
+	BuyCost int
+
 	Reload float64 // Base value (doesn't take multipliers into account)
 
 	Damage Damage
@@ -67,6 +69,7 @@ type Projectile struct {
 var Weapons = []*WeaponDesign{
 	{
 		Name:       "Pulse Laser",
+		BuyCost:    120,
 		EnergyCost: 5,
 		Reload:     0.5,
 		// Reload:               3,
@@ -82,6 +85,7 @@ var Weapons = []*WeaponDesign{
 
 	{
 		Name:                 "Plasma Cannon",
+		BuyCost:              150,
 		EnergyCost:           4,
 		Reload:               0.7,
 		Damage:               Damage{Energy: 1, Thermal: 3},
