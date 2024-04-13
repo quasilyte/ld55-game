@@ -2,7 +2,6 @@ package progsim
 
 import (
 	"github.com/quasilyte/gmath"
-	"github.com/quasilyte/gsignal"
 	"github.com/quasilyte/ld55-game/battle"
 	"github.com/quasilyte/ld55-game/game"
 )
@@ -19,8 +18,6 @@ type Executor struct {
 	delta float64
 
 	tick int
-
-	EventPointSpawned gsignal.Event[gmath.Vec]
 }
 
 type ExecutorConfig struct {
@@ -183,7 +180,21 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 			value: p,
 			tag:   "random pos",
 		})
-		e.EventPointSpawned.Emit(p)
+
+	case game.RandomOffsetInstruction:
+		p := t.stack.PopVec()
+		r := inst.Params[0].(float64)
+		newPos := p.Add(e.rand.Offset(-r, r))
+		t.stack.Push(stackValue{
+			value: newPos,
+			tag:   "random offset",
+		})
+
+	case game.VesselPosInstruction:
+		t.stack.Push(stackValue{
+			value: e.vessel.Pos,
+			tag:   "vessel pos",
+		})
 
 	case game.RotateToInstruction:
 		if inst.firstTick {

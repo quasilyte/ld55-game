@@ -17,13 +17,18 @@ type World struct {
 type Vessel struct {
 	Alliance int
 
-	Pos      gmath.Vec
-	Velocity gmath.Vec
-	Rotation gmath.Rad
+	Pos            gmath.Vec
+	EngineVelocity gmath.Vec
+	ExtraVelocity  gmath.Vec
+	Rotation       gmath.Rad
 
 	Prog *game.BotProg
 
 	Design VesselDesign
+}
+
+func (v *Vessel) Velocity() gmath.Vec {
+	return v.EngineVelocity.Add(v.ExtraVelocity)
 }
 
 type VesselDesign struct {

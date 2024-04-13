@@ -28,6 +28,9 @@ const (
 	// Common instructions.
 
 	RandomPosInstruction
+	RandomOffsetInstruction
+	VesselPosInstruction
+	TargetPosInstruction
 
 	// Movement instructions.
 
@@ -43,8 +46,12 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 	insts := []*ProgInstructionInfo{
 		UnknownInstruction: {},
 
-		RandomPosInstruction:   {},
-		RotateToInstruction:    {},
+		RandomPosInstruction:    {},
+		RotateToInstruction:     {},
+		RandomOffsetInstruction: {},
+		VesselPosInstruction:    {},
+		TargetPosInstruction:    {},
+
 		MoveForwardInstruction: {},
 	}
 

@@ -52,28 +52,43 @@ func (n *vesselNode) Update(delta float64) {
 }
 
 func (n *vesselNode) processMovement(delta float64) {
-	v := n.data.Velocity
+	deceleration := 0.1
 
-	if n.commands.MoveForward {
-		speed := n.data.Design.MaxSpeed * delta
-		v = gmath.RadToVec(n.data.Rotation).Mulf(speed)
-	} else {
-		v = gmath.Vec{}
+	if n.commands.RotateLeft || n.commands.RotateRight {
+		deceleration = 0.4
 	}
 
-	n.data.Velocity = v
+	if n.commands.MoveForward {
+		accel := n.data.Design.Acceleration * delta
+		accelVector := gmath.RadToVec(n.data.Rotation).Mulf(accel)
+		n.data.EngineVelocity = n.data.EngineVelocity.Add(accelVector)
+		n.data.EngineVelocity = n.data.EngineVelocity.ClampLen(n.data.Design.MaxSpeed)
+	} else {
+		n.data.EngineVelocity = n.data.EngineVelocity.Mulf(1 - (delta * deceleration))
+	}
+
+	if !n.data.ExtraVelocity.IsZero() {
+		n.data.ExtraVelocity = n.data.ExtraVelocity.Mulf(1 - (delta * 0.5))
+	}
+
+	v := n.data.Velocity()
 	if !v.IsZero() {
-		n.data.Pos = n.data.Pos.Add(v)
+		n.data.Pos = n.data.Pos.Add(v.Mulf(delta))
 	}
 }
 
 func (n *vesselNode) processRotation(delta float64) {
+	rotationMultiplier := gmath.Rad(1.0)
+	if n.commands.MoveForward {
+		rotationMultiplier = 0.7
+	}
+
 	rotation := gmath.Rad(0)
 	if n.commands.RotateLeft {
-		rotation = -n.data.Design.RotationSpeed
+		rotation = -n.data.Design.RotationSpeed * rotationMultiplier
 	}
 	if n.commands.RotateRight {
-		rotation = n.data.Design.RotationSpeed
+		rotation = n.data.Design.RotationSpeed * rotationMultiplier
 	}
 	n.data.Rotation += rotation * gmath.Rad(delta)
 }

@@ -4,8 +4,6 @@ import (
 	"math"
 	"time"
 
-	graphics "github.com/quasilyte/ebitengine-graphics"
-	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/battle"
@@ -51,9 +49,9 @@ func (r *Runner) Init() {
 
 		Design: battle.VesselDesign{
 			Image:         assets.ImageVesselNormal1,
-			RotationSpeed: 1.5,
+			RotationSpeed: 2.0,
 			MaxSpeed:      150,
-			Acceleration:  100,
+			Acceleration:  150,
 		},
 
 		Prog: &game.BotProg{
@@ -63,7 +61,18 @@ func (r *Runner) Init() {
 					Branches: []game.ProgBranch{
 						{
 							Instructions: []game.ProgInstruction{
-								{Info: game.ProgInstInfoTab[game.RandomPosInstruction]},
+								// {Info: game.ProgInstInfoTab[game.RandomPosInstruction]},
+								// {Info: game.ProgInstInfoTab[game.RotateToInstruction]},
+								// {
+								// 	Info:   game.ProgInstInfoTab[game.MoveForwardInstruction],
+								// 	Params: []any{100.0},
+								// },
+
+								{Info: game.ProgInstInfoTab[game.VesselPosInstruction]},
+								{
+									Info:   game.ProgInstInfoTab[game.RandomOffsetInstruction],
+									Params: []any{40.0},
+								},
 								{Info: game.ProgInstInfoTab[game.RotateToInstruction]},
 								{
 									Info:   game.ProgInstInfoTab[game.MoveForwardInstruction],
@@ -95,12 +104,6 @@ func (r *Runner) Init() {
 			Prog:   playerVessel.Prog,
 			World:  r.world,
 			Vessel: playerVessel,
-		})
-		e.EventPointSpawned.Connect(nil, func(pos gmath.Vec) {
-			rect := graphics.NewRect(r.ctx.GraphicsCache, 8, 8)
-			rect.Pos.Offset = pos
-			rect.SetFillColorScale(graphics.RGB(0x555555))
-			r.scene.AddGraphics(rect)
 		})
 		r.executors = append(r.executors, e)
 	}
