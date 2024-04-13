@@ -70,7 +70,7 @@ type runningProg struct {
 }
 
 type runningThread struct {
-	t             game.ProgThread
+	t             *game.ProgThread
 	currentBranch int
 	stack         *threadValueStack
 	branches      []*runningBranch
@@ -107,9 +107,9 @@ func NewExecutor(config ExecutorConfig) *Executor {
 	}
 	e.prog = &runningProg{
 		src:     config.Prog,
-		threads: make([]*runningThread, len(config.Prog.Threads)),
+		threads: make([]*runningThread, config.Prog.NumThreads()),
 	}
-	for i, t := range config.Prog.Threads {
+	config.Prog.EachThread(func(i int, t *game.ProgThread) {
 		rt := &runningThread{
 			t: t,
 			stack: &threadValueStack{
@@ -130,7 +130,7 @@ func NewExecutor(config ExecutorConfig) *Executor {
 			}
 		}
 		e.prog.threads[i] = rt
-	}
+	})
 	return e
 }
 

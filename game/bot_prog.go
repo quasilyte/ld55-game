@@ -1,7 +1,30 @@
 package game
 
 type BotProg struct {
-	Threads []ProgThread
+	MovementThread *ProgThread
+	Weapon1Thread  *ProgThread
+	Weapon2Thread  *ProgThread
+	DefThread      *ProgThread
+}
+
+func NewBotProg() *BotProg {
+	return &BotProg{
+		MovementThread: &ProgThread{},
+		Weapon1Thread:  &ProgThread{},
+		Weapon2Thread:  &ProgThread{},
+		DefThread:      &ProgThread{},
+	}
+}
+
+func (p *BotProg) NumThreads() int {
+	return 4
+}
+
+func (p *BotProg) EachThread(f func(i int, t *ProgThread)) {
+	f(0, p.MovementThread)
+	f(1, p.Weapon1Thread)
+	f(2, p.Weapon2Thread)
+	f(3, p.DefThread)
 }
 
 type ThreadKind int
@@ -11,11 +34,12 @@ const (
 	MovementThread
 	Weapon1Thread
 	Weapon2Thread
+	DefThread
 )
 
 type ProgThread struct {
 	Kind     ThreadKind
-	Branches []ProgBranch
+	Branches []*ProgBranch
 }
 
 type ProgBranch struct {
@@ -94,4 +118,11 @@ type ProgInstruction struct {
 	Info *ProgInstructionInfo
 
 	Params []any
+}
+
+func MakeInst(kind InstructionKind, params ...any) ProgInstruction {
+	return ProgInstruction{
+		Info:   ProgInstInfoTab[kind],
+		Params: params,
+	}
 }

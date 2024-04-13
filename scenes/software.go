@@ -15,13 +15,24 @@ import (
 type SoftwareController struct {
 	ctx *game.Context
 
+	prog *game.BotProg
+
 	selectedTab *softwareTab
 	tabs        []*softwareTab
+
+	slots [3][]*softwareSlot
 }
 
 type softwareTab struct {
 	index  int
 	button *widget.Button
+	thread *game.ProgThread
+}
+
+type softwareSlot struct {
+	branchIndex      int
+	instructionIndex int
+	button           *widget.Button
 }
 
 func NewSoftwareController(ctx *game.Context) *SoftwareController {
@@ -31,6 +42,8 @@ func NewSoftwareController(ctx *game.Context) *SoftwareController {
 func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 	uiRes := c.ctx.UIResources
 	root := eui.NewRootContainer()
+
+	c.prog = c.ctx.Session.Prog
 
 	rows := eui.NewRowContainer(eui.RowContainerConfig{})
 
@@ -64,6 +77,7 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 		c.tabs = append(c.tabs, &softwareTab{
 			index:  0,
 			button: movButton,
+			thread: c.prog.MovementThread,
 		})
 		c.selectedTab = c.tabs[0]
 		sysTabs.AddChild(movButton)
@@ -84,6 +98,7 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 		c.tabs = append(c.tabs, &softwareTab{
 			index:  1,
 			button: w1button,
+			thread: c.prog.Weapon1Thread,
 		})
 		sysTabs.AddChild(w1button)
 
@@ -102,6 +117,7 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 		c.tabs = append(c.tabs, &softwareTab{
 			index:  2,
 			button: w2button,
+			thread: c.prog.Weapon2Thread,
 		})
 		sysTabs.AddChild(w2button)
 
@@ -120,6 +136,7 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 		c.tabs = append(c.tabs, &softwareTab{
 			index:  3,
 			button: defButton,
+			thread: c.prog.DefThread,
 		})
 		sysTabs.AddChild(defButton)
 
@@ -155,7 +172,13 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 		for row := 0; row < numRows; row++ {
 			grid.AddChild(eui.NewLabel(fmt.Sprintf("Branch %d", row+1), assets.Font1))
 			for col := 0; col < numCols; col++ {
-				grid.AddChild(eui.NewButton(uiRes, eui.ButtonConfig{Slot: true}))
+				button := eui.NewButton(uiRes, eui.ButtonConfig{Slot: true})
+				c.slots[row] = append(c.slots[row], &softwareSlot{
+					branchIndex:      row,
+					instructionIndex: col,
+					button:           button,
+				})
+				grid.AddChild(button)
 				if col != numCols-1 {
 					grid.AddChild(eui.NewCenteredLabel(">", assets.Font1))
 				}
@@ -169,6 +192,24 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 	root.AddChild(rows)
 
 	initUI(scene, root)
+
+	c.updateInstructionSlots()
+}
+
+func (c *SoftwareController) updateInstructionSlots() {
+	thread := c.selectedTab.thread
+
+	for i, row := range c.slots {
+		var maxCol int
+		if i >= len(thread.Branches) {
+			maxCol = 1
+		} else {
+			maxCol = len(thread.Branches[i].Instructions) + 1
+		}
+		for j, b := range row {
+			b.button.GetWidget().Disabled = j >= maxCol
+		}
+	}
 }
 
 func (c *SoftwareController) selectTab(index int) {

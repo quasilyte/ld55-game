@@ -6,14 +6,14 @@ import (
 
 func registerAudioResources(loader *resource.Loader) {
 	resources := map[resource.AudioID]resource.AudioInfo{
-		AudioFireLaser1: {Path: "audio/laser1.wav", Volume: -0.3},
-		AudioFireLaser2: {Path: "audio/laser2.wav", Volume: -0.3},
-		AudioFireLaser3: {Path: "audio/laser3.wav", Volume: -0.3},
-		AudioFireLaser4: {Path: "audio/laser4.wav", Volume: -0.3},
+		AudioFireLaser1: {Path: "audio/laser1.wav", Volume: -0.4},
+		AudioFireLaser2: {Path: "audio/laser2.wav", Volume: -0.4},
+		AudioFireLaser3: {Path: "audio/laser3.wav", Volume: -0.4},
+		AudioFireLaser4: {Path: "audio/laser4.wav", Volume: -0.4},
 
-		AudioFirePlasma1: {Path: "audio/plasma1.wav", Volume: -0.3},
-		AudioFirePlasma2: {Path: "audio/plasma2.wav", Volume: -0.3},
-		AudioFirePlasma3: {Path: "audio/plasma3.wav", Volume: -0.3},
+		AudioFirePlasma1: {Path: "audio/plasma1.wav", Volume: -0.2},
+		AudioFirePlasma2: {Path: "audio/plasma2.wav", Volume: -0.2},
+		AudioFirePlasma3: {Path: "audio/plasma3.wav", Volume: -0.2},
 	}
 
 	for id, info := range resources {

@@ -27,6 +27,8 @@ hardware:
 
 TODO:
 
+* default prog (in session)
+* instruction progression (don't unlock all at level 1)
 * menu bg
 * weapon/vessel balancing
 * vessel explosion effect (animation)

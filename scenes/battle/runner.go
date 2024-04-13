@@ -76,80 +76,79 @@ func (r *Runner) Init() {
 		},
 
 		Prog: &game.BotProg{
-			Threads: []game.ProgThread{
-				{
-					Kind: game.Weapon1Thread,
-					Branches: []game.ProgBranch{
-						{
-							Instructions: []game.ProgInstruction{
-								{
-									Info: game.ProgInstInfoTab[game.TargetPosInstruction],
-								},
-								{
-									Info: game.ProgInstInfoTab[game.DistanceToInstruction],
-								},
-								{
-									Info:   game.ProgInstInfoTab[game.IsLtInstruction],
-									Params: []any{150.0},
-								},
-								{
-									Info: game.ProgInstInfoTab[game.SnapShotInstruction],
-								},
+			MovementThread: &game.ProgThread{
+				Kind: game.MovementThread,
+				Branches: []*game.ProgBranch{
+					{
+						Instructions: []game.ProgInstruction{
+							// {
+							// 	Info:   game.ProgInstInfoTab[game.ChanceInstruction],
+							// 	Params: []any{0.5},
+							// },
+							{Info: game.ProgInstInfoTab[game.TargetPosInstruction]},
+							{
+								Info:   game.ProgInstInfoTab[game.RandomOffsetInstruction],
+								Params: []any{40.0},
+							},
+							{Info: game.ProgInstInfoTab[game.RotateToInstruction]},
+							{
+								Info:   game.ProgInstInfoTab[game.MoveForwardInstruction],
+								Params: []any{100.0},
+							},
+						},
+					},
+
+					// {
+					// 	Instructions: []game.ProgInstruction{
+					// 		{Info: game.ProgInstInfoTab[game.CenterPosInstruction]},
+					// 		{Info: game.ProgInstInfoTab[game.RotateToInstruction]},
+					// 	},
+					// },
+				},
+			},
+
+			Weapon1Thread: &game.ProgThread{
+				Kind: game.Weapon1Thread,
+				Branches: []*game.ProgBranch{
+					{
+						Instructions: []game.ProgInstruction{
+							{
+								Info: game.ProgInstInfoTab[game.TargetPosInstruction],
+							},
+							{
+								Info: game.ProgInstInfoTab[game.DistanceToInstruction],
+							},
+							{
+								Info:   game.ProgInstInfoTab[game.IsLtInstruction],
+								Params: []any{150.0},
+							},
+							{
+								Info: game.ProgInstInfoTab[game.SnapShotInstruction],
 							},
 						},
 					},
 				},
-				{
-					Kind: game.Weapon2Thread,
-					Branches: []game.ProgBranch{
-						{
-							Instructions: []game.ProgInstruction{
-								{
-									Info: game.ProgInstInfoTab[game.TargetPosInstruction],
-								},
-								{
-									Info: game.ProgInstInfoTab[game.DistanceToInstruction],
-								},
-								{
-									Info:   game.ProgInstInfoTab[game.IsLtInstruction],
-									Params: []any{200.0},
-								},
-								{
-									Info: game.ProgInstInfoTab[game.NormalShotInstruction],
-								},
+			},
+
+			Weapon2Thread: &game.ProgThread{
+				Kind: game.Weapon2Thread,
+				Branches: []*game.ProgBranch{
+					{
+						Instructions: []game.ProgInstruction{
+							{
+								Info: game.ProgInstInfoTab[game.TargetPosInstruction],
+							},
+							{
+								Info: game.ProgInstInfoTab[game.DistanceToInstruction],
+							},
+							{
+								Info:   game.ProgInstInfoTab[game.IsLtInstruction],
+								Params: []any{200.0},
+							},
+							{
+								Info: game.ProgInstInfoTab[game.NormalShotInstruction],
 							},
 						},
-					},
-				},
-
-				{
-					Kind: game.MovementThread,
-					Branches: []game.ProgBranch{
-						{
-							Instructions: []game.ProgInstruction{
-								// {
-								// 	Info:   game.ProgInstInfoTab[game.ChanceInstruction],
-								// 	Params: []any{0.5},
-								// },
-								{Info: game.ProgInstInfoTab[game.TargetPosInstruction]},
-								{
-									Info:   game.ProgInstInfoTab[game.RandomOffsetInstruction],
-									Params: []any{40.0},
-								},
-								{Info: game.ProgInstInfoTab[game.RotateToInstruction]},
-								{
-									Info:   game.ProgInstInfoTab[game.MoveForwardInstruction],
-									Params: []any{100.0},
-								},
-							},
-						},
-
-						// {
-						// 	Instructions: []game.ProgInstruction{
-						// 		{Info: game.ProgInstInfoTab[game.CenterPosInstruction]},
-						// 		{Info: game.ProgInstInfoTab[game.RotateToInstruction]},
-						// 	},
-						// },
 					},
 				},
 			},
@@ -174,7 +173,7 @@ func (r *Runner) Init() {
 			HitboxSize:    14,
 		},
 
-		Prog: &game.BotProg{},
+		Prog: game.NewBotProg(),
 	}
 
 	r.world = &battle.World{

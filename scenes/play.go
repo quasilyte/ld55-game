@@ -41,6 +41,7 @@ func (c *PlayController) Init(scene *gscene.SimpleRootScene) {
 			Text: "New Game",
 			OnClick: func() {
 				c.ctx.Session = game.NewSession()
+				c.createDefaultProg()
 				game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
 			},
 		})
@@ -68,4 +69,18 @@ func (c *PlayController) Update(delta float64) {}
 
 func (c *PlayController) back() {
 	game.ChangeScene(c.ctx, NewMainMenuController(c.ctx))
+}
+
+func (c *PlayController) createDefaultProg() {
+	prog := c.ctx.Session.Prog
+
+	{
+		b := &game.ProgBranch{
+			Instructions: []game.ProgInstruction{
+				game.MakeInst(game.RandomPosInstruction),
+				// {Info: game.ProgInstInfoTab[game.]},
+			},
+		}
+		prog.MovementThread.Branches = append(prog.MovementThread.Branches, b)
+	}
 }

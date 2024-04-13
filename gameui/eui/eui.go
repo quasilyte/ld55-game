@@ -65,6 +65,7 @@ func LoadResources(loader *resource.Loader) *Resources {
 	{
 		idle := nineSliceImage(loader.LoadImage(assets.ImageUISlotIdle).Data, 16, 16)
 		hover := nineSliceImage(loader.LoadImage(assets.ImageUISlotHover).Data, 16, 16)
+		disabled := nineSliceImage(loader.LoadImage(assets.ImageUISlotDisabled).Data, 16, 16)
 		buttonPadding := widget.Insets{
 			Left:   8,
 			Right:  8,
@@ -80,7 +81,7 @@ func LoadResources(loader *resource.Loader) *Resources {
 				Idle:     idle,
 				Hover:    hover,
 				Pressed:  hover,
-				Disabled: idle,
+				Disabled: disabled,
 			},
 			Padding:    buttonPadding,
 			TextColors: buttonColors,
