@@ -43,6 +43,16 @@ func NewRunner(config RunnerConfig) *Runner {
 }
 
 func (r *Runner) Init() {
+	spaceBg := r.ctx.Loader.LoadImage(assets.ImageSpaceBg).Data
+	for y := 0.0; y < r.ctx.WindowSize.Y; y += float64(spaceBg.Bounds().Dy()) {
+		for x := 0.0; x < r.ctx.WindowSize.X; x += float64(spaceBg.Bounds().Dx()) {
+			s := r.ctx.NewSprite(assets.ImageSpaceBg)
+			s.Pos.Offset = gmath.Vec{X: x, Y: y}
+			s.SetCentered(false)
+			r.scene.AddGraphics(s)
+		}
+	}
+
 	playerVessel := &battle.Vessel{
 		Alliance: 0,
 		Pos:      r.ctx.WindowSize.Mulf(0.5),
