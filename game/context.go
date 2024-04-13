@@ -11,6 +11,7 @@ import (
 	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/gameui/eui"
 	"github.com/quasilyte/ld55-game/gaudio"
+	"golang.org/x/image/font"
 )
 
 type Context struct {
@@ -58,6 +59,12 @@ func (ctx *Context) Audio() *gaudio.System {
 
 func (ctx *Context) CurrentScene() gscene.GameRunner {
 	return ctx.scene
+}
+
+func (ctx *Context) NewLabel(s string, ff font.Face) *graphics.Label {
+	l := graphics.NewLabel(ctx.GraphicsCache, ff)
+	l.SetText(s)
+	return l
 }
 
 func (ctx *Context) NewRect(w, h float64) *graphics.Rect {

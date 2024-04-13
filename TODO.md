@@ -14,6 +14,7 @@ Theme: summoning
 
 TODO:
 
+* floating damage text
 * add graphic layers
 * laser sfx (sfxr)
 * vessel weapon model
@@ -45,3 +46,4 @@ battle:
 
 * add Animation to graphics pkg
 * need audio sys package
+* make graphics work with NRGBA

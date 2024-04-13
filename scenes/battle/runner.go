@@ -1,6 +1,7 @@
 package battle
 
 import (
+	"fmt"
 	"math"
 	"time"
 
@@ -10,6 +11,7 @@ import (
 	"github.com/quasilyte/ld55-game/battle"
 	"github.com/quasilyte/ld55-game/game"
 	"github.com/quasilyte/ld55-game/progsim"
+	"github.com/quasilyte/ld55-game/styles"
 )
 
 type scene = gscene.Scene[ControllerAccessor]
@@ -177,6 +179,15 @@ func (r *Runner) Init() {
 			})
 		}
 
+		v.data.EventOnDamage.Connect(nil, func(dmg float64) {
+			clr := styles.AlliedColor
+			if v.data.Alliance == 0 {
+				clr = styles.EnemyColor
+			}
+			s := fmt.Sprintf("%.1f", dmg)
+			ft := newFloatingTextNode(v.data.Pos, s, clr)
+			r.scene.AddObject(ft)
+		})
 		v.data.EventDestroyed.Connect(nil, func(attacker *battle.Vessel) {
 			v.Dispose()
 		})
