@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/quasilyte/gscene"
+	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/game"
 	"github.com/quasilyte/ld55-game/gameui/eui"
 )
@@ -21,6 +22,8 @@ func (c *MainMenuController) Init(scene *gscene.SimpleRootScene) {
 	root := eui.NewRootContainer()
 
 	rows := eui.NewRowContainer(eui.RowContainerConfig{})
+
+	rows.AddChild(eui.NewCenteredLabel("AstroHeart", assets.Font3))
 
 	{
 		b := eui.NewButton(uiRes, eui.ButtonConfig{

@@ -15,7 +15,7 @@ var (
 	UIDarkBorder = rgb(0x1a263c)
 	UINormal     = rgb(0x2b426a)
 
-	TransparentColor = color.NRGBA{}
+	TransparentColor = color.RGBA{}
 )
 
 func rgb(v uint64) color.RGBA {

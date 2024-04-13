@@ -99,38 +99,38 @@ func (r *Runner) Init() {
 						},
 					},
 				},
-				// {
-				// 	Kind: game.Weapon2Thread,
-				// 	Branches: []game.ProgBranch{
-				// 		{
-				// 			Instructions: []game.ProgInstruction{
-				// 				{
-				// 					Info: game.ProgInstInfoTab[game.TargetPosInstruction],
-				// 				},
-				// 				{
-				// 					Info: game.ProgInstInfoTab[game.DistanceToInstruction],
-				// 				},
-				// 				{
-				// 					Info:   game.ProgInstInfoTab[game.IsLtInstruction],
-				// 					Params: []any{200.0},
-				// 				},
-				// 				{
-				// 					Info: game.ProgInstInfoTab[game.NormalShotInstruction],
-				// 				},
-				// 			},
-				// 		},
-				// 	},
-				// },
+				{
+					Kind: game.Weapon2Thread,
+					Branches: []game.ProgBranch{
+						{
+							Instructions: []game.ProgInstruction{
+								{
+									Info: game.ProgInstInfoTab[game.TargetPosInstruction],
+								},
+								{
+									Info: game.ProgInstInfoTab[game.DistanceToInstruction],
+								},
+								{
+									Info:   game.ProgInstInfoTab[game.IsLtInstruction],
+									Params: []any{200.0},
+								},
+								{
+									Info: game.ProgInstInfoTab[game.NormalShotInstruction],
+								},
+							},
+						},
+					},
+				},
 
 				{
 					Kind: game.MovementThread,
 					Branches: []game.ProgBranch{
 						{
 							Instructions: []game.ProgInstruction{
-								{
-									Info:   game.ProgInstInfoTab[game.ChanceInstruction],
-									Params: []any{0.5},
-								},
+								// {
+								// 	Info:   game.ProgInstInfoTab[game.ChanceInstruction],
+								// 	Params: []any{0.5},
+								// },
 								{Info: game.ProgInstInfoTab[game.TargetPosInstruction]},
 								{
 									Info:   game.ProgInstInfoTab[game.RandomOffsetInstruction],
@@ -144,12 +144,12 @@ func (r *Runner) Init() {
 							},
 						},
 
-						{
-							Instructions: []game.ProgInstruction{
-								{Info: game.ProgInstInfoTab[game.CenterPosInstruction]},
-								{Info: game.ProgInstInfoTab[game.RotateToInstruction]},
-							},
-						},
+						// {
+						// 	Instructions: []game.ProgInstruction{
+						// 		{Info: game.ProgInstInfoTab[game.CenterPosInstruction]},
+						// 		{Info: game.ProgInstInfoTab[game.RotateToInstruction]},
+						// 	},
+						// },
 					},
 				},
 			},
