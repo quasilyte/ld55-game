@@ -1,6 +1,7 @@
 package scenes
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/ebitenui/ebitenui/widget"
@@ -104,6 +105,24 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 		})
 		sysTabs.AddChild(w2button)
 
+		defButton := eui.NewButton(uiRes, eui.ButtonConfig{
+			Text: "DEF",
+			Tooltip: eui.NewTooltip(uiRes, strings.Join([]string{
+				"Configure [Defense] beharior.",
+				"This subprogram controls the shield/dodge behavior.",
+				"",
+				"Click to select.",
+			}, "\n")),
+			OnClick: func() {
+				c.selectTab(3)
+			},
+		})
+		c.tabs = append(c.tabs, &softwareTab{
+			index:  3,
+			button: defButton,
+		})
+		sysTabs.AddChild(defButton)
+
 		sysTabs.AddChild(
 			eui.NewLabel("  |  ", assets.Font2,
 				widget.TextOpts.Position(widget.TextPositionStart, widget.TextPositionCenter),
@@ -120,6 +139,29 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 		sysTabs.AddChild(saveButton)
 
 		rows.AddChild(sysTabs)
+	}
+
+	rows.AddChild(eui.NewSeparator(nil, styles.DisabledTextColor))
+
+	{
+		numCols := 8
+		numRows := 3
+		grid := widget.NewContainer(
+			widget.ContainerOpts.Layout(widget.NewGridLayout(
+				widget.GridLayoutOpts.Columns(numCols+1+(numCols-1)),
+				widget.GridLayoutOpts.Spacing(0, 14),
+			)),
+		)
+		for row := 0; row < numRows; row++ {
+			grid.AddChild(eui.NewLabel(fmt.Sprintf("Branch %d", row+1), assets.Font1))
+			for col := 0; col < numCols; col++ {
+				grid.AddChild(eui.NewButton(uiRes, eui.ButtonConfig{Slot: true}))
+				if col != numCols-1 {
+					grid.AddChild(eui.NewCenteredLabel(">", assets.Font1))
+				}
+			}
+		}
+		rows.AddChild(grid)
 	}
 
 	rows.AddChild(eui.NewSeparator(nil, styles.DisabledTextColor))

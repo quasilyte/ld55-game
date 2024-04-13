@@ -14,8 +14,9 @@ import (
 )
 
 type Resources struct {
-	button  *buttonResource
-	tooltip *tooltipResources
+	button     *buttonResource
+	slotButton *buttonResource
+	tooltip    *tooltipResources
 }
 
 type buttonResource struct {
@@ -62,6 +63,31 @@ func LoadResources(loader *resource.Loader) *Resources {
 	}
 
 	{
+		idle := nineSliceImage(loader.LoadImage(assets.ImageUISlotIdle).Data, 16, 16)
+		hover := nineSliceImage(loader.LoadImage(assets.ImageUISlotHover).Data, 16, 16)
+		buttonPadding := widget.Insets{
+			Left:   8,
+			Right:  8,
+			Top:    8,
+			Bottom: 8,
+		}
+		buttonColors := &widget.ButtonTextColor{
+			Idle:     styles.NormalTextColor,
+			Disabled: styles.DisabledTextColor,
+		}
+		res.slotButton = &buttonResource{
+			Image: &widget.ButtonImage{
+				Idle:     idle,
+				Hover:    hover,
+				Pressed:  hover,
+				Disabled: idle,
+			},
+			Padding:    buttonPadding,
+			TextColors: buttonColors,
+		}
+	}
+
+	{
 		res.tooltip = &tooltipResources{
 			Background: nineSliceImage(loader.LoadImage(assets.ImageUITooltip).Data, 18, 18),
 			Padding: widget.Insets{
@@ -85,6 +111,7 @@ type ButtonConfig struct {
 	MinWidth   int
 	Font       font.Face
 	AlignLeft  bool
+	Slot       bool
 
 	Tooltip *widget.Container
 }
@@ -132,6 +159,9 @@ func NewCenteredLabelWithMaxWidth(text string, ff font.Face, width float64) *wid
 
 func NewButton(res *Resources, config ButtonConfig) *widget.Button {
 	buttonRes := res.button
+	if config.Slot {
+		buttonRes = res.slotButton
+	}
 
 	ff := config.Font
 	if ff == nil {
@@ -144,6 +174,9 @@ func NewButton(res *Resources, config ButtonConfig) *widget.Button {
 				config.OnClick()
 			}
 		}),
+	}
+	if config.Slot {
+		options = append(options, widget.ButtonOpts.WidgetOpts(widget.WidgetOpts.MinSize(64, 64)))
 	}
 	if config.Tooltip != nil {
 		tt := widget.NewToolTip(
