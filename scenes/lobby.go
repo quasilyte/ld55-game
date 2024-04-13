@@ -2,6 +2,7 @@ package scenes
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
@@ -29,30 +30,44 @@ func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 	rows.AddChild(eui.NewCenteredLabel("Hangar", assets.Font3))
 
 	{
+		tt := strings.Join([]string{
+			"Configure the hardware.",
+			"You can change your equipment here.",
+		}, "\n")
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "Hardware",
 			OnClick: func() {
 			},
+			Tooltip: eui.NewTooltip(uiRes, tt),
 		})
 		rows.AddChild(b)
 	}
 
 	{
+		tt := strings.Join([]string{
+			"Configure the software.",
+			"You can program your bot's algorithm here.",
+		}, "\n")
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "Software",
 			OnClick: func() {
 			},
+			Tooltip: eui.NewTooltip(uiRes, tt),
 		})
 		rows.AddChild(b)
 	}
 
 	{
+		tt := strings.Join([]string{
+			"Journal contains hints and recon info.",
+			"Knowledge is the key!",
+		}, "\n")
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "Journal",
 			OnClick: func() {
 			},
+			Tooltip: eui.NewTooltip(uiRes, tt),
 		})
-		b.GetWidget().Disabled = true
 		rows.AddChild(b)
 	}
 
@@ -62,11 +77,17 @@ func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 	}
 
 	{
+		tt := strings.Join([]string{
+			fmt.Sprintf("Start level %d battle.", c.ctx.Session.Level+1),
+			"Make sure that you're prepared!",
+			"Consult the Journal for hints.",
+		}, "\n")
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "Start Battle",
 			OnClick: func() {
 				game.ChangeScene(c.ctx, NewBattleController(c.ctx))
 			},
+			Tooltip: eui.NewTooltip(uiRes, tt),
 		})
 		rows.AddChild(b)
 	}
@@ -80,6 +101,7 @@ func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 			},
 		})
 		rows.AddChild(b)
+		b.GetWidget().Disabled = true
 	}
 
 	root.AddChild(rows)

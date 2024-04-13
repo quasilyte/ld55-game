@@ -12,6 +12,7 @@ func registerImageResources(loader *resource.Loader) {
 		ImageUIButtonHover:    {Path: "image/button-hover.png"},
 		ImageUIButtonPressed:  {Path: "image/button-pressed.png"},
 		ImageUIButtonDisabled: {Path: "image/button-disabled.png"},
+		ImageUITooltip:        {Path: "image/tooltip.png"},
 
 		ImageSpaceBg: {Path: "image/space_bg.png"},
 
@@ -37,6 +38,7 @@ const (
 	ImageUIButtonHover
 	ImageUIButtonPressed
 	ImageUIButtonDisabled
+	ImageUITooltip
 
 	ImageSpaceBg
 

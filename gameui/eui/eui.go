@@ -2,6 +2,7 @@ package eui
 
 import (
 	"image/color"
+	"time"
 
 	"github.com/ebitenui/ebitenui/image"
 	"github.com/ebitenui/ebitenui/widget"
@@ -13,13 +14,21 @@ import (
 )
 
 type Resources struct {
-	button *buttonResource
+	button  *buttonResource
+	tooltip *tooltipResources
 }
 
 type buttonResource struct {
 	Image      *widget.ButtonImage
 	Padding    widget.Insets
 	TextColors *widget.ButtonTextColor
+}
+
+type tooltipResources struct {
+	Background *image.NineSlice
+	Padding    widget.Insets
+	FontFace   font.Face
+	TextColor  color.Color
 }
 
 func LoadResources(loader *resource.Loader) *Resources {
@@ -52,6 +61,20 @@ func LoadResources(loader *resource.Loader) *Resources {
 		}
 	}
 
+	{
+		res.tooltip = &tooltipResources{
+			Background: nineSliceImage(loader.LoadImage(assets.ImageUITooltip).Data, 18, 18),
+			Padding: widget.Insets{
+				Left:   16,
+				Right:  16,
+				Top:    10,
+				Bottom: 10,
+			},
+			FontFace:  assets.Font1,
+			TextColor: styles.NormalTextColor,
+		}
+	}
+
 	return res
 }
 
@@ -62,6 +85,8 @@ type ButtonConfig struct {
 	MinWidth   int
 	Font       font.Face
 	AlignLeft  bool
+
+	Tooltip *widget.Container
 }
 
 func NewSeparator(ld interface{}, clr color.RGBA) widget.PreferredSizeLocateableWidget {
@@ -120,6 +145,13 @@ func NewButton(res *Resources, config ButtonConfig) *widget.Button {
 			}
 		}),
 	}
+	if config.Tooltip != nil {
+		tt := widget.NewToolTip(
+			widget.ToolTipOpts.Content(config.Tooltip),
+			widget.ToolTipOpts.Delay(time.Second),
+		)
+		options = append(options, widget.ButtonOpts.WidgetOpts(widget.WidgetOpts.ToolTip(tt)))
+	}
 	colors := buttonRes.TextColors
 	options = append(options,
 		widget.ButtonOpts.Text(config.Text, ff, colors),
@@ -135,6 +167,21 @@ func NewButton(res *Resources, config ButtonConfig) *widget.Button {
 	}
 
 	return widget.NewButton(options...)
+}
+
+func NewTooltip(res *Resources, text string) *widget.Container {
+	tt := widget.NewContainer(
+		widget.ContainerOpts.BackgroundImage(res.tooltip.Background),
+		widget.ContainerOpts.Layout(widget.NewRowLayout(
+			widget.RowLayoutOpts.Direction(widget.DirectionVertical),
+			widget.RowLayoutOpts.Padding(res.tooltip.Padding),
+			widget.RowLayoutOpts.Spacing(2),
+		)))
+	tt.AddChild(widget.NewText(
+		widget.TextOpts.MaxWidth(800),
+		widget.TextOpts.Text(text, res.tooltip.FontFace, res.tooltip.TextColor),
+	))
+	return tt
 }
 
 func nineSliceImage(i *ebiten.Image, offsetX, offsetY int) *image.NineSlice {

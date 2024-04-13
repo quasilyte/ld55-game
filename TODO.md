@@ -15,10 +15,19 @@ Theme: summoning
 TODO (top priority):
 
 * hardware shop
+  * select button widget
 * software editor
+* journal
+
+hardware:
+
+* vessel design
+* weapon 1
+* weapon 2
 
 TODO:
 
+* menu bg
 * weapon/vessel balancing
 * vessel explosion effect (animation)
 * cpu costs for different actions (snap/normal/snipe)
