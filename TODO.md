@@ -15,8 +15,6 @@ Theme: summoning
 TODO:
 
 * add graphic layers
-* attack-related instruction
-* test weapon threads
 * add game title to the main menu
 * weapon/vessel balancing
 * vessel explosion effect (animation)
