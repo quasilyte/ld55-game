@@ -76,6 +76,15 @@ type runningThread struct {
 	branches      []*runningBranch
 }
 
+func (t *runningThread) weaponIndex() int {
+	switch t.t.Kind {
+	case game.Weapon1Thread:
+		return 0
+	default:
+		return -1
+	}
+}
+
 type runningBranch struct {
 	currentInst int
 	insts       []*runningInst
@@ -174,6 +183,7 @@ func (e *Executor) runBranch(t *runningThread, b *runningBranch) branchStatus {
 			continue // Can run another instruction
 		}
 		if s == instCancelled {
+			b.currentInst = 0
 			return branchCancelled
 		}
 		if s == instRunning {
@@ -230,6 +240,28 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 			return instCancelled
 		}
 
+	case game.IsLtInstruction:
+		x := inst.Params[0].(float64)
+		y := t.stack.PopFloat()
+		if x < y {
+			return instCancelled
+		}
+
+	case game.IsGtInstruction:
+		x := inst.Params[0].(float64)
+		y := t.stack.PopFloat()
+		if x > y {
+			return instCancelled
+		}
+
+	case game.DistanceToInstruction:
+		p := t.stack.PopVec()
+		dist := p.DistanceTo(e.vessel.Pos)
+		t.stack.Push(stackValue{
+			value: dist,
+			tag:   "distance to",
+		})
+
 	case game.MoveAndRotateInstruction:
 		if inst.firstTick {
 			p := t.stack.PopVec()
@@ -279,6 +311,21 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 			e.commands.MoveForward = true
 			return instRunning
 		}
+
+	case game.SnapShotInstruction:
+		// TODO: check whether this weapon can be used?
+		weaponIndex := t.weaponIndex()
+		e.commands.FireCommands = append(e.commands.FireCommands, VesselFireCommand{
+			WeaponIndex: uint(weaponIndex),
+			TargetPos:   e.vessel.Target.Pos.Add(e.rand.Offset(-32, 32)),
+		})
+
+	case game.NormalShotInstruction:
+		weaponIndex := t.weaponIndex()
+		e.commands.FireCommands = append(e.commands.FireCommands, VesselFireCommand{
+			WeaponIndex: uint(weaponIndex),
+			TargetPos:   e.vessel.Target.Pos,
+		})
 	}
 
 	return instFinished

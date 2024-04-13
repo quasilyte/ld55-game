@@ -21,6 +21,7 @@ TODO:
 * add game title to the main menu
 * weapon/vessel balancing
 * vessel explosion effect (animation)
+* fix weird hit detection
 
 Game loop:
 

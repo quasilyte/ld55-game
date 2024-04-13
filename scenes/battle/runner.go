@@ -76,6 +76,29 @@ func (r *Runner) Init() {
 		Prog: &game.BotProg{
 			Threads: []game.ProgThread{
 				{
+					Kind: game.Weapon1Thread,
+					Branches: []game.ProgBranch{
+						{
+							Instructions: []game.ProgInstruction{
+								{
+									Info: game.ProgInstInfoTab[game.TargetPosInstruction],
+								},
+								{
+									Info: game.ProgInstInfoTab[game.DistanceToInstruction],
+								},
+								{
+									Info:   game.ProgInstInfoTab[game.IsGtInstruction],
+									Params: []any{150.0},
+								},
+								{
+									Info: game.ProgInstInfoTab[game.NormalShotInstruction],
+								},
+							},
+						},
+					},
+				},
+
+				{
 					Kind: game.MovementThread,
 					Branches: []game.ProgBranch{
 						{
@@ -188,6 +211,7 @@ func (r *Runner) Init() {
 			ft := newFloatingTextNode(v.data.Pos, s, clr)
 			r.scene.AddObject(ft)
 		})
+
 		v.data.EventDestroyed.Connect(nil, func(attacker *battle.Vessel) {
 			v.Dispose()
 		})
@@ -195,12 +219,13 @@ func (r *Runner) Init() {
 }
 
 func (r *Runner) Update(delta float64) {
-	r.vessels[0].SetCommands(progsim.VesselCommands{
-		FireCommands: []progsim.VesselFireCommand{
-			{WeaponIndex: 0, TargetPos: r.vessels[1].data.Pos},
-		},
-	})
-	// for i, e := range r.executors {
-	// 	r.vessels[i].SetCommands(e.RunTick(delta))
-	// }
+	// r.vessels[0].SetCommands(progsim.VesselCommands{
+	// 	FireCommands: []progsim.VesselFireCommand{
+	// 		{WeaponIndex: 0, TargetPos: r.vessels[1].data.Pos},
+	// 	},
+	// })
+
+	for i, e := range r.executors {
+		r.vessels[i].SetCommands(e.RunTick(delta))
+	}
 }

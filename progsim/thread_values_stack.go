@@ -19,11 +19,20 @@ func (s *threadValueStack) Push(v stackValue) {
 	s.values = append(s.values, v)
 }
 
+func (s *threadValueStack) PopFloat() float64 {
+	rv := s.Pop()
+	v, ok := rv.value.(float64)
+	if !ok {
+		panic(fmt.Sprintf("PopFloat: expected float64, found %T (%s)", rv.value, rv.tag))
+	}
+	return v
+}
+
 func (s *threadValueStack) PopVec() gmath.Vec {
 	rv := s.Pop()
 	v, ok := rv.value.(gmath.Vec)
 	if !ok {
-		panic(fmt.Sprintf("PopVec: expected Vec, found %T (%s)", rv, rv.tag))
+		panic(fmt.Sprintf("PopVec: expected Vec, found %T (%s)", rv.value, rv.tag))
 	}
 	return v
 }

@@ -9,6 +9,7 @@ type ThreadKind int
 const (
 	UnknownThread ThreadKind = iota
 	MovementThread
+	Weapon1Thread
 )
 
 type ProgThread struct {
@@ -33,16 +34,26 @@ const (
 	TargetPosInstruction
 	CenterPosInstruction
 	ChanceInstruction
+	IsLtInstruction
+	IsGtInstruction
+	DistanceToInstruction
 
 	// Movement instructions.
 
 	RotateToInstruction
 	MoveForwardInstruction
 	MoveAndRotateInstruction
+
+	// Weapon instructions.
+
+	SnapShotInstruction
+	NormalShotInstruction
 )
 
 type ProgInstructionInfo struct {
 	Kind InstructionKind
+
+	Cond bool
 }
 
 var ProgInstInfoTab = func() []*ProgInstructionInfo {
@@ -54,11 +65,17 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 		VesselPosInstruction:    {},
 		TargetPosInstruction:    {},
 		CenterPosInstruction:    {},
-		ChanceInstruction:       {},
+		ChanceInstruction:       {Cond: true},
+		IsLtInstruction:         {Cond: true},
+		IsGtInstruction:         {Cond: true},
+		DistanceToInstruction:   {},
 
 		RotateToInstruction:      {},
 		MoveForwardInstruction:   {},
 		MoveAndRotateInstruction: {},
+
+		SnapShotInstruction:   {},
+		NormalShotInstruction: {},
 	}
 
 	for kind, inst := range insts {
