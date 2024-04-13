@@ -9,6 +9,9 @@ var (
 	DisabledTextColor = rgb(0x777777)
 	SelectedTextColor = rgb(0xF4418A)
 
+	AlliedColor = rgb(0x65cc5e)
+	EnemyColor  = rgb(0xcc5e5e)
+
 	TransparentColor = color.NRGBA{}
 )
 

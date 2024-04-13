@@ -72,13 +72,6 @@ func (r *Runner) Init() {
 					Branches: []game.ProgBranch{
 						{
 							Instructions: []game.ProgInstruction{
-								// {Info: game.ProgInstInfoTab[game.RandomPosInstruction]},
-								// {Info: game.ProgInstInfoTab[game.RotateToInstruction]},
-								// {
-								// 	Info:   game.ProgInstInfoTab[game.MoveForwardInstruction],
-								// 	Params: []any{100.0},
-								// },
-
 								{
 									Info:   game.ProgInstInfoTab[game.ChanceInstruction],
 									Params: []any{0.5},
