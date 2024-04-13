@@ -32,6 +32,8 @@ type WeaponDesign struct {
 
 	FiringType WeaponFiringType
 
+	FireSound resource.AudioID
+
 	MaxRange float64
 
 	ProjectileImage resource.ImageID
@@ -69,6 +71,7 @@ var Weapons = []*WeaponDesign{
 		Reload:               0.5,
 		Damage:               Damage{Energy: 3},
 		FiringType:           TargetableWeapon,
+		FireSound:            assets.AudioImpactLaser1,
 		ProjectileImage:      assets.ImageProjectileLaser,
 		ProjectileSpeed:      400,
 		MaxRange:             250,

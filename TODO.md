@@ -15,8 +15,6 @@ Theme: summoning
 TODO:
 
 * add graphic layers
-* laser impact effect (animation)
-* vessel explosion effect (animation)
 * laser sfx (sfxr)
 * vessel weapon model
 * implement projectile node
@@ -27,6 +25,7 @@ TODO:
 * fix button sprites (disabled, pressed, hover)
 * add game title to the main menu
 * weapon/vessel balancing
+* vessel explosion effect (animation)
 
 Game loop:
 
@@ -41,3 +40,8 @@ pre-battle:
 
 battle:
 - space battle with programmed vessels
+
+# TODO engine
+
+* add Animation to graphics pkg
+* need audio sys package

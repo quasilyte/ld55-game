@@ -10,6 +10,7 @@ import (
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/gameui/eui"
+	"github.com/quasilyte/ld55-game/gaudio"
 )
 
 type Context struct {
@@ -20,6 +21,8 @@ type Context struct {
 	UIResources *eui.Resources
 
 	GraphicsCache *graphics.Cache
+
+	AudioSystem gaudio.System
 
 	Rand gmath.Rand
 
@@ -45,7 +48,12 @@ func NewContext() *Context {
 		GraphicsCache: graphics.NewCache(),
 	}
 	ctx.Rand.SetSeed(time.Now().Unix())
+	ctx.AudioSystem.Init(audioContext, l)
 	return ctx
+}
+
+func (ctx *Context) Audio() *gaudio.System {
+	return &ctx.AudioSystem
 }
 
 func (ctx *Context) CurrentScene() gscene.GameRunner {

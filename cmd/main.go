@@ -33,6 +33,7 @@ type gameRunner struct {
 
 func (g *gameRunner) Update() error {
 	const delta = 1.0 / 60.0
+	g.ctx.AudioSystem.Update()
 	g.ctx.CurrentScene().UpdateWithDelta(delta)
 
 	return nil

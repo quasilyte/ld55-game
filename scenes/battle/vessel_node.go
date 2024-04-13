@@ -5,6 +5,7 @@ import (
 
 	graphics "github.com/quasilyte/ebitengine-graphics"
 	"github.com/quasilyte/gmath"
+	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/battle"
 	"github.com/quasilyte/ld55-game/progsim"
 	"github.com/quasilyte/ld55-game/styles"
@@ -148,6 +149,10 @@ func (n *vesselNode) processWeapons(delta float64) {
 			Owner:     n.data,
 		})
 		n.scene.AddObject(p)
+
+		if w.Design.FireSound != assets.AudioNone {
+			playSound(n.scene, w.Design.FireSound)
+		}
 
 		n.data.Energy -= w.Design.EnergyCost
 		w.Reload = w.Design.Reload
