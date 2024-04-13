@@ -14,7 +14,9 @@ Theme: summoning
 
 TODO:
 
-* laser projectile sprite
+* add graphic layers
+* laser impact effect (animation)
+* vessel explosion effect (animation)
 * laser sfx (sfxr)
 * vessel weapon model
 * implement projectile node

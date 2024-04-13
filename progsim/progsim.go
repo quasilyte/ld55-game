@@ -30,6 +30,22 @@ type VesselCommands struct {
 	MoveForward bool
 	RotateLeft  bool
 	RotateRight bool
+
+	FireCommands []VesselFireCommand
+}
+
+func (c *VesselCommands) Reset() {
+	c.MoveForward = false
+	c.RotateLeft = false
+	c.RotateRight = false
+
+	// Re-use memory for the fire commands.
+	c.FireCommands = c.FireCommands[:0]
+}
+
+type VesselFireCommand struct {
+	WeaponIndex uint
+	TargetPos   gmath.Vec
 }
 
 type branchStatus int
@@ -108,7 +124,8 @@ func NewExecutor(config ExecutorConfig) *Executor {
 }
 
 func (e *Executor) RunTick(delta float64) VesselCommands {
-	e.commands = VesselCommands{}
+	e.commands.Reset()
+
 	e.delta = delta
 
 	for _, t := range e.prog.threads {

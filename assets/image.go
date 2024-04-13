@@ -15,6 +15,8 @@ func registerImageResources(loader *resource.Loader) {
 
 		ImageSpaceBg: {Path: "image/space_bg.png"},
 
+		ImageProjectileLaser: {Path: "image/ammo/laser_projectile.png"},
+
 		ImageVesselNormal1: {Path: "image/vessel/normal1.png"},
 	}
 
@@ -33,6 +35,8 @@ const (
 	ImageUIButtonDisabled
 
 	ImageSpaceBg
+
+	ImageProjectileLaser
 
 	ImageVesselNormal1
 )

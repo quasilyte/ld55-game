@@ -63,6 +63,12 @@ func (r *Runner) Init() {
 			RotationSpeed: 2.0,
 			MaxSpeed:      150,
 			Acceleration:  150,
+			MaxHealth:     50,
+			MaxEnergy:     50,
+			EnergyRegen:   10,
+			Weapons: []*battle.WeaponDesign{
+				battle.FindWeaponDesignByName("Pulse Laser"),
+			},
 		},
 
 		Prog: &game.BotProg{
@@ -111,6 +117,11 @@ func (r *Runner) Init() {
 			RotationSpeed: 2.0,
 			MaxSpeed:      150,
 			Acceleration:  150,
+			EnergyResist:  0.1,
+			KineticResist: 0.2,
+			ThermalResist: 0.0,
+			MaxHealth:     50,
+			MaxEnergy:     50,
 		},
 
 		Prog: &game.BotProg{},
@@ -154,10 +165,31 @@ func (r *Runner) Init() {
 		r.vessels[0].data.Target = r.world.Vessels[1]
 		r.vessels[1].data.Target = r.world.Vessels[0]
 	}
+
+	// TODO: move this code somewhere else.
+	for i := range r.vessels {
+		v := r.vessels[i]
+		v.data.Health = v.data.Design.MaxHealth
+		v.data.Energy = v.data.Design.MaxEnergy
+		for _, wd := range v.data.Design.Weapons {
+			v.data.Weapons = append(v.data.Weapons, &battle.Weapon{
+				Design: wd,
+			})
+		}
+
+		v.data.EventDestroyed.Connect(nil, func(attacker *battle.Vessel) {
+			v.Dispose()
+		})
+	}
 }
 
 func (r *Runner) Update(delta float64) {
-	for i, e := range r.executors {
-		r.vessels[i].SetCommands(e.RunTick(delta))
-	}
+	r.vessels[0].SetCommands(progsim.VesselCommands{
+		FireCommands: []progsim.VesselFireCommand{
+			{WeaponIndex: 0, TargetPos: r.vessels[1].data.Pos},
+		},
+	})
+	// for i, e := range r.executors {
+	// 	r.vessels[i].SetCommands(e.RunTick(delta))
+	// }
 }

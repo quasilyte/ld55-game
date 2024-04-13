@@ -1,6 +1,8 @@
 package battle
 
 import (
+	"fmt"
+
 	graphics "github.com/quasilyte/ebitengine-graphics"
 	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/ld55-game/battle"
@@ -57,7 +59,7 @@ func (n *vesselNode) Dispose() {
 }
 
 func (n *vesselNode) IsDisposed() bool {
-	return false
+	return n.sprite.IsDisposed()
 }
 
 func (n *vesselNode) SetCommands(c progsim.VesselCommands) {
@@ -65,8 +67,11 @@ func (n *vesselNode) SetCommands(c progsim.VesselCommands) {
 }
 
 func (n *vesselNode) Update(delta float64) {
+	n.data.Energy = gmath.ClampMax(n.data.Energy+(n.data.Design.EnergyRegen*delta), n.data.Design.MaxEnergy)
+
 	n.processRotation(delta)
 	n.processMovement(delta)
+	n.processWeapons(delta)
 }
 
 func (n *vesselNode) processMovement(delta float64) {
@@ -109,4 +114,42 @@ func (n *vesselNode) processRotation(delta float64) {
 		rotation = n.data.Design.RotationSpeed * rotationMultiplier
 	}
 	n.data.Rotation += rotation * gmath.Rad(delta)
+}
+
+func (n *vesselNode) processWeapons(delta float64) {
+	for _, w := range n.data.Weapons {
+		w.Reload = gmath.ClampMin(w.Reload-delta, 0)
+	}
+
+	for _, c := range n.commands.FireCommands {
+		if c.WeaponIndex >= uint(len(n.data.Design.Weapons)) {
+			fmt.Printf("warning: invalid weapon index")
+			continue
+		}
+
+		w := n.data.Weapons[c.WeaponIndex]
+		if w.Reload > 0 {
+			continue
+		}
+		if n.data.Energy < w.Design.EnergyCost {
+			continue
+		}
+
+		// TODO: handle different weapon fire modes, etc.
+		pd := &battle.Projectile{
+			Pos:      n.data.Pos,
+			Rotation: n.data.Pos.AngleToPoint(c.TargetPos),
+			Weapon:   w.Design,
+		}
+		p := newProjectileNode(projectileConfig{
+			Data:      pd,
+			TargetPos: c.TargetPos,
+			Target:    n.data.Target,
+			Owner:     n.data,
+		})
+		n.scene.AddObject(p)
+
+		n.data.Energy -= w.Design.EnergyCost
+		w.Reload = w.Design.Reload
+	}
 }
