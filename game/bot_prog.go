@@ -37,6 +37,8 @@ const (
 	IsLtInstruction
 	IsGtInstruction
 	DistanceToInstruction
+	EnergyPercentInstruction
+	HealthPercentInstruction
 
 	// Movement instructions.
 

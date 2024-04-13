@@ -22,6 +22,7 @@ TODO:
 * weapon/vessel balancing
 * vessel explosion effect (animation)
 * fix weird hit detection
+* cpu costs for different actions (snap/normal/snipe)
 
 Game loop:
 

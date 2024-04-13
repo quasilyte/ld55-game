@@ -197,6 +197,20 @@ func (e *Executor) runBranch(t *runningThread, b *runningBranch) branchStatus {
 
 func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 	switch inst.Info.Kind {
+	case game.HealthPercentInstruction:
+		percent := e.vessel.Health / e.vessel.Design.MaxHealth
+		t.stack.Push(stackValue{
+			value: 100 * percent,
+			tag:   "health percent",
+		})
+
+	case game.EnergyPercentInstruction:
+		percent := e.vessel.Energy / e.vessel.Design.MaxEnergy
+		t.stack.Push(stackValue{
+			value: 100 * percent,
+			tag:   "energy percent",
+		})
+
 	case game.RandomPosInstruction:
 		p := e.world.Size.Sub(gmath.Vec{
 			X: e.rand.FloatRange(0, e.world.Size.X),
