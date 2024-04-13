@@ -36,9 +36,9 @@ const (
 	ChanceInstruction
 	IsLtInstruction
 	IsGtInstruction
-	DistanceToInstruction
 	EnergyPercentInstruction
 	HealthPercentInstruction
+	DistanceToInstruction
 
 	// Movement instructions.
 
@@ -62,15 +62,17 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 	insts := []*ProgInstructionInfo{
 		UnknownInstruction: {},
 
-		RandomPosInstruction:    {},
-		RandomOffsetInstruction: {},
-		VesselPosInstruction:    {},
-		TargetPosInstruction:    {},
-		CenterPosInstruction:    {},
-		ChanceInstruction:       {Cond: true},
-		IsLtInstruction:         {Cond: true},
-		IsGtInstruction:         {Cond: true},
-		DistanceToInstruction:   {},
+		RandomPosInstruction:     {},
+		RandomOffsetInstruction:  {},
+		VesselPosInstruction:     {},
+		TargetPosInstruction:     {},
+		CenterPosInstruction:     {},
+		ChanceInstruction:        {Cond: true},
+		IsLtInstruction:          {Cond: true},
+		IsGtInstruction:          {Cond: true},
+		DistanceToInstruction:    {},
+		HealthPercentInstruction: {},
+		EnergyPercentInstruction: {},
 
 		RotateToInstruction:      {},
 		MoveForwardInstruction:   {},
