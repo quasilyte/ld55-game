@@ -23,6 +23,7 @@ TODO:
 * vessel explosion effect (animation)
 * fix weird hit detection
 * cpu costs for different actions (snap/normal/snipe)
+* optimize sfx (if needed)
 
 Game loop:
 

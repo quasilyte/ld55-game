@@ -80,6 +80,8 @@ func (t *runningThread) weaponIndex() int {
 	switch t.t.Kind {
 	case game.Weapon1Thread:
 		return 0
+	case game.Weapon2Thread:
+		return 1
 	default:
 		return -1
 	}

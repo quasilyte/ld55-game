@@ -6,10 +6,14 @@ import (
 
 func registerAudioResources(loader *resource.Loader) {
 	resources := map[resource.AudioID]resource.AudioInfo{
-		AudioImpactLaser1: {Path: "audio/laser1.wav"},
-		AudioImpactLaser2: {Path: "audio/laser2.wav"},
-		AudioImpactLaser3: {Path: "audio/laser3.wav"},
-		AudioImpactLaser4: {Path: "audio/laser4.wav"},
+		AudioFireLaser1: {Path: "audio/laser1.wav"},
+		AudioFireLaser2: {Path: "audio/laser2.wav"},
+		AudioFireLaser3: {Path: "audio/laser3.wav"},
+		AudioFireLaser4: {Path: "audio/laser4.wav"},
+
+		AudioFirePlasma1: {Path: "audio/plasma1.wav"},
+		AudioFirePlasma2: {Path: "audio/plasma2.wav"},
+		AudioFirePlasma3: {Path: "audio/plasma3.wav"},
 	}
 
 	for id, info := range resources {
@@ -20,8 +24,10 @@ func registerAudioResources(loader *resource.Loader) {
 
 func NumSamples(a resource.AudioID) int {
 	switch a {
-	case AudioImpactLaser1:
+	case AudioFireLaser1:
 		return 4
+	case AudioFirePlasma1:
+		return 3
 	default:
 		return 1
 	}
@@ -30,8 +36,11 @@ func NumSamples(a resource.AudioID) int {
 const (
 	AudioNone resource.AudioID = iota
 
-	AudioImpactLaser1
-	AudioImpactLaser2
-	AudioImpactLaser3
-	AudioImpactLaser4
+	AudioFireLaser1
+	AudioFireLaser2
+	AudioFireLaser3
+	AudioFireLaser4
+	AudioFirePlasma1
+	AudioFirePlasma2
+	AudioFirePlasma3
 )

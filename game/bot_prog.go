@@ -10,6 +10,7 @@ const (
 	UnknownThread ThreadKind = iota
 	MovementThread
 	Weapon1Thread
+	Weapon2Thread
 )
 
 type ProgThread struct {
