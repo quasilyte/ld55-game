@@ -46,6 +46,11 @@ func (ctx *Context) CurrentScene() gscene.GameRunner {
 	return ctx.scene
 }
 
+func (ctx *Context) NewRect(w, h float64) *graphics.Rect {
+	r := graphics.NewRect(ctx.GraphicsCache, w, h)
+	return r
+}
+
 func (ctx *Context) NewSprite(id resource.ImageID) *graphics.Sprite {
 	s := graphics.NewSprite(ctx.GraphicsCache)
 	img := ctx.Loader.LoadImage(id)

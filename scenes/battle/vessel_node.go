@@ -5,6 +5,7 @@ import (
 	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/ld55-game/battle"
 	"github.com/quasilyte/ld55-game/progsim"
+	"github.com/quasilyte/ld55-game/styles"
 )
 
 type vesselNode struct {
@@ -13,6 +14,7 @@ type vesselNode struct {
 	data *battle.Vessel
 
 	sprite *graphics.Sprite
+	aura   *graphics.Rect
 
 	commands progsim.VesselCommands
 }
@@ -33,6 +35,17 @@ func (n *vesselNode) Init(s *scene) {
 	n.sprite.Rotation = &n.data.Rotation
 	s.AddGraphics(n.sprite)
 
+	n.aura = ctx.NewRect(64, 64)
+	n.aura.Pos.Base = &n.data.Pos
+	s.AddGraphics(n.aura)
+	auraColor := styles.AlliedColor
+	if n.data.Alliance != 0 {
+		auraColor = styles.EnemyColor
+	}
+	auraColor.A = 0xff / 2
+	n.aura.SetFillColorScale(graphics.ColorScale{}) // Transparent
+	n.aura.SetOutlineColorScale(graphics.ColorScaleFromColor(auraColor))
+
 	if n.data.Alliance != 0 {
 		n.sprite.SetColorScale(graphics.ColorScale{R: 1.1, G: 0.5, B: 1.2, A: 1})
 	}
@@ -40,6 +53,7 @@ func (n *vesselNode) Init(s *scene) {
 
 func (n *vesselNode) Dispose() {
 	n.sprite.Dispose()
+	n.aura.Dispose()
 }
 
 func (n *vesselNode) IsDisposed() bool {

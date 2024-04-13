@@ -14,7 +14,6 @@ Theme: summoning
 
 TODO:
 
-* unit aura (green/red)
 * laser projectile sprite
 * laser sfx (sfxr)
 * vessel weapon model

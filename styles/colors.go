@@ -15,9 +15,9 @@ var (
 	TransparentColor = color.NRGBA{}
 )
 
-func rgb(v uint64) color.NRGBA {
+func rgb(v uint64) color.RGBA {
 	r := uint8((v & (0xFF << (8 * 2))) >> (8 * 2))
 	g := uint8((v & (0xFF << (8 * 1))) >> (8 * 1))
 	b := uint8((v & (0xFF << (8 * 0))) >> (8 * 0))
-	return color.NRGBA{R: r, G: g, B: b, A: 0xff}
+	return color.RGBA{R: r, G: g, B: b, A: 0xff}
 }
