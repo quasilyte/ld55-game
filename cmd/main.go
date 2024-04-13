@@ -16,7 +16,7 @@ func main() {
 	assets.RegisterResources(g.ctx.Loader)
 	g.ctx.UIResources = eui.LoadResources(g.ctx.Loader)
 
-	ebiten.SetWindowTitle("AstroHeart")
+	ebiten.SetWindowTitle("Astro Heart")
 	ebiten.SetFullscreen(true)
 	ebiten.SetWindowSize(int(g.ctx.WindowSize.X), int(g.ctx.WindowSize.Y))
 

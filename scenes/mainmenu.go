@@ -25,7 +25,7 @@ func (c *MainMenuController) Init(scene *gscene.SimpleRootScene) {
 		MinWidth: 320,
 	})
 
-	rows.AddChild(eui.NewCenteredLabel("AstroHeart", assets.Font3))
+	rows.AddChild(eui.NewCenteredLabel("Astro Heart", assets.Font3))
 
 	{
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
