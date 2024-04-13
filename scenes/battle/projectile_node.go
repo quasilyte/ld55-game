@@ -37,7 +37,7 @@ func newProjectileNode(config projectileConfig) *projectileNode {
 	return &projectileNode{
 		data:      config.Data,
 		targetPos: config.TargetPos,
-		distLimit: min(config.Data.Weapon.MaxRange, config.TargetPos.DistanceTo(config.Data.Pos)),
+		distLimit: min(config.Data.Weapon.MaxRange, config.TargetPos.DistanceTo(config.Data.Pos)) * 1.1,
 		target:    config.Target,
 		owner:     config.Owner,
 	}
@@ -60,15 +60,17 @@ func (p *projectileNode) Init(s *scene) {
 
 func (p *projectileNode) Update(delta float64) {
 	v := p.velocity.Mulf(delta)
-	p.distLimit -= v.Len()
+	travelled := v.Len()
+	p.distLimit -= travelled
 	p.data.Pos = p.data.Pos.Add(v)
-	if p.distLimit <= 0 {
+	if p.distLimit <= 0 || p.data.Pos.DistanceTo(p.targetPos) < travelled {
 		p.detonate()
 	}
 }
 
 func (p *projectileNode) detonate() {
-	if p.data.Pos.DistanceSquaredTo(p.targetPos) <= p.impactAreaSqr {
+	hitboxSize := p.data.Weapon.ProjectileImpactArea + p.target.Design.HitboxSize
+	if p.data.Pos.DistanceTo(p.target.Pos) <= hitboxSize {
 		if p.target.Health > 0 {
 			p.target.OnDamage(p.data.Weapon.Damage, p.owner)
 			p.createImpactEffect()

@@ -64,5 +64,7 @@ type VesselDesign struct {
 	KineticResist float64
 	ThermalResist float64
 
+	HitboxSize float64
+
 	Weapons []*WeaponDesign
 }

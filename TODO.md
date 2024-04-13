@@ -15,13 +15,11 @@ Theme: summoning
 TODO:
 
 * add graphic layers
-* weapon 1 thread
 * attack-related instruction
 * test weapon threads
 * add game title to the main menu
 * weapon/vessel balancing
 * vessel explosion effect (animation)
-* fix weird hit detection
 * cpu costs for different actions (snap/normal/snipe)
 * optimize sfx (if needed)
 

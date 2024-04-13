@@ -66,16 +66,17 @@ type Projectile struct {
 
 var Weapons = []*WeaponDesign{
 	{
-		Name:                 "Pulse Laser",
-		EnergyCost:           5,
-		Reload:               0.5,
+		Name:       "Pulse Laser",
+		EnergyCost: 5,
+		Reload:     0.5,
+		// Reload:               3,
 		Damage:               Damage{Energy: 3},
 		FiringType:           TargetableWeapon,
 		FireSound:            assets.AudioFireLaser1,
 		ProjectileImage:      assets.ImageProjectileLaser,
 		ProjectileSpeed:      400,
 		MaxRange:             250,
-		ProjectileImpactArea: 3,
+		ProjectileImpactArea: 8,
 		ImpactImage:          assets.ImageImpactLaser,
 	},
 
@@ -89,7 +90,7 @@ var Weapons = []*WeaponDesign{
 		ProjectileImage:      assets.ImageProjectilePlasma,
 		ProjectileSpeed:      250,
 		MaxRange:             300,
-		ProjectileImpactArea: 5,
+		ProjectileImpactArea: 10,
 		ImpactImage:          assets.ImageImpactPlasma,
 	},
 }

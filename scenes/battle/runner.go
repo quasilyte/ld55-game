@@ -68,6 +68,7 @@ func (r *Runner) Init() {
 			MaxHealth:     50,
 			MaxEnergy:     50,
 			EnergyRegen:   10,
+			HitboxSize:    14,
 			Weapons: []*battle.WeaponDesign{
 				battle.FindWeaponDesignByName("Pulse Laser"),
 				battle.FindWeaponDesignByName("Plasma Cannon"),
@@ -98,28 +99,28 @@ func (r *Runner) Init() {
 						},
 					},
 				},
-				{
-					Kind: game.Weapon2Thread,
-					Branches: []game.ProgBranch{
-						{
-							Instructions: []game.ProgInstruction{
-								{
-									Info: game.ProgInstInfoTab[game.TargetPosInstruction],
-								},
-								{
-									Info: game.ProgInstInfoTab[game.DistanceToInstruction],
-								},
-								{
-									Info:   game.ProgInstInfoTab[game.IsLtInstruction],
-									Params: []any{200.0},
-								},
-								{
-									Info: game.ProgInstInfoTab[game.NormalShotInstruction],
-								},
-							},
-						},
-					},
-				},
+				// {
+				// 	Kind: game.Weapon2Thread,
+				// 	Branches: []game.ProgBranch{
+				// 		{
+				// 			Instructions: []game.ProgInstruction{
+				// 				{
+				// 					Info: game.ProgInstInfoTab[game.TargetPosInstruction],
+				// 				},
+				// 				{
+				// 					Info: game.ProgInstInfoTab[game.DistanceToInstruction],
+				// 				},
+				// 				{
+				// 					Info:   game.ProgInstInfoTab[game.IsLtInstruction],
+				// 					Params: []any{200.0},
+				// 				},
+				// 				{
+				// 					Info: game.ProgInstInfoTab[game.NormalShotInstruction],
+				// 				},
+				// 			},
+				// 		},
+				// 	},
+				// },
 
 				{
 					Kind: game.MovementThread,
@@ -170,6 +171,7 @@ func (r *Runner) Init() {
 			ThermalResist: 0.0,
 			MaxHealth:     50,
 			MaxEnergy:     50,
+			HitboxSize:    14,
 		},
 
 		Prog: &game.BotProg{},
