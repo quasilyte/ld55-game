@@ -3,11 +3,14 @@ package battle
 import (
 	graphics "github.com/quasilyte/ebitengine-graphics"
 	"github.com/quasilyte/gmath"
+	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/battle"
 )
 
 type projectileNode struct {
 	data *battle.Projectile
+
+	scene *scene
 
 	sprite *graphics.Sprite
 
@@ -43,6 +46,8 @@ func newProjectileNode(config projectileConfig) *projectileNode {
 func (p *projectileNode) Init(s *scene) {
 	ctx := s.Controller().GetGameContext()
 
+	p.scene = s
+
 	p.impactAreaSqr = p.data.Weapon.ProjectileImpactArea * p.data.Weapon.ProjectileImpactArea
 
 	p.sprite = ctx.NewSprite(p.data.Weapon.ProjectileImage)
@@ -66,9 +71,18 @@ func (p *projectileNode) detonate() {
 	if p.data.Pos.DistanceSquaredTo(p.targetPos) <= p.impactAreaSqr {
 		if p.target.Health > 0 {
 			p.target.OnDamage(p.data.Weapon.Damage, p.owner)
+			p.createImpactEffect()
 		}
 	}
 	p.Dispose()
+}
+
+func (p *projectileNode) createImpactEffect() {
+	if p.data.Weapon.ImpactImage == assets.ImageNone {
+		return
+	}
+	effect := newEffectNode(p.data.Pos, p.data.Weapon.ImpactImage)
+	p.scene.AddObject(effect)
 }
 
 func (p *projectileNode) Dispose() {

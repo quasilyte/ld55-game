@@ -39,6 +39,8 @@ type WeaponDesign struct {
 	ProjectileSpeed float64
 
 	ProjectileImpactArea float64
+
+	ImpactImage resource.ImageID
 }
 
 type WeaponFiringType int
@@ -71,5 +73,6 @@ var Weapons = []*WeaponDesign{
 		ProjectileSpeed:      400,
 		MaxRange:             250,
 		ProjectileImpactArea: 3,
+		ImpactImage:          assets.ImageImpactLaser,
 	},
 }

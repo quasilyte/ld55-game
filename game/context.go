@@ -1,6 +1,8 @@
 package game
 
 import (
+	"time"
+
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	graphics "github.com/quasilyte/ebitengine-graphics"
 	resource "github.com/quasilyte/ebitengine-resource"
@@ -19,6 +21,8 @@ type Context struct {
 
 	GraphicsCache *graphics.Cache
 
+	Rand gmath.Rand
+
 	scene gscene.GameRunner
 }
 
@@ -32,7 +36,7 @@ func NewContext() *Context {
 	audioContext := audio.NewContext(sampleRate)
 	l := resource.NewLoader(audioContext)
 	l.OpenAssetFunc = assets.OpenAssetFunc
-	return &Context{
+	ctx := &Context{
 		WindowSize: gmath.Vec{
 			X: 1920 / 2,
 			Y: 1080 / 2,
@@ -40,6 +44,8 @@ func NewContext() *Context {
 		Loader:        l,
 		GraphicsCache: graphics.NewCache(),
 	}
+	ctx.Rand.SetSeed(time.Now().Unix())
+	return ctx
 }
 
 func (ctx *Context) CurrentScene() gscene.GameRunner {
@@ -55,5 +61,9 @@ func (ctx *Context) NewSprite(id resource.ImageID) *graphics.Sprite {
 	s := graphics.NewSprite(ctx.GraphicsCache)
 	img := ctx.Loader.LoadImage(id)
 	s.SetImage(img.Data)
+	if img.DefaultFrameWidth != 0 {
+		_, fh := s.GetFrameSize()
+		s.SetFrameSize(int(img.DefaultFrameWidth), fh)
+	}
 	return s
 }

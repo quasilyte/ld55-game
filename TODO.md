@@ -26,6 +26,7 @@ TODO:
 * test weapon threads
 * fix button sprites (disabled, pressed, hover)
 * add game title to the main menu
+* weapon/vessel balancing
 
 Game loop:
 

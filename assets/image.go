@@ -17,6 +17,8 @@ func registerImageResources(loader *resource.Loader) {
 
 		ImageProjectileLaser: {Path: "image/ammo/laser_projectile.png"},
 
+		ImageImpactLaser: {Path: "image/effects/laser_impact.png", FrameWidth: 10},
+
 		ImageVesselNormal1: {Path: "image/vessel/normal1.png"},
 	}
 
@@ -37,6 +39,8 @@ const (
 	ImageSpaceBg
 
 	ImageProjectileLaser
+
+	ImageImpactLaser
 
 	ImageVesselNormal1
 )
