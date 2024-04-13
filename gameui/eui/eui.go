@@ -112,7 +112,6 @@ type ButtonConfig struct {
 	MinWidth   int
 	Font       font.Face
 	AlignLeft  bool
-	Slot       bool
 
 	Tooltip *widget.Container
 }
@@ -158,11 +157,53 @@ func NewCenteredLabelWithMaxWidth(text string, ff font.Face, width float64) *wid
 	return widget.NewText(options...)
 }
 
+type SlotButtonConfig struct {
+	OnClick func()
+
+	Tooltip *widget.Container
+}
+
+type SlotButton struct {
+	Icon      *widget.Graphic
+	Button    *widget.Button
+	Container *widget.Container
+}
+
+func NewSlotButton(res *Resources, config SlotButtonConfig) *SlotButton {
+	buttonRes := res.slotButton
+
+	container := widget.NewContainer(
+		widget.ContainerOpts.Layout(widget.NewStackedLayout()),
+		widget.ContainerOpts.WidgetOpts(
+			widget.WidgetOpts.MinSize(64, 64),
+		),
+	)
+
+	options := []widget.ButtonOpt{
+		widget.ButtonOpts.Image(buttonRes.Image),
+		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
+			if config.OnClick != nil {
+				config.OnClick()
+			}
+		}),
+		// widget.ButtonOpts.WidgetOpts(widget.WidgetOpts.MinSize(64, 64)),
+	}
+
+	b := widget.NewButton(options...)
+	container.AddChild(b)
+
+	g := widget.NewGraphic()
+	container.AddChild(g)
+
+	return &SlotButton{
+		Button:    b,
+		Icon:      g,
+		Container: container,
+	}
+}
+
 func NewButton(res *Resources, config ButtonConfig) *widget.Button {
 	buttonRes := res.button
-	if config.Slot {
-		buttonRes = res.slotButton
-	}
 
 	ff := config.Font
 	if ff == nil {
@@ -175,9 +216,6 @@ func NewButton(res *Resources, config ButtonConfig) *widget.Button {
 				config.OnClick()
 			}
 		}),
-	}
-	if config.Slot {
-		options = append(options, widget.ButtonOpts.WidgetOpts(widget.WidgetOpts.MinSize(64, 64)))
 	}
 	if config.Tooltip != nil {
 		tt := widget.NewToolTip(

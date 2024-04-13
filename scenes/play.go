@@ -78,7 +78,8 @@ func (c *PlayController) createDefaultProg() {
 		b := &game.ProgBranch{
 			Instructions: []game.ProgInstruction{
 				game.MakeInst(game.RandomPosInstruction),
-				// {Info: game.ProgInstInfoTab[game.]},
+				game.MakeInst(game.RotateToInstruction),
+				game.MakeInst(game.MoveForwardInstruction),
 			},
 		}
 		prog.MovementThread.Branches = append(prog.MovementThread.Branches, b)

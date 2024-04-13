@@ -32,7 +32,7 @@ type softwareTab struct {
 type softwareSlot struct {
 	branchIndex      int
 	instructionIndex int
-	button           *widget.Button
+	button           *eui.SlotButton
 }
 
 func NewSoftwareController(ctx *game.Context) *SoftwareController {
@@ -172,13 +172,13 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 		for row := 0; row < numRows; row++ {
 			grid.AddChild(eui.NewLabel(fmt.Sprintf("Branch %d", row+1), assets.Font1))
 			for col := 0; col < numCols; col++ {
-				button := eui.NewButton(uiRes, eui.ButtonConfig{Slot: true})
+				slotButton := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{})
 				c.slots[row] = append(c.slots[row], &softwareSlot{
 					branchIndex:      row,
 					instructionIndex: col,
-					button:           button,
+					button:           slotButton,
 				})
-				grid.AddChild(button)
+				grid.AddChild(slotButton.Container)
 				if col != numCols-1 {
 					grid.AddChild(eui.NewCenteredLabel(">", assets.Font1))
 				}
@@ -201,13 +201,24 @@ func (c *SoftwareController) updateInstructionSlots() {
 
 	for i, row := range c.slots {
 		var maxCol int
+		var branch *game.ProgBranch
 		if i >= len(thread.Branches) {
 			maxCol = 1
 		} else {
-			maxCol = len(thread.Branches[i].Instructions) + 1
+			branch = thread.Branches[i]
+			maxCol = len(branch.Instructions) + 1
 		}
 		for j, b := range row {
-			b.button.GetWidget().Disabled = j >= maxCol
+			disabled := j >= maxCol
+			b.button.Button.GetWidget().Disabled = disabled
+			if disabled {
+				continue
+			}
+			if branch == nil || j >= len(branch.Instructions) {
+				continue
+			}
+			inst := branch.Instructions[j]
+			b.button.Icon.Image = c.ctx.Loader.LoadImage(inst.Info.Icon).Data
 		}
 	}
 }

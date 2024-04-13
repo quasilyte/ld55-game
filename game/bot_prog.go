@@ -1,5 +1,10 @@
 package game
 
+import (
+	resource "github.com/quasilyte/ebitengine-resource"
+	"github.com/quasilyte/ld55-game/assets"
+)
+
 type BotProg struct {
 	MovementThread *ProgThread
 	Weapon1Thread  *ProgThread
@@ -80,6 +85,8 @@ const (
 type ProgInstructionInfo struct {
 	Kind InstructionKind
 
+	Icon resource.ImageID
+
 	Cond bool
 }
 
@@ -87,7 +94,7 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 	insts := []*ProgInstructionInfo{
 		UnknownInstruction: {},
 
-		RandomPosInstruction:     {},
+		RandomPosInstruction:     {Icon: assets.ImageIconRandomPos},
 		RandomOffsetInstruction:  {},
 		VesselPosInstruction:     {},
 		TargetPosInstruction:     {},
@@ -99,8 +106,8 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 		HealthPercentInstruction: {},
 		EnergyPercentInstruction: {},
 
-		RotateToInstruction:      {},
-		MoveForwardInstruction:   {},
+		RotateToInstruction:      {Icon: assets.ImageIconRotateTo},
+		MoveForwardInstruction:   {Icon: assets.ImageIconMoveForward},
 		MoveAndRotateInstruction: {},
 
 		SnapShotInstruction:   {},
