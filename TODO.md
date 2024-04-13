@@ -23,7 +23,6 @@ TODO:
 * weapon 1 thread
 * attack-related instruction
 * test weapon threads
-* fix button sprites (disabled, pressed, hover)
 * add game title to the main menu
 * weapon/vessel balancing
 * vessel explosion effect (animation)
