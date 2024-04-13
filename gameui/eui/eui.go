@@ -94,8 +94,8 @@ func NewSeparator(ld interface{}, clr color.RGBA) widget.PreferredSizeLocateable
 		widget.ContainerOpts.Layout(widget.NewRowLayout(
 			widget.RowLayoutOpts.Direction(widget.DirectionVertical),
 			widget.RowLayoutOpts.Padding(widget.Insets{
-				Top:    20,
-				Bottom: 20,
+				Top:    10,
+				Bottom: 10,
 			}))),
 		widget.ContainerOpts.WidgetOpts(widget.WidgetOpts.LayoutData(ld)))
 
@@ -152,7 +152,10 @@ func NewButton(res *Resources, config ButtonConfig) *widget.Button {
 		)
 		options = append(options, widget.ButtonOpts.WidgetOpts(widget.WidgetOpts.ToolTip(tt)))
 	}
-	colors := buttonRes.TextColors
+	colors := &widget.ButtonTextColor{
+		Idle:     buttonRes.TextColors.Idle,
+		Disabled: buttonRes.TextColors.Disabled,
+	}
 	options = append(options,
 		widget.ButtonOpts.Text(config.Text, ff, colors),
 		widget.ButtonOpts.TextPadding(buttonRes.Padding))
@@ -182,6 +185,20 @@ func NewTooltip(res *Resources, text string) *widget.Container {
 		widget.TextOpts.Text(text, res.tooltip.FontFace, res.tooltip.TextColor),
 	))
 	return tt
+}
+
+func NewColoredLabel(text string, ff font.Face, clr color.RGBA, options ...widget.TextOpt) *widget.Text {
+	opts := []widget.TextOpt{
+		widget.TextOpts.Text(text, ff, clr),
+	}
+	if len(options) != 0 {
+		opts = append(opts, options...)
+	}
+	return widget.NewText(opts...)
+}
+
+func NewLabel(text string, ff font.Face, options ...widget.TextOpt) *widget.Text {
+	return NewColoredLabel(text, ff, styles.NormalTextColor, options...)
 }
 
 func nineSliceImage(i *ebiten.Image, offsetX, offsetY int) *image.NineSlice {

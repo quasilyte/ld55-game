@@ -7,7 +7,7 @@ import (
 var (
 	NormalTextColor   = rgb(0xFFFFFF)
 	DisabledTextColor = rgb(0x777777)
-	SelectedTextColor = rgb(0xF4418A)
+	SelectedTextColor = rgb(0xd29356)
 
 	AlliedColor = rgb(0x65cc5e)
 	EnemyColor  = rgb(0xcc5e5e)
