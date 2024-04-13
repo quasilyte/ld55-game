@@ -133,6 +133,7 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 				c.selectTab(3)
 			},
 		})
+		defButton.GetWidget().Disabled = true
 		c.tabs = append(c.tabs, &softwareTab{
 			index:  3,
 			button: defButton,
