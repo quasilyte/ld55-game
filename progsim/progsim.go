@@ -273,14 +273,14 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 	case game.IsLtInstruction:
 		x := inst.Param
 		y := t.stack.PopFloat()
-		if x < y {
+		if y >= x {
 			return instCancelled
 		}
 
 	case game.IsGtInstruction:
 		x := inst.Param
 		y := t.stack.PopFloat()
-		if x > y {
+		if y <= x {
 			return instCancelled
 		}
 
