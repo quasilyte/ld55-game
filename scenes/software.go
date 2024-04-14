@@ -179,8 +179,8 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 	rows.AddChild(eui.NewSeparator(nil, styles.DisabledTextColor))
 
 	{
-		numCols := 10
-		numRows := 3
+		numCols := game.MaxInstructions
+		numRows := game.MaxBranches
 		grid := widget.NewContainer(
 			widget.ContainerOpts.Layout(widget.NewGridLayout(
 				widget.GridLayoutOpts.Columns(numCols+1+(numCols-1)),
@@ -196,16 +196,10 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 					Tooltip:   tt.Container,
 					WithLabel: true,
 					OnHoverStart: func(sb *eui.SlotButton) {
-						if sb.Label == nil || sb.Label.Label == "" {
-							return
-						}
 						sb.Label.Color = styles.AlliedColor
 						c.hoverSlot = slot
 					},
 					OnHoverEnd: func(sb *eui.SlotButton) {
-						if sb.Label == nil || sb.Label.Label == "" {
-							return
-						}
 						sb.Label.Color = styles.NormalTextColor
 						c.hoverSlot = nil
 					},
@@ -237,18 +231,15 @@ func (c *SoftwareController) updateInstructionSlots() {
 	thread := c.selectedTab.thread
 
 	for i, row := range c.slots {
-		var branch *game.ProgBranch
-		if i < len(thread.Branches) {
-			branch = thread.Branches[i]
-		}
+		branch := thread.Branches[i]
 		for j, b := range row {
-			if branch == nil || j >= len(branch.Instructions) {
+			inst := branch.Instructions[j]
+			if inst.Info.Kind == game.NopInstruction {
 				b.button.Icon.Image = nil
 				b.button.Label.Label = ""
-				b.tooltipText.Label = c.instDoc(game.MakeInst(game.NopInstruction, 0))
+				b.tooltipText.Label = c.instDoc(inst)
 				continue
 			}
-			inst := branch.Instructions[j]
 			b.button.Icon.Image = c.ctx.Loader.LoadImage(inst.Info.Icon).Data
 			b.button.Label.Label = c.formatInstParam(inst)
 			b.tooltipText.Label = c.instDoc(inst)
@@ -354,6 +345,9 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction) string {
 
 	if inst.Info.Param {
 		lines = append(lines, "", "Hover and start typing to change the value.")
+		lines = append(lines, "Right click to remove.")
+	} else {
+		lines = append(lines, "Right click to remove.")
 	}
 
 	return strings.Join(lines, "\n")
@@ -363,6 +357,27 @@ func (c *SoftwareController) Update(delta float64) {
 	if c.maybeEditValue() {
 		c.updateInstructionSlots()
 	}
+	if c.maybeRemoveSlot() {
+		c.updateInstructionSlots()
+	}
+}
+
+func (c *SoftwareController) maybeRemoveSlot() bool {
+	if c.hoverSlot == nil {
+		return false
+	}
+
+	inst := c.getSlotInst(c.hoverSlot)
+	if inst.Info.Kind == game.NopInstruction {
+		return false
+	}
+
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonRight) {
+		*inst = game.MakeInst(game.NopInstruction, 0)
+		return true
+	}
+
+	return false
 }
 
 func (c *SoftwareController) maybeEditValue() bool {

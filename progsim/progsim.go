@@ -199,6 +199,9 @@ func (e *Executor) runBranch(t *runningThread, b *runningBranch) branchStatus {
 
 func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 	switch inst.Info.Kind {
+	case game.NopInstruction:
+		return instFinished
+
 	case game.HealthPercentInstruction:
 		percent := e.vessel.Health / e.vessel.Design.MaxHealth
 		t.stack.Push(stackValue{

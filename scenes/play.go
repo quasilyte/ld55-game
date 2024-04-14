@@ -96,4 +96,16 @@ func (c *PlayController) createDefaultProg() {
 		}
 		prog.Weapon1Thread.Branches = append(prog.Weapon1Thread.Branches, b)
 	}
+
+	// For convenience, pad everything with NOPs.
+	prog.EachThread(func(i int, t *game.ProgThread) {
+		for len(t.Branches) < game.MaxBranches {
+			t.Branches = append(t.Branches, &game.ProgBranch{})
+		}
+		for _, b := range t.Branches {
+			for len(b.Instructions) < game.MaxInstructions {
+				b.Instructions = append(b.Instructions, game.MakeInst(game.NopInstruction, 0))
+			}
+		}
+	})
 }

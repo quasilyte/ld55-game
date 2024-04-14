@@ -6,6 +6,11 @@ import (
 	"github.com/quasilyte/ld55-game/assets"
 )
 
+const (
+	MaxBranches     = 3
+	MaxInstructions = 10
+)
+
 type BotProg struct {
 	MovementThread *ProgThread
 	Weapon1Thread  *ProgThread
