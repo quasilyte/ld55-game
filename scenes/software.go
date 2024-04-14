@@ -615,7 +615,7 @@ func (c *SoftwareController) Update(delta float64) {
 
 	c.handleDragAndDrop()
 
-	if runtime.GOOS != "wasm" {
+	if runtime.GOARCH != "wasm" {
 		if inpututil.IsKeyJustPressed(ebiten.KeyGraveAccent) {
 			c.saveVessel()
 		}

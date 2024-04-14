@@ -2,6 +2,7 @@ package scenes
 
 import (
 	"os"
+	"runtime"
 
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
@@ -59,7 +60,7 @@ func (c *MainMenuController) Init(scene *gscene.SimpleRootScene) {
 		rows.AddChild(b)
 	}
 
-	{
+	if runtime.GOARCH != "wasm" {
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "Exit",
 			OnClick: func() {
