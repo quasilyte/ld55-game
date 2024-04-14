@@ -356,9 +356,14 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction) string {
 func (c *SoftwareController) Update(delta float64) {
 	if c.maybeEditValue() {
 		c.updateInstructionSlots()
+		return
 	}
 	if c.maybeRemoveSlot() {
 		c.updateInstructionSlots()
+		return
+	}
+	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+		game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
 	}
 }
 

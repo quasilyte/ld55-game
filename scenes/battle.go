@@ -1,6 +1,8 @@
 package scenes
 
 import (
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/game"
 	"github.com/quasilyte/ld55-game/scenes/battle"
@@ -33,5 +35,9 @@ func (c *BattleController) GetGameContext() *game.Context {
 func (c *BattleController) Update(delta float64) {
 	if !c.pause {
 		c.runner.Update(delta)
+	}
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+		game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
 	}
 }
