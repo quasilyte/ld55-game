@@ -15,11 +15,12 @@ require (
 	github.com/quasilyte/bitsweetfont v0.0.0-20240408230347-52b6d812c06d // indirect
 	github.com/quasilyte/ebitengine-graphics v0.0.0-20240312101447-e2b48187ac97 // indirect
 	github.com/quasilyte/ebitengine-input v0.9.1 // indirect
-	github.com/quasilyte/ebitengine-resource v0.5.0 // indirect
+	github.com/quasilyte/ebitengine-resource v0.5.1-0.20231101125830-f1fc00a87be0 // indirect
 	github.com/quasilyte/gdata v0.8.1 // indirect
 	github.com/quasilyte/gmath v0.0.0-20240205181328-bacb32a49519 // indirect
 	github.com/quasilyte/gscene v0.0.0-20240310133750-c9071bff3e13 // indirect
 	github.com/quasilyte/gsignal v0.0.0-20231010082051-3c00e9ebb4e5 // indirect
+	github.com/quasilyte/xm v0.0.0-20240228102732-966acb9af598 // indirect
 	golang.org/x/exp v0.0.0-20240222234643-814bf88cf225 // indirect
 	golang.org/x/image v0.15.0 // indirect
 	golang.org/x/sync v0.6.0 // indirect

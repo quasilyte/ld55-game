@@ -20,6 +20,8 @@ func NewLobbyController(ctx *game.Context) *LobbyController {
 }
 
 func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
+	c.ctx.Audio().ContinueMusic(assets.AudioMusicMenu)
+
 	uiRes := c.ctx.UIResources
 	root := eui.NewRootContainer()
 

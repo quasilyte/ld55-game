@@ -18,6 +18,8 @@ func NewMainMenuController(ctx *game.Context) *MainMenuController {
 }
 
 func (c *MainMenuController) Init(scene *gscene.SimpleRootScene) {
+	c.ctx.Audio().ContinueMusic(assets.AudioMusicMenu)
+
 	uiRes := c.ctx.UIResources
 	root := eui.NewRootContainer()
 

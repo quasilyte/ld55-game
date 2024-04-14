@@ -24,6 +24,8 @@ github.com/quasilyte/ebitengine-input v0.9.1 h1:sN7jNDLfGn9ZY1lurD4d3oXIOmQbZwYP
 github.com/quasilyte/ebitengine-input v0.9.1/go.mod h1:xYkU+JqzWzjnVMolCIar0VFRly1TtjmEHfQWAoIan+o=
 github.com/quasilyte/ebitengine-resource v0.5.0 h1:sPncYunmgdBZVMRCZn2x2HUH3znL7m6IEczEjseTGbE=
 github.com/quasilyte/ebitengine-resource v0.5.0/go.mod h1:PEj32KsbbcgeSzAYQY5KspbImb/ucvJXoBgRMUrtBAQ=
+github.com/quasilyte/ebitengine-resource v0.5.1-0.20231101125830-f1fc00a87be0 h1:WeuhhT4z8gWxoCmeHVvIITcWmAwDpKPc9I4J/rkzbR4=
+github.com/quasilyte/ebitengine-resource v0.5.1-0.20231101125830-f1fc00a87be0/go.mod h1:PEj32KsbbcgeSzAYQY5KspbImb/ucvJXoBgRMUrtBAQ=
 github.com/quasilyte/gdata v0.8.1 h1:cR9TFUHrRciVq1E4hqofan6jcQvmJd9lM1E7YLeUfi8=
 github.com/quasilyte/gdata v0.8.1/go.mod h1:VZbd2RCpKR2cbTGuLC1Esnyl1+KFv/jXBJrs/ijL8TA=
 github.com/quasilyte/gmath v0.0.0-20240205181328-bacb32a49519 h1:RoIV1CoaGicfTFi9kFQXyixux45+a9YKfdlR2iYg5kw=
@@ -32,6 +34,8 @@ github.com/quasilyte/gscene v0.0.0-20240310133750-c9071bff3e13 h1:mHxN36pUdAhK1Z
 github.com/quasilyte/gscene v0.0.0-20240310133750-c9071bff3e13/go.mod h1:0GWl/j4N+4rfBx2pb+TFn4pnPvGz5rkWY89KrBGt2Go=
 github.com/quasilyte/gsignal v0.0.0-20231010082051-3c00e9ebb4e5 h1:G6D9dfcBvveLmNi8B7de96/347Xk8rvTyhQb6uNwWPQ=
 github.com/quasilyte/gsignal v0.0.0-20231010082051-3c00e9ebb4e5/go.mod h1:qAMDDsI56AFnSrBZYG8Tj/Ys+sRsakd8Ho2be2S8Vfc=
+github.com/quasilyte/xm v0.0.0-20240228102732-966acb9af598 h1:TYqC2w+HzzBr+Si/HjoXT/OPfp4NQ5kZcSQDQcK9YUs=
+github.com/quasilyte/xm v0.0.0-20240228102732-966acb9af598/go.mod h1:NfR3uYC5yXgsGuSDHSXep+EiAPnNsa7/0jpWyGvRxng=
 golang.org/x/exp v0.0.0-20240222234643-814bf88cf225 h1:LfspQV/FYTatPTr/3HzIcmiUFH7PGP+OQ6mgDYo3yuQ=
 golang.org/x/exp v0.0.0-20240222234643-814bf88cf225/go.mod h1:CxmFvTBINI24O/j8iY7H1xHzx2i4OsyguNBmN/uPtqc=
 golang.org/x/image v0.15.0 h1:kOELfmgrmJlw4Cdb7g/QGuB3CvDrXbqEIww/pNtNBm8=

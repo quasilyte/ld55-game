@@ -1,11 +1,65 @@
 package assets
 
 import (
+	"fmt"
+	"io"
+	"strings"
+
 	resource "github.com/quasilyte/ebitengine-resource"
+	"github.com/quasilyte/xm"
+	"github.com/quasilyte/xm/xmfile"
 )
 
+const (
+	SoundGroupEffect uint = iota
+	SoundGroupMusic
+)
+
+func VolumeMultiplier(level int) float64 {
+	switch level {
+	case 1:
+		return 0.01
+	case 2:
+		return 0.05
+	case 3:
+		return 0.10
+	case 4:
+		return 0.3
+	case 5:
+		return 0.55
+	case 6:
+		return 0.8
+	case 7:
+		return 1.0
+	default:
+		return 0
+	}
+}
+
 func registerAudioResources(loader *resource.Loader) {
+	loader.CustomAudioLoader = func(r io.Reader, info resource.AudioInfo) io.ReadSeeker {
+		if !strings.HasSuffix(info.Path, ".xm") {
+			return nil
+		}
+		xmParser := xmfile.NewParser(xmfile.ParserConfig{})
+		m, err := xmParser.Parse(r)
+		if err != nil {
+			panic(fmt.Sprintf("parse %q module: %v", info.Path, err))
+		}
+		s := xm.NewStream()
+		s.SetLooping(true)
+		config := xm.LoadModuleConfig{
+			LinearInterpolation: true,
+		}
+		if err := s.LoadModule(m, config); err != nil {
+			panic(fmt.Sprintf("load %q module: %v", info.Path, err))
+		}
+		return s
+	}
+
 	resources := map[resource.AudioID]resource.AudioInfo{
+		AudioMusicMenu: {Path: "audio/music/menu.xm", Group: SoundGroupMusic},
+
 		AudioFireScatter1: {Path: "audio/scatter1.wav", Volume: -0.1},
 		AudioFireScatter2: {Path: "audio/scatter2.wav", Volume: -0.1},
 
@@ -83,4 +137,6 @@ const (
 	AudioFireFreezer3
 	AudioFireMissile1
 	AudioFireMissile2
+
+	AudioMusicMenu
 )
