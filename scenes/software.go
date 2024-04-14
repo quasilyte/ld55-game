@@ -8,6 +8,8 @@ import (
 	"github.com/ebitenui/ebitenui/widget"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
+	graphics "github.com/quasilyte/ebitengine-graphics"
+	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/game"
@@ -26,7 +28,13 @@ type SoftwareController struct {
 
 	slots [3][]*softwareSlot
 
-	instList []*softwareInstSlot
+	dragFrom gmath.Vec
+	dragTo   gmath.Vec
+	dragLine *graphics.Line
+
+	draggingInst  *softwareInstSlot
+	hoverInstSlot *softwareInstSlot
+	instList      []*softwareInstSlot
 }
 
 type softwareTab struct {
@@ -209,7 +217,9 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 					},
 					OnHoverEnd: func(sb *eui.SlotButton) {
 						sb.Label.Color = styles.NormalTextColor
-						c.hoverSlot = nil
+						if c.hoverSlot == slot {
+							c.hoverSlot = nil
+						}
 					},
 				})
 				slot.branchIndex = row
@@ -249,10 +259,12 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 				slotButton := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{
 					Tooltip: tt.Container,
 					OnHoverStart: func(sb *eui.SlotButton) {
-						// c.hoverSlot = slot
+						c.hoverInstSlot = slot
 					},
 					OnHoverEnd: func(sb *eui.SlotButton) {
-						// c.hoverSlot = nil
+						if c.hoverInstSlot == slot {
+							c.hoverInstSlot = nil
+						}
 					},
 				})
 				grid.AddChild(slotButton.Container)
@@ -267,6 +279,16 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 	root.AddChild(rows)
 
 	initUI(scene, root)
+
+	c.dragLine = graphics.NewLine(c.ctx.GraphicsCache,
+		gmath.Pos{Base: &c.dragFrom},
+		gmath.Pos{Base: &c.dragTo})
+	c.dragLine.SetVisibility(false)
+	c.dragLine.SetWidth(2)
+	dragLineColor := graphics.ColorScaleFromColor(styles.SelectedTextColor)
+	dragLineColor.A = 0.5
+	c.dragLine.SetColorScale(dragLineColor)
+	scene.AddGraphics(c.dragLine)
 
 	c.updateInstructionSlots()
 	c.updateInstBar()
@@ -490,7 +512,48 @@ func (c *SoftwareController) Update(delta float64) {
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+		return
 	}
+
+	c.handleDragAndDrop()
+}
+
+func (c *SoftwareController) handleDragAndDrop() {
+	if c.draggingInst == nil {
+		// Maybe start dragging.
+
+		if c.hoverInstSlot == nil {
+			return
+		}
+		if c.hoverInstSlot.inst.Info.Kind == game.NopInstruction {
+			return
+		}
+		if !inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
+			return
+		}
+		c.draggingInst = c.hoverInstSlot
+		buttonRect := c.hoverInstSlot.button.Button.GetWidget().Rect
+		c.dragFrom = gmath.Vec{
+			X: float64(buttonRect.Min.X + buttonRect.Dx()/2),
+			Y: float64(buttonRect.Min.Y + buttonRect.Dy()/2),
+		}
+		c.dragLine.SetVisibility(true)
+	}
+
+	cursorX, cursorY := ebiten.CursorPosition()
+	c.dragTo = gmath.Vec{X: float64(cursorX), Y: float64(cursorY)}
+	if !inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
+		return
+	}
+
+	if c.hoverSlot != nil {
+		inst := c.getSlotInst(c.hoverSlot)
+		*inst = c.draggingInst.inst
+		c.updateInstructionSlots()
+	}
+
+	c.draggingInst = nil
+	c.dragLine.SetVisibility(false)
 }
 
 func (c *SoftwareController) maybeRemoveSlot() bool {
