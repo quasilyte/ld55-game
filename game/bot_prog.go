@@ -132,6 +132,7 @@ const (
 
 	WaitInstruction
 	AimShotInstruction
+	TargetSpeedInstruction
 )
 
 type ProgInstructionInfo struct {
@@ -166,6 +167,7 @@ var InstOrder = []InstructionKind{
 	EnergyPercentInstruction,
 	HealthPercentInstruction,
 	DistanceToInstruction,
+	TargetSpeedInstruction,
 	WaitInstruction,
 
 	RotateToInstruction,
@@ -191,6 +193,7 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 		IsGtInstruction:          {Icon: assets.ImageIconIsGt, Param: true, MaxParam: 9999, DefaultParam: 50, Cond: true, Mask: anyThreadMask, StackChange: -1, StackInType: "float"},
 		IsOutBoundsInstruction:   {Icon: assets.ImageIconIsOutOfBounds, Cond: true, Mask: anyThreadMask, StackChange: -1, StackInType: "vec2"},
 		DistanceToInstruction:    {Icon: assets.ImageIconDistanceTo, Mask: anyThreadMask, StackChange: 0, StackInType: "vec2", StackOutType: "float"},
+		TargetSpeedInstruction:   {Icon: assets.ImageIconTargetSpeed, Mask: anyThreadMask, StackChange: 0, StackOutType: "float"},
 		HealthPercentInstruction: {Icon: assets.ImageIconSelfHealthPercent, Mask: anyThreadMask, StackChange: +1, StackOutType: "float"},
 		EnergyPercentInstruction: {Icon: assets.ImageIconSelfEnergyPercent, Mask: anyThreadMask, StackChange: +1, StackOutType: "float"},
 		WaitInstruction:          {Icon: assets.ImageIconWait, Mask: anyThreadMask, Param: true, MaxParam: 9999, DefaultParam: 30},

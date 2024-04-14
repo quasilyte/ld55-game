@@ -35,6 +35,7 @@ func registerImageResources(loader *resource.Loader) {
 		ImageIconSelfHealthPercent: {Path: "image/inst/self-hp-percent.png"},
 		ImageIconSelfEnergyPercent: {Path: "image/inst/self-energy-percent.png"},
 		ImageIconWait:              {Path: "image/inst/wait.png"},
+		ImageIconTargetSpeed:       {Path: "image/inst/target-speed.png"},
 
 		ImageIconSnapShot:   {Path: "image/inst/snap-shot.png"},
 		ImageIconNormalShot: {Path: "image/inst/normal-shot.png"},
@@ -104,6 +105,7 @@ const (
 	ImageIconSelfHealthPercent
 	ImageIconSelfEnergyPercent
 	ImageIconWait
+	ImageIconTargetSpeed
 
 	ImageItemEnergyShield
 	ImageItemKineticShield

@@ -505,6 +505,12 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction, instBar bool) st
 			"Push a target pos to the stack.",
 		}
 
+	case game.TargetSpeedInstruction:
+		lines = []string{
+			"Push a target speed to the stack.",
+			"Target speed is a velocity vector length.",
+		}
+
 	case game.ChanceInstruction:
 		lines = []string{
 			"Go to the next branch if roll fails.",
@@ -565,12 +571,14 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction, instBar bool) st
 		}
 	}
 
+	lines = append(lines, "", fmt.Sprintf("Stack signature: (%s) => (%s)", inst.Info.StackInType, inst.Info.StackOutType))
+
 	if !instBar {
 		if inst.Info.Param {
 			lines = append(lines, "", "Hover and start typing to change the value.")
 			lines = append(lines, "Right click to remove.")
 		} else {
-			lines = append(lines, "Right click to remove.")
+			lines = append(lines, "", "Right click to remove.")
 		}
 	}
 

@@ -247,6 +247,12 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 			tag:   "target pos",
 		})
 
+	case game.TargetSpeedInstruction:
+		t.stack.Push(stackValue{
+			value: e.vessel.Target.Velocity().Len(),
+			tag:   "target speed",
+		})
+
 	case game.CenterPosInstruction:
 		t.stack.Push(stackValue{
 			value: e.world.Size.Mulf(0.5),
