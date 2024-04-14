@@ -14,6 +14,8 @@ Theme: summoning
 
 TODO (top priority):
 
+* software
+  * auto-detect pop errors
 * hardware shop
   * select button widget
 * journal

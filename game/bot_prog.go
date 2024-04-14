@@ -102,29 +102,30 @@ type ProgInstructionInfo struct {
 	MaxParam     float64
 	DefaultParam float64
 
-	Param bool
-	Cond  bool
+	StackChange int
+	Param       bool
+	Cond        bool
 }
 
 var ProgInstInfoTab = func() []*ProgInstructionInfo {
 	insts := []*ProgInstructionInfo{
 		NopInstruction: {},
 
-		RandomPosInstruction:     {Icon: assets.ImageIconRandomPos, Mask: anyThreadMask},
+		RandomPosInstruction:     {Icon: assets.ImageIconRandomPos, Mask: anyThreadMask, StackChange: +1},
 		RandomOffsetInstruction:  {Icon: assets.ImageIconRandomOffset, Param: true, MaxParam: 999, DefaultParam: 32, Mask: anyThreadMask},
-		VesselPosInstruction:     {Icon: assets.ImageIconSelfPos, Mask: anyThreadMask},
-		TargetPosInstruction:     {Icon: assets.ImageIconTargetPos, Mask: anyThreadMask},
-		CenterPosInstruction:     {Icon: assets.ImageIconCenterPos, Mask: anyThreadMask},
+		VesselPosInstruction:     {Icon: assets.ImageIconSelfPos, Mask: anyThreadMask, StackChange: +1},
+		TargetPosInstruction:     {Icon: assets.ImageIconTargetPos, Mask: anyThreadMask, StackChange: +1},
+		CenterPosInstruction:     {Icon: assets.ImageIconCenterPos, Mask: anyThreadMask, StackChange: +1},
 		ChanceInstruction:        {Icon: assets.ImageIconRand, Param: true, MaxParam: 100, DefaultParam: 50, Cond: true, Mask: anyThreadMask},
-		IsLtInstruction:          {Icon: assets.ImageIconIsLt, Param: true, MaxParam: 9999, DefaultParam: 50, Cond: true, Mask: anyThreadMask},
-		IsGtInstruction:          {Icon: assets.ImageIconIsGt, Param: true, MaxParam: 9999, DefaultParam: 50, Cond: true, Mask: anyThreadMask},
-		DistanceToInstruction:    {Icon: assets.ImageIconDistanceTo, Mask: anyThreadMask},
+		IsLtInstruction:          {Icon: assets.ImageIconIsLt, Param: true, MaxParam: 9999, DefaultParam: 50, Cond: true, Mask: anyThreadMask, StackChange: -1},
+		IsGtInstruction:          {Icon: assets.ImageIconIsGt, Param: true, MaxParam: 9999, DefaultParam: 50, Cond: true, Mask: anyThreadMask, StackChange: -1},
+		DistanceToInstruction:    {Icon: assets.ImageIconDistanceTo, Mask: anyThreadMask, StackChange: -1},
 		HealthPercentInstruction: {Icon: assets.ImageIconSelfHealthPercent, Mask: anyThreadMask},
 		EnergyPercentInstruction: {Icon: assets.ImageIconSelfEnergyPercent, Mask: anyThreadMask},
 
-		RotateToInstruction:      {Icon: assets.ImageIconRotateTo, Mask: MovementThread},
+		RotateToInstruction:      {Icon: assets.ImageIconRotateTo, Mask: MovementThread, StackChange: -1},
 		MoveForwardInstruction:   {Icon: assets.ImageIconMoveForward, Param: true, MaxParam: 999, DefaultParam: 100, Mask: MovementThread},
-		MoveAndRotateInstruction: {Icon: assets.ImageIconMoveAndRotate, Param: true, MaxParam: 999, DefaultParam: 100, Mask: MovementThread},
+		MoveAndRotateInstruction: {Icon: assets.ImageIconMoveAndRotate, Param: true, MaxParam: 999, DefaultParam: 100, Mask: MovementThread, StackChange: -1},
 
 		SnapShotInstruction:   {Icon: assets.ImageIconSnapShot, Mask: anyWeaponMask},
 		NormalShotInstruction: {Icon: assets.ImageIconNormalShot, Mask: anyWeaponMask},

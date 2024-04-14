@@ -35,6 +35,8 @@ type SoftwareController struct {
 	draggingInst  *softwareInstSlot
 	hoverInstSlot *softwareInstSlot
 	instList      []*softwareInstSlot
+
+	hasErrors bool
 }
 
 type softwareTab struct {
@@ -52,6 +54,7 @@ type softwareInstSlot struct {
 type softwareSlot struct {
 	branchIndex      int
 	instructionIndex int
+	warning          *graphics.Sprite
 	tooltipText      *widget.Text
 	button           *eui.SlotButton
 }
@@ -184,7 +187,9 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 				"Save edits and go back.",
 			}, "\n")),
 			OnClick: func() {
-				game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+				if !c.hasErrors {
+					game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+				}
 			},
 		})
 		sysTabs.AddChild(saveButton)
@@ -222,10 +227,15 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 						}
 					},
 				})
+
+				warning := c.ctx.NewSprite(assets.ImageWarning)
+				warning.SetVisibility(false)
+
 				slot.branchIndex = row
 				slot.instructionIndex = col
 				slot.button = slotButton
 				slot.tooltipText = tt.Text
+				slot.warning = warning
 				c.slots[row] = append(c.slots[row], slot)
 				grid.AddChild(slotButton.Container)
 				if col != numCols-1 {
@@ -279,6 +289,12 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 	root.AddChild(rows)
 
 	initUI(scene, root)
+
+	for _, row := range c.slots {
+		for _, slot := range row {
+			scene.AddGraphics(slot.warning)
+		}
+	}
 
 	c.dragLine = graphics.NewLine(c.ctx.GraphicsCache,
 		gmath.Pos{Base: &c.dragFrom},
@@ -339,6 +355,27 @@ func (c *SoftwareController) updateInstructionSlots() {
 			b.tooltipText.Label = c.instDoc(inst, false)
 		}
 	}
+
+	// Now validate slots to reject programs that will crash at runtime.
+	hasErrors := false
+	for i, row := range c.slots {
+		stack := 0
+		branch := thread.Branches[i]
+		for j, slot := range row {
+			inst := branch.Instructions[j]
+			stack += inst.Info.StackChange
+			if stack < 0 && inst.Info.Kind != game.NopInstruction {
+				hasErrors = true
+				slot.warning.Pos.Offset = c.widgetPos(slot.button.Button.GetWidget()).Add(gmath.Vec{X: -20, Y: 16})
+				slot.warning.SetVisibility(true)
+				slot.tooltipText.Label += "\n\nError: argument stack is empty"
+			} else {
+				slot.warning.SetVisibility(false)
+			}
+		}
+	}
+
+	c.hasErrors = hasErrors
 }
 
 func (c *SoftwareController) getSlotInst(slot *softwareSlot) *game.ProgInstruction {
@@ -511,7 +548,9 @@ func (c *SoftwareController) Update(delta float64) {
 		return
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
-		game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+		if !c.hasErrors {
+			game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+		}
 		return
 	}
 
@@ -532,11 +571,7 @@ func (c *SoftwareController) handleDragAndDrop() {
 			return
 		}
 		c.draggingInst = c.hoverInstSlot
-		buttonRect := c.hoverInstSlot.button.Button.GetWidget().Rect
-		c.dragFrom = gmath.Vec{
-			X: float64(buttonRect.Min.X + buttonRect.Dx()/2),
-			Y: float64(buttonRect.Min.Y + buttonRect.Dy()/2),
-		}
+		c.dragFrom = c.widgetPos(c.hoverInstSlot.button.Button.GetWidget())
 		c.dragLine.SetVisibility(true)
 	}
 
@@ -554,6 +589,14 @@ func (c *SoftwareController) handleDragAndDrop() {
 
 	c.draggingInst = nil
 	c.dragLine.SetVisibility(false)
+}
+
+func (c *SoftwareController) widgetPos(w *widget.Widget) gmath.Vec {
+	r := w.Rect
+	return gmath.Vec{
+		X: float64(r.Min.X + r.Dx()/2),
+		Y: float64(r.Min.Y + r.Dy()/2),
+	}
 }
 
 func (c *SoftwareController) maybeRemoveSlot() bool {

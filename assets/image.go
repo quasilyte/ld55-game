@@ -37,6 +37,8 @@ func registerImageResources(loader *resource.Loader) {
 
 		ImageSpaceBg: {Path: "image/space_bg.png"},
 
+		ImageWarning: {Path: "image/warning.png"},
+
 		ImageProjectileLaser:  {Path: "image/ammo/laser_projectile.png"},
 		ImageProjectilePlasma: {Path: "image/ammo/plasma_projectile.png"},
 
@@ -78,6 +80,8 @@ const (
 	ImageIconRand
 	ImageIconSelfHealthPercent
 	ImageIconSelfEnergyPercent
+
+	ImageWarning
 
 	ImageIconSnapShot
 	ImageIconNormalShot
