@@ -20,10 +20,10 @@ type BotProg struct {
 
 func NewBotProg() *BotProg {
 	return &BotProg{
-		MovementThread: &ProgThread{},
-		Weapon1Thread:  &ProgThread{},
-		Weapon2Thread:  &ProgThread{},
-		DefThread:      &ProgThread{},
+		MovementThread: &ProgThread{Kind: MovementThread},
+		Weapon1Thread:  &ProgThread{Kind: Weapon1Thread},
+		Weapon2Thread:  &ProgThread{Kind: Weapon2Thread},
+		DefThread:      &ProgThread{Kind: DefThread},
 	}
 }
 

@@ -124,7 +124,7 @@ func (n *vesselNode) processWeapons(delta float64) {
 
 	for _, c := range n.commands.FireCommands {
 		if c.WeaponIndex >= uint(len(n.data.Design.Weapons)) {
-			fmt.Printf("warning: invalid weapon index")
+			fmt.Printf("warning: invalid weapon index %d\n", c.WeaponIndex)
 			continue
 		}
 
