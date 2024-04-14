@@ -14,7 +14,8 @@ import (
 type vesselNode struct {
 	scene *scene
 
-	data *game.Vessel
+	data  *game.Vessel
+	world *game.World
 
 	sprite *graphics.Sprite
 	aura   *graphics.Rect
@@ -22,9 +23,10 @@ type vesselNode struct {
 	commands progsim.VesselCommands
 }
 
-func newVesselNode(data *game.Vessel) *vesselNode {
+func newVesselNode(world *game.World, data *game.Vessel) *vesselNode {
 	return &vesselNode{
-		data: data,
+		world: world,
+		data:  data,
 	}
 }
 
@@ -68,6 +70,14 @@ func (n *vesselNode) SetCommands(c progsim.VesselCommands) {
 }
 
 func (n *vesselNode) Update(delta float64) {
+	{
+		rect := gmath.Rect{Max: n.world.Size}
+		if !rect.Contains(n.data.Pos) {
+			dmg := game.Damage{Thermal: 2 * delta}
+			n.data.OnDamage(dmg, nil)
+		}
+	}
+
 	n.data.Energy = gmath.ClampMax(n.data.Energy+(n.data.Design.EnergyRegen*delta), n.data.Design.MaxEnergy)
 
 	n.processRotation(delta)

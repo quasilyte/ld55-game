@@ -82,6 +82,9 @@ func (p *projectileNode) detonate() {
 		if p.target.Health > 0 {
 			p.target.OnDamage(p.data.Weapon.Damage, p.owner)
 			p.createImpactEffect()
+			if p.data.Weapon.Name == "Pusher" {
+				p.target.ExtraVelocity = p.target.ExtraVelocity.Add(p.velocity.Mulf(0.2))
+			}
 		}
 	}
 	p.Dispose()

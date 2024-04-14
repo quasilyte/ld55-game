@@ -34,6 +34,8 @@ type WeaponDesign struct {
 
 	FiringType WeaponFiringType
 
+	CollisionCheck bool
+
 	FireSound resource.AudioID
 
 	MaxRange float64
@@ -71,6 +73,22 @@ type Projectile struct {
 }
 
 var WeaponDesignList = []*WeaponDesign{
+	{
+		Name:                 "Pusher",
+		EnergyCost:           10,
+		Reload:               2.0,
+		Damage:               Damage{Energy: 2, Kinetic: 2},
+		FiringType:           TargetableWeapon,
+		FireSound:            assets.AudioFirePusher1,
+		ProjectileImage:      assets.ImageProjectilePusher,
+		ProjectileSpeed:      500,
+		MaxRange:             240,
+		ProjectileImpactArea: 8,
+		CollisionCheck:       true,
+		ImpactImage:          assets.ImageImpactPusher,
+		Burst:                1,
+	},
+
 	{
 		Name:                 "Scatter Gun",
 		EnergyCost:           0,
@@ -143,6 +161,7 @@ var WeaponDesignList = []*WeaponDesign{
 		ProjectileSpeed:      420,
 		MaxRange:             400,
 		ProjectileImpactArea: 8,
+		CollisionCheck:       true,
 		ImpactImage:          assets.ImageImpactLancer,
 		Burst:                1,
 	},

@@ -156,6 +156,11 @@ func (c *HardwareController) weaponDoc(wd *game.WeaponDesign) string {
 	var lines []string
 
 	switch wd.Name {
+	case "Pusher":
+		lines = []string{
+			"Every hit from this cannon pushes the target.",
+			"Remember: vessels take damage when out-of-bounds.",
+		}
 	case "Scatter Gun":
 		lines = []string{
 			"A low-tech weapon that doesn't need energy to fire.",

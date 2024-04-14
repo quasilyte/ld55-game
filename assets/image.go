@@ -47,11 +47,13 @@ func registerImageResources(loader *resource.Loader) {
 		ImageProjectilePlasma:  {Path: "image/ammo/plasma_projectile.png"},
 		ImageProjectileIon:     {Path: "image/ammo/ion_projectile.png"},
 		ImageProjectileLancer:  {Path: "image/ammo/lancer_projectile.png"},
+		ImageProjectilePusher:  {Path: "image/ammo/pusher_projectile.png"},
 
 		ImageImpactLaser:  {Path: "image/effects/laser_impact.png", FrameWidth: 10},
 		ImageImpactPlasma: {Path: "image/effects/plasma_impact.png", FrameWidth: 11},
 		ImageImpactIon:    {Path: "image/effects/ion_impact.png", FrameWidth: 5},
 		ImageImpactLancer: {Path: "image/effects/lancer_impact.png", FrameWidth: 8},
+		ImageImpactPusher: {Path: "image/effects/pusher_impact.png", FrameWidth: 20},
 
 		ImageVesselNormal1: {Path: "image/vessel/normal1.png"},
 		ImageVesselLarge1:  {Path: "image/vessel/large1.png"},
@@ -105,11 +107,13 @@ const (
 	ImageProjectilePlasma
 	ImageProjectileIon
 	ImageProjectileLancer
+	ImageProjectilePusher
 
 	ImageImpactLaser
 	ImageImpactPlasma
 	ImageImpactIon
 	ImageImpactLancer
+	ImageImpactPusher
 
 	ImageVesselNormal1
 	ImageVesselLarge1

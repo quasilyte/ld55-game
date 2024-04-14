@@ -95,7 +95,7 @@ func (r *Runner) Init() {
 	r.world.Rand.SetSeed(time.Now().Unix())
 
 	{
-		playerVesselNode := newVesselNode(playerVessel)
+		playerVesselNode := newVesselNode(r.world, playerVessel)
 		r.vessels = append(r.vessels, playerVesselNode)
 		r.scene.AddObject(playerVesselNode)
 
@@ -107,7 +107,7 @@ func (r *Runner) Init() {
 		r.executors = append(r.executors, e)
 	}
 	{
-		enemyVesselNode := newVesselNode(enemyVessel)
+		enemyVesselNode := newVesselNode(r.world, enemyVessel)
 		r.vessels = append(r.vessels, enemyVesselNode)
 		r.scene.AddObject(enemyVesselNode)
 
@@ -134,12 +134,15 @@ func (r *Runner) Init() {
 			})
 		}
 
-		v.data.EventOnDamage.Connect(nil, func(dmg float64) {
+		v.data.EventOnDamage.Connect(nil, func(data game.OnDamageData) {
+			if data.Attacker == nil {
+				return
+			}
 			clr := styles.AlliedColor
 			if v.data.Alliance == 0 {
 				clr = styles.EnemyColor
 			}
-			s := fmt.Sprintf("%.1f", dmg)
+			s := fmt.Sprintf("%.1f", data.Total)
 			ft := newFloatingTextNode(v.data.Pos, s, clr)
 			r.scene.AddObject(ft)
 		})

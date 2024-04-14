@@ -28,8 +28,13 @@ type Vessel struct {
 
 	Design VesselDesign
 
-	EventOnDamage  gsignal.Event[float64]
+	EventOnDamage  gsignal.Event[OnDamageData]
 	EventDestroyed gsignal.Event[*Vessel] // Vessel arg is attacker
+}
+
+type OnDamageData struct {
+	Total    float64
+	Attacker *Vessel
 }
 
 func (v *Vessel) Velocity() gmath.Vec {
@@ -41,7 +46,10 @@ func (v *Vessel) OnDamage(d Damage, attacker *Vessel) {
 		((1.0 - v.Design.KineticResist) * d.Kinetic) +
 		((1.0 - v.Design.ThermalResist) * d.Thermal)
 	if totalDamage > 0 {
-		v.EventOnDamage.Emit(totalDamage)
+		v.EventOnDamage.Emit(OnDamageData{
+			Total:    totalDamage,
+			Attacker: attacker,
+		})
 		v.Health = gmath.ClampMin(v.Health-totalDamage, 0)
 		if v.Health == 0 {
 			v.EventDestroyed.Emit(attacker)
