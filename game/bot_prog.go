@@ -76,6 +76,7 @@ const (
 	ChanceInstruction
 	IsLtInstruction
 	IsGtInstruction
+	IsOutBoundsInstruction
 	EnergyPercentInstruction
 	HealthPercentInstruction
 	DistanceToInstruction
@@ -121,6 +122,7 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 		ChanceInstruction:        {Icon: assets.ImageIconRand, Param: true, MaxParam: 100, DefaultParam: 50, Cond: true, Mask: anyThreadMask},
 		IsLtInstruction:          {Icon: assets.ImageIconIsLt, Param: true, MaxParam: 9999, DefaultParam: 50, Cond: true, Mask: anyThreadMask, StackChange: -1, StackInType: "float"},
 		IsGtInstruction:          {Icon: assets.ImageIconIsGt, Param: true, MaxParam: 9999, DefaultParam: 50, Cond: true, Mask: anyThreadMask, StackChange: -1, StackInType: "float"},
+		IsOutBoundsInstruction:   {Icon: assets.ImageIconIsOutOfBounds, Cond: true, Mask: anyThreadMask, StackChange: -1, StackInType: "vec2"},
 		DistanceToInstruction:    {Icon: assets.ImageIconDistanceTo, Mask: anyThreadMask, StackChange: 0, StackInType: "vec2", StackOutType: "float"},
 		HealthPercentInstruction: {Icon: assets.ImageIconSelfHealthPercent, Mask: anyThreadMask, StackChange: +1, StackOutType: "float"},
 		EnergyPercentInstruction: {Icon: assets.ImageIconSelfEnergyPercent, Mask: anyThreadMask, StackChange: +1, StackOutType: "float"},

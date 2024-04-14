@@ -29,6 +29,7 @@ func registerImageResources(loader *resource.Loader) {
 		ImageIconCenterPos:         {Path: "image/inst/center-pos.png"},
 		ImageIconIsLt:              {Path: "image/inst/is-lt.png"},
 		ImageIconIsGt:              {Path: "image/inst/is-gt.png"},
+		ImageIconIsOutOfBounds:     {Path: "image/inst/is-out-of-bounds.png"},
 		ImageIconRandomOffset:      {Path: "image/inst/random-offset.png"},
 		ImageIconRand:              {Path: "image/inst/rand.png"},
 		ImageIconSelfHealthPercent: {Path: "image/inst/self-hp-percent.png"},
@@ -86,6 +87,7 @@ const (
 	ImageIconSelfPos
 	ImageIconIsLt
 	ImageIconIsGt
+	ImageIconIsOutOfBounds
 	ImageIconRandomOffset
 	ImageIconRand
 	ImageIconSelfHealthPercent

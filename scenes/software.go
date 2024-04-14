@@ -527,6 +527,12 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction, instBar bool) st
 			"whether it's greater than the value specified.",
 			"If not, go to the next branch.",
 		}
+	case game.IsOutBoundsInstruction:
+		lines = []string{
+			"Pop a top stack position value and check",
+			"whether it is out of arena bounds.",
+			"If it's not out-of-bounds, go to the next branch.",
+		}
 
 	case game.SnapShotInstruction:
 		lines = []string{

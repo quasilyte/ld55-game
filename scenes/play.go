@@ -83,7 +83,7 @@ func (c *PlayController) createDefaultVesselDesign() {
 		game.FindWeaponDesignByName("Plasma Cannon"),
 	}
 
-	s.VesselDesign = game.FindVesselDesignByName("Scorpion")
+	s.VesselDesign = game.FindVesselDesignByName("Fighter")
 }
 
 func (c *PlayController) createDefaultProg() {

@@ -272,6 +272,13 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 			return instCancelled
 		}
 
+	case game.IsOutBoundsInstruction:
+		p := t.stack.PopVec()
+		rect := gmath.Rect{Max: e.world.Size}
+		if rect.Contains(p) {
+			return instCancelled
+		}
+
 	case game.DistanceToInstruction:
 		p := t.stack.PopVec()
 		dist := p.DistanceTo(e.vessel.Pos)
