@@ -41,11 +41,15 @@ func (p *BotProg) EachThread(f func(i int, t *ProgThread)) {
 type ThreadKind int
 
 const (
-	UnknownThread ThreadKind = iota
-	MovementThread
+	MovementThread ThreadKind = 1 << iota
 	Weapon1Thread
 	Weapon2Thread
 	DefThread
+)
+
+const (
+	anyThreadMask = MovementThread | Weapon1Thread | Weapon2Thread | DefThread
+	anyWeaponMask = Weapon1Thread | Weapon2Thread
 )
 
 type ProgThread struct {
@@ -93,7 +97,10 @@ type ProgInstructionInfo struct {
 
 	Icon resource.ImageID
 
-	MaxParam float64
+	Mask ThreadKind
+
+	MaxParam     float64
+	DefaultParam float64
 
 	Param bool
 	Cond  bool
@@ -103,24 +110,24 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 	insts := []*ProgInstructionInfo{
 		NopInstruction: {},
 
-		RandomPosInstruction:     {Icon: assets.ImageIconRandomPos},
-		RandomOffsetInstruction:  {Param: true, MaxParam: 999},
-		VesselPosInstruction:     {},
-		TargetPosInstruction:     {Icon: assets.ImageIconTargetPos},
-		CenterPosInstruction:     {},
-		ChanceInstruction:        {Param: true, MaxParam: 100, Cond: true},
-		IsLtInstruction:          {Icon: assets.ImageIconIsLt, Param: true, MaxParam: 9999, Cond: true},
-		IsGtInstruction:          {Icon: assets.ImageIconIsGt, Param: true, MaxParam: 9999, Cond: true},
-		DistanceToInstruction:    {Icon: assets.ImageIconDistanceTo},
-		HealthPercentInstruction: {},
-		EnergyPercentInstruction: {},
+		RandomPosInstruction:     {Icon: assets.ImageIconRandomPos, Mask: anyThreadMask},
+		RandomOffsetInstruction:  {Icon: assets.ImageIconRandomOffset, Param: true, MaxParam: 999, DefaultParam: 32, Mask: anyThreadMask},
+		VesselPosInstruction:     {Icon: assets.ImageIconSelfPos, Mask: anyThreadMask},
+		TargetPosInstruction:     {Icon: assets.ImageIconTargetPos, Mask: anyThreadMask},
+		CenterPosInstruction:     {Icon: assets.ImageIconCenterPos, Mask: anyThreadMask},
+		ChanceInstruction:        {Icon: assets.ImageIconRand, Param: true, MaxParam: 100, DefaultParam: 50, Cond: true, Mask: anyThreadMask},
+		IsLtInstruction:          {Icon: assets.ImageIconIsLt, Param: true, MaxParam: 9999, DefaultParam: 50, Cond: true, Mask: anyThreadMask},
+		IsGtInstruction:          {Icon: assets.ImageIconIsGt, Param: true, MaxParam: 9999, DefaultParam: 50, Cond: true, Mask: anyThreadMask},
+		DistanceToInstruction:    {Icon: assets.ImageIconDistanceTo, Mask: anyThreadMask},
+		HealthPercentInstruction: {Icon: assets.ImageIconSelfHealthPercent, Mask: anyThreadMask},
+		EnergyPercentInstruction: {Icon: assets.ImageIconSelfEnergyPercent, Mask: anyThreadMask},
 
-		RotateToInstruction:      {Icon: assets.ImageIconRotateTo},
-		MoveForwardInstruction:   {Param: true, MaxParam: 999, Icon: assets.ImageIconMoveForward},
-		MoveAndRotateInstruction: {Param: true, MaxParam: 999},
+		RotateToInstruction:      {Icon: assets.ImageIconRotateTo, Mask: MovementThread},
+		MoveForwardInstruction:   {Icon: assets.ImageIconMoveForward, Param: true, MaxParam: 999, DefaultParam: 100, Mask: MovementThread},
+		MoveAndRotateInstruction: {Icon: assets.ImageIconMoveAndRotate, Param: true, MaxParam: 999, DefaultParam: 100, Mask: MovementThread},
 
-		SnapShotInstruction:   {Icon: assets.ImageIconSnapShot},
-		NormalShotInstruction: {},
+		SnapShotInstruction:   {Icon: assets.ImageIconSnapShot, Mask: anyWeaponMask},
+		NormalShotInstruction: {Icon: assets.ImageIconNormalShot, Mask: anyWeaponMask},
 	}
 
 	for kind, inst := range insts {

@@ -25,12 +25,20 @@ type SoftwareController struct {
 	tabs        []*softwareTab
 
 	slots [3][]*softwareSlot
+
+	instList []*softwareInstSlot
 }
 
 type softwareTab struct {
 	index  int
 	button *widget.Button
 	thread *game.ProgThread
+}
+
+type softwareInstSlot struct {
+	inst        game.ProgInstruction
+	tooltipText *widget.Text
+	button      *eui.SlotButton
 }
 
 type softwareSlot struct {
@@ -220,11 +228,75 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 
 	rows.AddChild(eui.NewSeparator(nil, styles.DisabledTextColor))
 
+	{
+		numCols := game.MaxInstructions + 2
+		numRows := 2
+		grid := widget.NewContainer(
+			widget.ContainerOpts.Layout(widget.NewGridLayout(
+				widget.GridLayoutOpts.Columns(numCols),
+				widget.GridLayoutOpts.Spacing(0, 14),
+			)),
+			widget.ContainerOpts.WidgetOpts(
+				widget.WidgetOpts.LayoutData(widget.GridLayoutData{
+					HorizontalPosition: widget.GridLayoutPositionCenter,
+				}),
+			),
+		)
+		for row := 0; row < numRows; row++ {
+			for col := 0; col < numCols; col++ {
+				tt := eui.NewTooltip(uiRes, "")
+				slot := &softwareInstSlot{}
+				slotButton := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{
+					Tooltip: tt.Container,
+					OnHoverStart: func(sb *eui.SlotButton) {
+						// c.hoverSlot = slot
+					},
+					OnHoverEnd: func(sb *eui.SlotButton) {
+						// c.hoverSlot = nil
+					},
+				})
+				grid.AddChild(slotButton.Container)
+				slot.tooltipText = tt.Text
+				slot.button = slotButton
+				c.instList = append(c.instList, slot)
+			}
+		}
+		rows.AddChild(grid)
+	}
+
 	root.AddChild(rows)
 
 	initUI(scene, root)
 
 	c.updateInstructionSlots()
+	c.updateInstBar()
+}
+
+func (c *SoftwareController) updateInstBar() {
+	thread := c.selectedTab.thread
+
+	index := 0
+	for _, instInfo := range game.ProgInstInfoTab {
+		if instInfo.Mask&thread.Kind == 0 {
+			continue
+		}
+		c.instList[index].inst = game.MakeInst(instInfo.Kind, instInfo.DefaultParam)
+		index++
+	}
+
+	for index < len(c.instList) {
+		c.instList[index].inst = game.MakeInst(game.NopInstruction, 0)
+		index++
+	}
+
+	for _, slot := range c.instList {
+		slot.tooltipText.Label = c.instDoc(slot.inst, true)
+		if slot.inst.Info.Icon != assets.ImageNone {
+			slot.button.Icon.Image = c.ctx.Loader.LoadImage(slot.inst.Info.Icon).Data
+		} else {
+			slot.button.Icon.Image = nil
+		}
+	}
 }
 
 func (c *SoftwareController) updateInstructionSlots() {
@@ -237,12 +309,12 @@ func (c *SoftwareController) updateInstructionSlots() {
 			if inst.Info.Kind == game.NopInstruction {
 				b.button.Icon.Image = nil
 				b.button.Label.Label = ""
-				b.tooltipText.Label = c.instDoc(inst)
+				b.tooltipText.Label = c.instDoc(inst, false)
 				continue
 			}
 			b.button.Icon.Image = c.ctx.Loader.LoadImage(inst.Info.Icon).Data
 			b.button.Label.Label = c.formatInstParam(inst)
-			b.tooltipText.Label = c.instDoc(inst)
+			b.tooltipText.Label = c.instDoc(inst, false)
 		}
 	}
 }
@@ -263,6 +335,7 @@ func (c *SoftwareController) selectTab(index int) {
 	}
 
 	c.updateInstructionSlots()
+	c.updateInstBar()
 }
 
 func (c *SoftwareController) formatInstParam(inst game.ProgInstruction) string {
@@ -282,7 +355,7 @@ func (c *SoftwareController) formatInstParam(inst game.ProgInstruction) string {
 	}
 }
 
-func (c *SoftwareController) instDoc(inst game.ProgInstruction) string {
+func (c *SoftwareController) instDoc(inst game.ProgInstruction, instBar bool) string {
 	var lines []string
 
 	switch inst.Info.Kind {
@@ -343,11 +416,13 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction) string {
 		}
 	}
 
-	if inst.Info.Param {
-		lines = append(lines, "", "Hover and start typing to change the value.")
-		lines = append(lines, "Right click to remove.")
-	} else {
-		lines = append(lines, "Right click to remove.")
+	if !instBar {
+		if inst.Info.Param {
+			lines = append(lines, "", "Hover and start typing to change the value.")
+			lines = append(lines, "Right click to remove.")
+		} else {
+			lines = append(lines, "Right click to remove.")
+		}
 	}
 
 	return strings.Join(lines, "\n")

@@ -17,14 +17,23 @@ func registerImageResources(loader *resource.Loader) {
 		ImageUISlotHover:      {Path: "image/slot-hover.png"},
 		ImageUISlotDisabled:   {Path: "image/slot-disabled.png"},
 
-		ImageIconRandomPos:   {Path: "image/inst/random-pos.png"},
-		ImageIconRotateTo:    {Path: "image/inst/rotate-to.png"},
-		ImageIconMoveForward: {Path: "image/inst/move-forward.png"},
-		ImageIconDistanceTo:  {Path: "image/inst/distance-to.png"},
-		ImageIconTargetPos:   {Path: "image/inst/target-pos.png"},
-		ImageIconIsLt:        {Path: "image/inst/is-lt.png"},
-		ImageIconIsGt:        {Path: "image/inst/is-gt.png"},
-		ImageIconSnapShot:    {Path: "image/inst/snap-shot.png"},
+		ImageIconRandomPos:         {Path: "image/inst/random-pos.png"},
+		ImageIconRotateTo:          {Path: "image/inst/rotate-to.png"},
+		ImageIconMoveForward:       {Path: "image/inst/move-forward.png"},
+		ImageIconMoveAndRotate:     {Path: "image/inst/move-and-rotate.png"},
+		ImageIconDistanceTo:        {Path: "image/inst/distance-to.png"},
+		ImageIconTargetPos:         {Path: "image/inst/target-pos.png"},
+		ImageIconSelfPos:           {Path: "image/inst/self-pos.png"},
+		ImageIconCenterPos:         {Path: "image/inst/center-pos.png"},
+		ImageIconIsLt:              {Path: "image/inst/is-lt.png"},
+		ImageIconIsGt:              {Path: "image/inst/is-gt.png"},
+		ImageIconRandomOffset:      {Path: "image/inst/random-offset.png"},
+		ImageIconRand:              {Path: "image/inst/rand.png"},
+		ImageIconSelfHealthPercent: {Path: "image/inst/self-hp-percent.png"},
+		ImageIconSelfEnergyPercent: {Path: "image/inst/self-energy-percent.png"},
+
+		ImageIconSnapShot:   {Path: "image/inst/snap-shot.png"},
+		ImageIconNormalShot: {Path: "image/inst/normal-shot.png"},
 
 		ImageSpaceBg: {Path: "image/space_bg.png"},
 
@@ -58,11 +67,20 @@ const (
 	ImageIconRandomPos
 	ImageIconRotateTo
 	ImageIconMoveForward
+	ImageIconMoveAndRotate
 	ImageIconDistanceTo
 	ImageIconTargetPos
+	ImageIconCenterPos
+	ImageIconSelfPos
 	ImageIconIsLt
 	ImageIconIsGt
+	ImageIconRandomOffset
+	ImageIconRand
+	ImageIconSelfHealthPercent
+	ImageIconSelfEnergyPercent
+
 	ImageIconSnapShot
+	ImageIconNormalShot
 
 	ImageSpaceBg
 
