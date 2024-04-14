@@ -131,6 +131,7 @@ const (
 	// have time to fix save/load.
 
 	WaitInstruction
+	AimShotInstruction
 )
 
 type ProgInstructionInfo struct {
@@ -148,6 +149,32 @@ type ProgInstructionInfo struct {
 	StackChange  int
 	Param        bool
 	Cond         bool
+}
+
+var InstOrder = []InstructionKind{
+	NopInstruction,
+
+	RandomPosInstruction,
+	RandomOffsetInstruction,
+	VesselPosInstruction,
+	TargetPosInstruction,
+	CenterPosInstruction,
+	ChanceInstruction,
+	IsLtInstruction,
+	IsGtInstruction,
+	IsOutBoundsInstruction,
+	EnergyPercentInstruction,
+	HealthPercentInstruction,
+	DistanceToInstruction,
+	WaitInstruction,
+
+	RotateToInstruction,
+	MoveForwardInstruction,
+	MoveAndRotateInstruction,
+
+	SnapShotInstruction,
+	NormalShotInstruction,
+	AimShotInstruction,
 }
 
 var ProgInstInfoTab = func() []*ProgInstructionInfo {
@@ -174,6 +201,7 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 
 		SnapShotInstruction:   {Icon: assets.ImageIconSnapShot, Mask: anyWeaponMask},
 		NormalShotInstruction: {Icon: assets.ImageIconNormalShot, Mask: anyWeaponMask},
+		AimShotInstruction:    {Icon: assets.ImageIconAimShot, Mask: anyWeaponMask},
 	}
 
 	for kind, inst := range insts {

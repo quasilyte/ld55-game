@@ -317,7 +317,8 @@ func (c *SoftwareController) updateInstBar() {
 	thread := c.selectedTab.thread
 
 	index := 0
-	for _, instInfo := range game.ProgInstInfoTab {
+	for _, k := range game.InstOrder {
+		instInfo := game.ProgInstInfoTab[k]
 		if instInfo.Mask&thread.Kind == 0 {
 			continue
 		}

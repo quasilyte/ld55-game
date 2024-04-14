@@ -38,6 +38,7 @@ func registerImageResources(loader *resource.Loader) {
 
 		ImageIconSnapShot:   {Path: "image/inst/snap-shot.png"},
 		ImageIconNormalShot: {Path: "image/inst/normal-shot.png"},
+		ImageIconAimShot:    {Path: "image/inst/aim-shot.png"},
 
 		ImageSpaceBg: {Path: "image/space_bg.png"},
 
@@ -110,6 +111,7 @@ const (
 
 	ImageIconSnapShot
 	ImageIconNormalShot
+	ImageIconAimShot
 
 	ImageSpaceBg
 

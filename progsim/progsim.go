@@ -363,6 +363,17 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 			WeaponIndex:      uint(weaponIndex),
 			TargetPos:        e.vessel.Target.Pos,
 		})
+
+	case game.AimShotInstruction:
+		weaponIndex := t.weaponIndex()
+		w := e.vessel.Weapons[weaponIndex]
+		targetVelocity := e.vessel.Target.Velocity().Mulf(e.rand.FloatRange(0.9, 1.1))
+		targetPos := snipePos(w.Design.ProjectileSpeed, e.vessel.Pos, e.vessel.Target.Pos, targetVelocity)
+		e.commands.FireCommands = append(e.commands.FireCommands, VesselFireCommand{
+			ReloadMultiplier: 2.0,
+			WeaponIndex:      uint(weaponIndex),
+			TargetPos:        targetPos,
+		})
 	}
 
 	return instFinished

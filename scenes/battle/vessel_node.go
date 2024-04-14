@@ -181,6 +181,6 @@ func (n *vesselNode) processWeapons(delta float64) {
 		}
 
 		n.data.Energy -= w.Design.EnergyCost
-		w.Reload = w.Design.Reload
+		w.Reload = w.Design.Reload * c.ReloadMultiplier
 	}
 }
