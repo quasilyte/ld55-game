@@ -102,7 +102,7 @@ var WeaponDesignList = []*WeaponDesign{
 		ProjectileSpeed:      300,
 		MaxRange:             240,
 		ProjectileImpactArea: 5,
-		Burst:                6,
+		Burst:                7,
 	},
 
 	{
@@ -125,7 +125,7 @@ var WeaponDesignList = []*WeaponDesign{
 		Name:                 "Ion Cannon",
 		EnergyCost:           4,
 		Reload:               0.5,
-		Damage:               Damage{Energy: 1, DrainEnergy: 6},
+		Damage:               Damage{Energy: 1, DrainEnergy: 8},
 		FiringType:           TargetableWeapon,
 		FireSound:            assets.AudioFireIon1,
 		ProjectileImage:      assets.ImageProjectileIon,

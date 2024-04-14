@@ -191,6 +191,7 @@ func (r *Runner) Init() {
 		})
 
 		v.data.EventDestroyed.Connect(nil, func(attacker *game.Vessel) {
+			r.EventBattleOver.Emit(v.data.Alliance == 1)
 			v.Dispose()
 		})
 	}

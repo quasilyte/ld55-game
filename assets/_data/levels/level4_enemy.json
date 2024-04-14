@@ -1,0 +1,141 @@
+{
+ "Weapons": [
+  "Freezer",
+  "Missile Launcher"
+ ],
+ "VesselDesign": "Machpella",
+ "Artifact": "T-Shield",
+ "Prog": {
+  "MovementThread": {
+   "Kind": 1,
+   "Branches": [
+    {
+     "Instructions": [
+      {
+       "Tag": 6,
+       "Param": 25
+      },
+      {
+       "Tag": 18,
+       "Param": 30
+      }
+     ]
+    },
+    {
+     "Instructions": [
+      {
+       "Tag": 6,
+       "Param": 15
+      },
+      {
+       "Tag": 5,
+       "Param": 0
+      },
+      {
+       "Tag": 2,
+       "Param": 200
+      },
+      {
+       "Tag": 13,
+       "Param": 0
+      },
+      {
+       "Tag": 14,
+       "Param": 75
+      },
+      {
+       "Tag": 18,
+       "Param": 15
+      }
+     ]
+    },
+    {
+     "Instructions": [
+      {
+       "Tag": 4,
+       "Param": 0
+      },
+      {
+       "Tag": 13,
+       "Param": 0
+      }
+     ]
+    }
+   ]
+  },
+  "Weapon1Thread": {
+   "Kind": 2,
+   "Branches": [
+    {
+     "Instructions": [
+      {
+       "Tag": 6,
+       "Param": 50
+      },
+      {
+       "Tag": 18,
+       "Param": 30
+      }
+     ]
+    },
+    {
+     "Instructions": [
+      {
+       "Tag": 4,
+       "Param": 0
+      },
+      {
+       "Tag": 12,
+       "Param": 0
+      },
+      {
+       "Tag": 7,
+       "Param": 275
+      },
+      {
+       "Tag": 20,
+       "Param": 0
+      },
+      {
+       "Tag": 8,
+       "Param": 80
+      },
+      {
+       "Tag": 19,
+       "Param": 0
+      }
+     ]
+    }
+   ]
+  },
+  "Weapon2Thread": {
+   "Kind": 4,
+   "Branches": [
+    {
+     "Instructions": [
+      {
+       "Tag": 4,
+       "Param": 0
+      },
+      {
+       "Tag": 12,
+       "Param": 0
+      },
+      {
+       "Tag": 7,
+       "Param": 300
+      },
+      {
+       "Tag": 16,
+       "Param": 0
+      }
+     ]
+    }
+   ]
+  },
+  "DefThread": {
+   "Kind": 8,
+   "Branches": null
+  }
+ }
+}

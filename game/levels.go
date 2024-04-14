@@ -12,8 +12,10 @@ type Level struct {
 
 var Levels = []*Level{
 	{
-		Dist:  96,
-		Enemy: assets.RawLevel1EnemyJSON,
+		// Dist:  160,
+		// Enemy: assets.RawLevel1EnemyJSON,
+		Dist:  320,
+		Enemy: assets.RawLevel5EnemyJSON,
 	},
 	{
 		Dist:  64,
@@ -22,5 +24,13 @@ var Levels = []*Level{
 	{
 		Dist:  256,
 		Enemy: assets.RawLevel3EnemyJSON,
+	},
+	{
+		Dist:  32,
+		Enemy: assets.RawLevel4EnemyJSON,
+	},
+	{
+		Dist:  320,
+		Enemy: assets.RawLevel5EnemyJSON,
 	},
 }

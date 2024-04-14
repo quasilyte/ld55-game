@@ -1,0 +1,181 @@
+{
+ "Weapons": [
+  "Scatter Gun",
+  "Ion Cannon"
+ ],
+ "VesselDesign": "Destroyer",
+ "Artifact": "E-Shield",
+ "Prog": {
+  "MovementThread": {
+   "Kind": 1,
+   "Branches": [
+    {
+     "Instructions": [
+      {
+       "Tag": 6,
+       "Param": 20
+      },
+      {
+       "Tag": 18,
+       "Param": 30
+      }
+     ]
+    },
+    {
+     "Instructions": [
+      {
+       "Tag": 6,
+       "Param": 30
+      },
+      {
+       "Tag": 4,
+       "Param": 0
+      },
+      {
+       "Tag": 13,
+       "Param": 0
+      },
+      {
+       "Tag": 4,
+       "Param": 0
+      },
+      {
+       "Tag": 15,
+       "Param": 60
+      }
+     ]
+    },
+    {
+     "Instructions": [
+      {
+       "Tag": 4,
+       "Param": 0
+      },
+      {
+       "Tag": 9,
+       "Param": 0
+      },
+      {
+       "Tag": 5,
+       "Param": 0
+      },
+      {
+       "Tag": 13,
+       "Param": 0
+      },
+      {
+       "Tag": 14,
+       "Param": 300
+      }
+     ]
+    }
+   ]
+  },
+  "Weapon1Thread": {
+   "Kind": 2,
+   "Branches": [
+    {
+     "Instructions": [
+      {
+       "Tag": 4,
+       "Param": 0
+      },
+      {
+       "Tag": 12,
+       "Param": 0
+      },
+      {
+       "Tag": 7,
+       "Param": 100
+      },
+      {
+       "Tag": 16,
+       "Param": 0
+      }
+     ]
+    },
+    {
+     "Instructions": [
+      {
+       "Tag": 6,
+       "Param": 70
+      },
+      {
+       "Tag": 20,
+       "Param": 0
+      },
+      {
+       "Tag": 8,
+       "Param": 80
+      },
+      {
+       "Tag": 4,
+       "Param": 0
+      },
+      {
+       "Tag": 12,
+       "Param": 0
+      },
+      {
+       "Tag": 7,
+       "Param": 300
+      },
+      {
+       "Tag": 19,
+       "Param": 0
+      }
+     ]
+    },
+    {
+     "Instructions": [
+      {
+       "Tag": 4,
+       "Param": 0
+      },
+      {
+       "Tag": 12,
+       "Param": 0
+      },
+      {
+       "Tag": 7,
+       "Param": 300
+      },
+      {
+       "Tag": 17,
+       "Param": 0
+      }
+     ]
+    }
+   ]
+  },
+  "Weapon2Thread": {
+   "Kind": 4,
+   "Branches": [
+    {
+     "Instructions": [
+      {
+       "Tag": 5,
+       "Param": 0
+      },
+      {
+       "Tag": 12,
+       "Param": 0
+      },
+      {
+       "Tag": 7,
+       "Param": 400
+      },
+      {
+       "Tag": 19,
+       "Param": 0
+      }
+     ]
+    }
+   ]
+  },
+  "DefThread": {
+   "Kind": 8,
+   "Branches": null
+  }
+ }
+}

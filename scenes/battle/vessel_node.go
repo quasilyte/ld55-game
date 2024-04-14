@@ -104,7 +104,7 @@ func (n *vesselNode) processMovement(delta float64) {
 			case n.data.Slow >= 5:
 				maxSpeed *= 0.6
 			default:
-				maxSpeed = 0.7
+				maxSpeed *= 0.7
 			}
 		}
 		accelVector := gmath.RadToVec(n.data.Rotation).Mulf(accel)
