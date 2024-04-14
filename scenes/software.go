@@ -359,16 +359,31 @@ func (c *SoftwareController) updateInstructionSlots() {
 	// Now validate slots to reject programs that will crash at runtime.
 	hasErrors := false
 	for i, row := range c.slots {
-		stack := 0
+		var stack []string
 		branch := thread.Branches[i]
 		for j, slot := range row {
 			inst := branch.Instructions[j]
-			stack += inst.Info.StackChange
-			if stack < 0 && inst.Info.Kind != game.NopInstruction {
+			var errMessage string
+			if inst.Info.StackInType != "" {
+				switch {
+				case len(stack) == 0:
+					errMessage = "argument stack is empty"
+				case inst.Info.StackInType != stack[len(stack)-1]:
+					errMessage = fmt.Sprintf("invalid stack arg (have %s, want %s)",
+						stack[len(stack)-1], inst.Info.StackInType)
+				}
+				if len(stack) > 0 {
+					stack = stack[:len(stack)-1]
+				}
+			}
+			if inst.Info.StackOutType != "" {
+				stack = append(stack, inst.Info.StackOutType)
+			}
+			if errMessage != "" {
 				hasErrors = true
 				slot.warning.Pos.Offset = c.widgetPos(slot.button.Button.GetWidget()).Add(gmath.Vec{X: -20, Y: 16})
 				slot.warning.SetVisibility(true)
-				slot.tooltipText.Label += "\n\nError: argument stack is empty"
+				slot.tooltipText.Label += "\n\nError: " + errMessage
 			} else {
 				slot.warning.SetVisibility(false)
 			}

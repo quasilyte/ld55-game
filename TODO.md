@@ -15,7 +15,8 @@ Theme: summoning
 TODO (top priority):
 
 * software
-  * auto-detect pop errors
+  * auto-detect type errors
+  * errors should block "save" even on different tab
 * hardware shop
   * select button widget
 * journal
