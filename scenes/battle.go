@@ -26,6 +26,9 @@ func (c *BattleController) Init(scene *gscene.RootScene[battle.ControllerAccesso
 		Scene:   scene,
 	})
 	c.runner.Init()
+	c.runner.EventBattleOver.Connect(nil, func(victory bool) {
+		c.finishBattle(victory)
+	})
 }
 
 func (c *BattleController) GetGameContext() *game.Context {
@@ -40,4 +43,20 @@ func (c *BattleController) Update(delta float64) {
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
 	}
+	if inpututil.IsKeyJustPressed(ebiten.KeyTab) {
+		c.finishBattle(true)
+	}
+}
+
+func (c *BattleController) finishBattle(victory bool) {
+	if victory {
+		c.ctx.Session.Level++
+		if c.ctx.Session.Level+1 > len(game.Levels) {
+			// TODO: go to credits?
+			game.ChangeScene(c.ctx, NewMainMenuController(c.ctx))
+			return
+		}
+	}
+
+	game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
 }

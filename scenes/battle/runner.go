@@ -8,6 +8,7 @@ import (
 
 	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/gscene"
+	"github.com/quasilyte/gsignal"
 	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/game"
 	"github.com/quasilyte/ld55-game/progsim"
@@ -29,6 +30,8 @@ type Runner struct {
 	executors []*progsim.Executor
 
 	scene *gscene.RootScene[ControllerAccessor]
+
+	EventBattleOver gsignal.Event[bool]
 }
 
 type RunnerConfig struct {
