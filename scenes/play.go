@@ -85,7 +85,7 @@ func (c *PlayController) createDefaultVesselDesign() {
 
 	s.Weapons = []*game.WeaponDesign{
 		game.FindWeaponDesignByName("Pulse Laser"),
-		game.FindWeaponDesignByName("Ion Cannon"),
+		game.FindWeaponDesignByName("Scatter Gun"),
 	}
 
 	s.VesselDesign = game.FindVesselDesignByName("Fighter")
