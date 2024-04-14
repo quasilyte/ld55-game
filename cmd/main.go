@@ -22,6 +22,8 @@ func main() {
 
 	game.ChangeScene(g.ctx, scenes.NewMainMenuController(g.ctx))
 
+	g.tmpScreen = ebiten.NewImage(int(g.ctx.WindowSize.X), int(g.ctx.WindowSize.Y))
+
 	if err := ebiten.RunGame(&g); err != nil {
 		panic(err)
 	}
@@ -29,6 +31,8 @@ func main() {
 
 type gameRunner struct {
 	ctx *game.Context
+
+	tmpScreen *ebiten.Image
 }
 
 func (g *gameRunner) Update() error {
@@ -40,7 +44,19 @@ func (g *gameRunner) Update() error {
 }
 
 func (g *gameRunner) Draw(screen *ebiten.Image) {
-	g.ctx.CurrentScene().Draw(screen)
+	if g.ctx.CRT {
+		// Rendering with a shader.
+		width := int(g.ctx.WindowSize.X)
+		height := int(g.ctx.WindowSize.Y)
+		g.tmpScreen.Clear()
+		g.ctx.CurrentScene().Draw(g.tmpScreen)
+		var options2 ebiten.DrawRectShaderOptions
+		options2.Images[0] = g.tmpScreen
+		shader := g.ctx.Loader.LoadShader(assets.ShaderCRT)
+		screen.DrawRectShader(width, height, shader.Data, &options2)
+	} else {
+		g.ctx.CurrentScene().Draw(screen)
+	}
 }
 
 func (g *gameRunner) Layout(_, _ int) (int, int) {

@@ -15,7 +15,6 @@ Theme: summoning
 TODO (top priority):
 
 * insert after drag and drop (shift)
-* crt filter?
 
 TODO:
 

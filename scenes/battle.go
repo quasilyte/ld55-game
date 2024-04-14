@@ -23,6 +23,7 @@ func NewBattleController(ctx *game.Context) *BattleController {
 }
 
 func (c *BattleController) Init(scene *gscene.RootScene[battle.ControllerAccessor]) {
+	c.ctx.CRT = true
 	c.ctx.Audio().PauseCurrentMusic()
 
 	c.runner = battle.NewRunner(battle.RunnerConfig{

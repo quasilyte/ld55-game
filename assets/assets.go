@@ -23,4 +23,5 @@ func RegisterResources(loader *resource.Loader) {
 	registerImageResources(loader)
 	registerAudioResources(loader)
 	registerRawResources(loader)
+	registerShaderResources(loader)
 }

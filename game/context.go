@@ -28,11 +28,13 @@ type Context struct {
 	Rand gmath.Rand
 
 	Session *Session
+	CRT     bool
 
 	scene gscene.GameRunner
 }
 
 func ChangeScene[C any](ctx *Context, c gscene.Controller[C]) {
+	ctx.CRT = false
 	s := gscene.NewRootScene[C](c)
 	ctx.scene = s
 }
