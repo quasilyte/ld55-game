@@ -54,12 +54,14 @@ func registerImageResources(loader *resource.Loader) {
 		ImageProjectileIon:     {Path: "image/ammo/ion_projectile.png"},
 		ImageProjectileLancer:  {Path: "image/ammo/lancer_projectile.png"},
 		ImageProjectilePusher:  {Path: "image/ammo/pusher_projectile.png"},
+		ImageProjectileFreezer: {Path: "image/ammo/freezer_projectile.png"},
 
-		ImageImpactLaser:  {Path: "image/effects/laser_impact.png", FrameWidth: 10},
-		ImageImpactPlasma: {Path: "image/effects/plasma_impact.png", FrameWidth: 11},
-		ImageImpactIon:    {Path: "image/effects/ion_impact.png", FrameWidth: 5},
-		ImageImpactLancer: {Path: "image/effects/lancer_impact.png", FrameWidth: 8},
-		ImageImpactPusher: {Path: "image/effects/pusher_impact.png", FrameWidth: 20},
+		ImageImpactLaser:   {Path: "image/effects/laser_impact.png", FrameWidth: 10},
+		ImageImpactPlasma:  {Path: "image/effects/plasma_impact.png", FrameWidth: 11},
+		ImageImpactIon:     {Path: "image/effects/ion_impact.png", FrameWidth: 5},
+		ImageImpactLancer:  {Path: "image/effects/lancer_impact.png", FrameWidth: 8},
+		ImageImpactPusher:  {Path: "image/effects/pusher_impact.png", FrameWidth: 20},
+		ImageImpactFreezer: {Path: "image/effects/freezer_impact.png", FrameWidth: 8},
 
 		ImageVesselSmall1:  {Path: "image/vessel/small1.png"},
 		ImageVesselNormal1: {Path: "image/vessel/normal1.png"},
@@ -121,12 +123,14 @@ const (
 	ImageProjectileIon
 	ImageProjectileLancer
 	ImageProjectilePusher
+	ImageProjectileFreezer
 
 	ImageImpactLaser
 	ImageImpactPlasma
 	ImageImpactIon
 	ImageImpactLancer
 	ImageImpactPusher
+	ImageImpactFreezer
 
 	ImageVesselSmall1
 	ImageVesselNormal1

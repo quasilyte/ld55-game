@@ -79,6 +79,7 @@ func (n *vesselNode) Update(delta float64) {
 	}
 
 	n.data.Energy = gmath.ClampMax(n.data.Energy+(n.data.Design.EnergyRegen*delta), n.data.Design.MaxEnergy)
+	n.data.Slow = gmath.ClampMin(n.data.Slow-delta, 0)
 
 	n.processRotation(delta)
 	n.processMovement(delta)
@@ -94,9 +95,21 @@ func (n *vesselNode) processMovement(delta float64) {
 
 	if n.commands.MoveForward {
 		accel := n.data.Design.Acceleration * delta
+		maxSpeed := n.data.Design.MaxSpeed
+		if n.data.Slow > 0 {
+			accel *= 0.5
+			switch {
+			case n.data.Slow >= 10:
+				maxSpeed *= 0.5
+			case n.data.Slow >= 5:
+				maxSpeed *= 0.6
+			default:
+				maxSpeed = 0.7
+			}
+		}
 		accelVector := gmath.RadToVec(n.data.Rotation).Mulf(accel)
 		n.data.EngineVelocity = n.data.EngineVelocity.Add(accelVector)
-		n.data.EngineVelocity = n.data.EngineVelocity.ClampLen(n.data.Design.MaxSpeed)
+		n.data.EngineVelocity = n.data.EngineVelocity.ClampLen(maxSpeed)
 	} else {
 		n.data.EngineVelocity = n.data.EngineVelocity.Mulf(1 - (delta * deceleration))
 	}

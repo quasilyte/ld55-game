@@ -29,6 +29,10 @@ func registerAudioResources(loader *resource.Loader) {
 		AudioFirePusher1: {Path: "audio/pusher1.wav", Volume: -0.3},
 		AudioFirePusher2: {Path: "audio/pusher2.wav", Volume: -0.3},
 		AudioFirePusher3: {Path: "audio/pusher3.wav", Volume: -0.3},
+
+		AudioFireFreezer1: {Path: "audio/freezer1.wav", Volume: -0.1},
+		AudioFireFreezer2: {Path: "audio/freezer2.wav", Volume: -0.1},
+		AudioFireFreezer3: {Path: "audio/freezer3.wav", Volume: -0.1},
 	}
 
 	for id, info := range resources {
@@ -43,7 +47,7 @@ func NumSamples(a resource.AudioID) int {
 		return 2
 	case AudioFireLaser1, AudioFireLancer1:
 		return 4
-	case AudioFirePlasma1, AudioFirePusher1:
+	case AudioFirePlasma1, AudioFirePusher1, AudioFireFreezer1:
 		return 3
 	default:
 		return 1
@@ -71,4 +75,7 @@ const (
 	AudioFirePusher1
 	AudioFirePusher2
 	AudioFirePusher3
+	AudioFireFreezer1
+	AudioFireFreezer2
+	AudioFireFreezer3
 )

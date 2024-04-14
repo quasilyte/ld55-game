@@ -20,6 +20,8 @@ type Vessel struct {
 	Health float64
 	Energy float64
 
+	Slow float64
+
 	Prog *BotProg
 
 	Target *Vessel
@@ -64,6 +66,8 @@ func (v *Vessel) OnDamage(d Damage, attacker *Vessel) {
 	if d.Energy > 0 {
 		v.Energy = gmath.ClampMin(v.Energy-d.DrainEnergy, 0)
 	}
+
+	v.Slow = gmath.ClampMax(v.Slow+d.Slow, 20)
 }
 
 func FindVesselDesignByName(name string) *VesselDesign {

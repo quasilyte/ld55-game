@@ -35,6 +35,7 @@ type WeaponDesign struct {
 	FiringType WeaponFiringType
 
 	CollisionCheck bool
+	Homing         float64
 
 	FireSound resource.AudioID
 
@@ -64,6 +65,7 @@ type Damage struct {
 	Thermal float64
 
 	DrainEnergy float64
+	Slow        float64
 }
 
 type Projectile struct {
@@ -164,5 +166,22 @@ var WeaponDesignList = []*WeaponDesign{
 		CollisionCheck:       true,
 		ImpactImage:          assets.ImageImpactLancer,
 		Burst:                1,
+	},
+
+	{
+		Name:                 "Freezer",
+		EnergyCost:           20,
+		Reload:               1,
+		Damage:               Damage{Energy: 1, Slow: 4},
+		FiringType:           TargetableWeapon,
+		FireSound:            assets.AudioFireFreezer1,
+		ProjectileImage:      assets.ImageProjectileFreezer,
+		ProjectileSpeed:      300,
+		MaxRange:             250,
+		ProjectileImpactArea: 8,
+		ImpactImage:          assets.ImageImpactFreezer,
+		Burst:                1,
+		CollisionCheck:       true,
+		Homing:               150,
 	},
 }
