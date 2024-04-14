@@ -58,6 +58,7 @@ func (c *HardwareController) Init(scene *gscene.SimpleRootScene) {
 			vd := game.VesselDesignList[i]
 			slot := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{
 				WithSelector: true,
+				Tooltip:      eui.NewSimpleTooltip(uiRes, c.vesselDoc(vd)),
 				OnClick: func() {
 					session.VesselDesign = vd
 					c.updateSlots()
@@ -233,6 +234,39 @@ func (c *HardwareController) artifactDoc(ad *game.ArtifactDesign) string {
 	return strings.Join(resultLines, "\n")
 }
 
+func (c *HardwareController) vesselDoc(vd *game.VesselDesign) string {
+	var lines []string
+
+	switch vd.Name {
+	case "Machpella":
+		lines = []string{
+			"The fastest vessel available.",
+			"It's very small, so it can avoid attacks",
+			"more easily than other designs.",
+		}
+
+	case "Fighter":
+		lines = []string{
+			"Fighter is a well-balanced vessel.",
+			"It does excel in one thing though: rotation speed.",
+		}
+
+	case "Destroyer":
+		lines = []string{
+			"A design for a head-on combat.",
+			"Slow, but sturdy.",
+		}
+	}
+
+	resultLines := []string{
+		vd.Name,
+		"",
+	}
+	resultLines = append(resultLines, lines...)
+
+	return strings.Join(resultLines, "\n")
+}
+
 func (c *HardwareController) weaponDoc(wd *game.WeaponDesign) string {
 	var lines []string
 
@@ -254,7 +288,7 @@ func (c *HardwareController) weaponDoc(wd *game.WeaponDesign) string {
 	case "Scatter Gun":
 		lines = []string{
 			"A low-tech weapon that doesn't need energy to fire.",
-			"It launches 6 projectiles per round, but they",
+			"It launches 7 projectiles per round, but they",
 			"deal only minor Kinetic damage.",
 		}
 	case "Pulse Laser":
