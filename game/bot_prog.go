@@ -1,6 +1,8 @@
 package game
 
 import (
+	"encoding/json"
+
 	resource "github.com/quasilyte/ebitengine-resource"
 	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/ld55-game/assets"
@@ -178,6 +180,28 @@ type ProgInstruction struct {
 	Info *ProgInstructionInfo
 
 	Param float64
+}
+
+type jsonProgInstruction struct {
+	Tag   int
+	Param float64
+}
+
+func (inst ProgInstruction) MarshalJSON() ([]byte, error) {
+	return json.Marshal(jsonProgInstruction{
+		Tag:   int(inst.Info.Kind),
+		Param: inst.Param,
+	})
+}
+
+func (inst *ProgInstruction) UnmarshalJSON(data []byte) error {
+	var tmp jsonProgInstruction
+	if err := json.Unmarshal(data, &tmp); err != nil {
+		return err
+	}
+	inst.Info = ProgInstInfoTab[tmp.Tag]
+	inst.Param = tmp.Param
+	return nil
 }
 
 func MakeInst(kind InstructionKind, param float64) ProgInstruction {

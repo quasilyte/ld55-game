@@ -602,7 +602,7 @@ func (c *SoftwareController) saveVessel() {
 		saved.Weapons = append(saved.Weapons, wd.Name)
 	}
 
-	jsonData, err := json.Marshal(saved)
+	jsonData, err := json.MarshalIndent(saved, "", " ")
 	if err != nil {
 		panic(err)
 	}
