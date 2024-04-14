@@ -2,14 +2,13 @@ package progsim
 
 import (
 	"github.com/quasilyte/gmath"
-	"github.com/quasilyte/ld55-game/battle"
 	"github.com/quasilyte/ld55-game/game"
 )
 
 type Executor struct {
 	prog   *runningProg
-	world  *battle.World
-	vessel *battle.Vessel
+	world  *game.World
+	vessel *game.Vessel
 
 	rand *gmath.Rand
 
@@ -22,8 +21,8 @@ type Executor struct {
 
 type ExecutorConfig struct {
 	Prog   *game.BotProg
-	World  *battle.World
-	Vessel *battle.Vessel
+	World  *game.World
+	Vessel *game.Vessel
 }
 
 type VesselCommands struct {

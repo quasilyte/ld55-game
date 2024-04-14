@@ -1,4 +1,4 @@
-package battle
+package game
 
 import (
 	"slices"
@@ -9,10 +9,10 @@ import (
 )
 
 func FindWeaponDesignByName(name string) *WeaponDesign {
-	i := slices.IndexFunc(Weapons, func(w *WeaponDesign) bool {
+	i := slices.IndexFunc(WeaponDesignList, func(w *WeaponDesign) bool {
 		return w.Name == name
 	})
-	return Weapons[i]
+	return WeaponDesignList[i]
 }
 
 type Weapon struct {
@@ -66,13 +66,12 @@ type Projectile struct {
 	Rotation gmath.Rad
 }
 
-var Weapons = []*WeaponDesign{
+var WeaponDesignList = []*WeaponDesign{
 	{
-		Name:       "Pulse Laser",
-		BuyCost:    120,
-		EnergyCost: 5,
-		Reload:     0.5,
-		// Reload:               3,
+		Name:                 "Pulse Laser",
+		BuyCost:              120,
+		EnergyCost:           5,
+		Reload:               0.5,
 		Damage:               Damage{Energy: 3},
 		FiringType:           TargetableWeapon,
 		FireSound:            assets.AudioFireLaser1,

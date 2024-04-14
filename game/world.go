@@ -1,4 +1,4 @@
-package battle
+package game
 
 import (
 	"github.com/quasilyte/gmath"

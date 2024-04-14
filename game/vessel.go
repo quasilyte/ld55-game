@@ -1,10 +1,12 @@
-package battle
+package game
 
 import (
+	"slices"
+
 	resource "github.com/quasilyte/ebitengine-resource"
 	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/gsignal"
-	"github.com/quasilyte/ld55-game/game"
+	"github.com/quasilyte/ld55-game/assets"
 )
 
 type Vessel struct {
@@ -18,7 +20,7 @@ type Vessel struct {
 	Health float64
 	Energy float64
 
-	Prog *game.BotProg
+	Prog *BotProg
 
 	Target *Vessel
 
@@ -47,8 +49,17 @@ func (v *Vessel) OnDamage(d Damage, attacker *Vessel) {
 	}
 }
 
+func FindVesselDesignByName(name string) *VesselDesign {
+	i := slices.IndexFunc(VesselDesignList, func(w *VesselDesign) bool {
+		return w.Name == name
+	})
+	return VesselDesignList[i]
+}
+
 type VesselDesign struct {
 	Image resource.ImageID
+
+	Name string
 
 	RotationSpeed gmath.Rad
 
@@ -65,6 +76,18 @@ type VesselDesign struct {
 	ThermalResist float64
 
 	HitboxSize float64
+}
 
-	Weapons []*WeaponDesign
+var VesselDesignList = []*VesselDesign{
+	{
+		Image:         assets.ImageVesselNormal1,
+		Name:          "Destroyer",
+		RotationSpeed: 2.0,
+		MaxSpeed:      150,
+		Acceleration:  150,
+		MaxHealth:     50,
+		MaxEnergy:     50,
+		EnergyRegen:   10,
+		HitboxSize:    14,
+	},
 }

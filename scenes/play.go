@@ -42,6 +42,7 @@ func (c *PlayController) Init(scene *gscene.SimpleRootScene) {
 			OnClick: func() {
 				c.ctx.Session = game.NewSession()
 				c.createDefaultProg()
+				c.createDefaultVesselDesign()
 				game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
 			},
 		})
@@ -69,6 +70,17 @@ func (c *PlayController) Update(delta float64) {}
 
 func (c *PlayController) back() {
 	game.ChangeScene(c.ctx, NewMainMenuController(c.ctx))
+}
+
+func (c *PlayController) createDefaultVesselDesign() {
+	s := c.ctx.Session
+
+	s.Weapons = []*game.WeaponDesign{
+		game.FindWeaponDesignByName("Pulse Laser"),
+		game.FindWeaponDesignByName("Plasma Cannon"),
+	}
+
+	s.VesselDesign = game.FindVesselDesignByName("Destroyer")
 }
 
 func (c *PlayController) createDefaultProg() {

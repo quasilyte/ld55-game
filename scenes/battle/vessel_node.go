@@ -6,7 +6,7 @@ import (
 	graphics "github.com/quasilyte/ebitengine-graphics"
 	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/ld55-game/assets"
-	"github.com/quasilyte/ld55-game/battle"
+	"github.com/quasilyte/ld55-game/game"
 	"github.com/quasilyte/ld55-game/progsim"
 	"github.com/quasilyte/ld55-game/styles"
 )
@@ -14,7 +14,7 @@ import (
 type vesselNode struct {
 	scene *scene
 
-	data *battle.Vessel
+	data *game.Vessel
 
 	sprite *graphics.Sprite
 	aura   *graphics.Rect
@@ -22,7 +22,7 @@ type vesselNode struct {
 	commands progsim.VesselCommands
 }
 
-func newVesselNode(data *battle.Vessel) *vesselNode {
+func newVesselNode(data *game.Vessel) *vesselNode {
 	return &vesselNode{
 		data: data,
 	}
@@ -123,7 +123,7 @@ func (n *vesselNode) processWeapons(delta float64) {
 	}
 
 	for _, c := range n.commands.FireCommands {
-		if c.WeaponIndex >= uint(len(n.data.Design.Weapons)) {
+		if c.WeaponIndex >= uint(len(n.data.Weapons)) {
 			fmt.Printf("warning: invalid weapon index %d\n", c.WeaponIndex)
 			continue
 		}
@@ -137,7 +137,7 @@ func (n *vesselNode) processWeapons(delta float64) {
 		}
 
 		// TODO: handle different weapon fire modes, etc.
-		pd := &battle.Projectile{
+		pd := &game.Projectile{
 			Pos:      n.data.Pos,
 			Rotation: n.data.Pos.AngleToPoint(c.TargetPos),
 			Weapon:   w.Design,

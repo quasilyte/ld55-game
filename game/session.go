@@ -4,6 +4,9 @@ type Session struct {
 	Level int
 
 	Prog *BotProg
+
+	Weapons      []*WeaponDesign
+	VesselDesign *VesselDesign
 }
 
 func NewSession() *Session {

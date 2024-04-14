@@ -8,7 +8,6 @@ import (
 	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
-	"github.com/quasilyte/ld55-game/battle"
 	"github.com/quasilyte/ld55-game/game"
 	"github.com/quasilyte/ld55-game/progsim"
 	"github.com/quasilyte/ld55-game/styles"
@@ -23,7 +22,7 @@ type ControllerAccessor interface {
 type Runner struct {
 	ctx *game.Context
 
-	world *battle.World
+	world *game.World
 
 	vessels   []*vesselNode
 	executors []*progsim.Executor
@@ -55,35 +54,21 @@ func (r *Runner) Init() {
 		}
 	}
 
-	playerVessel := &battle.Vessel{
+	playerVessel := &game.Vessel{
 		Alliance: 0,
 		Pos:      r.ctx.WindowSize.Mulf(0.5),
 		Rotation: math.Pi,
 
-		Design: battle.VesselDesign{
-			Image:         assets.ImageVesselNormal1,
-			RotationSpeed: 2.0,
-			MaxSpeed:      150,
-			Acceleration:  150,
-			MaxHealth:     50,
-			MaxEnergy:     50,
-			EnergyRegen:   10,
-			HitboxSize:    14,
-			Weapons: []*battle.WeaponDesign{
-				battle.FindWeaponDesignByName("Pulse Laser"),
-				battle.FindWeaponDesignByName("Plasma Cannon"),
-			},
-		},
-
-		Prog: r.ctx.Session.Prog,
+		Design: *r.ctx.Session.VesselDesign,
+		Prog:   r.ctx.Session.Prog,
 	}
 
-	enemyVessel := &battle.Vessel{
+	enemyVessel := &game.Vessel{
 		Alliance: 1,
 		Pos:      gmath.Vec{X: 256, Y: 256},
 		Rotation: 0,
 
-		Design: battle.VesselDesign{
+		Design: game.VesselDesign{
 			Image:         assets.ImageVesselNormal1,
 			RotationSpeed: 2.0,
 			MaxSpeed:      150,
@@ -99,8 +84,8 @@ func (r *Runner) Init() {
 		Prog: game.NewBotProg(),
 	}
 
-	r.world = &battle.World{
-		Vessels: []*battle.Vessel{
+	r.world = &game.World{
+		Vessels: []*game.Vessel{
 			playerVessel,
 			enemyVessel,
 		},
@@ -143,8 +128,8 @@ func (r *Runner) Init() {
 		v := r.vessels[i]
 		v.data.Health = v.data.Design.MaxHealth
 		v.data.Energy = v.data.Design.MaxEnergy
-		for _, wd := range v.data.Design.Weapons {
-			v.data.Weapons = append(v.data.Weapons, &battle.Weapon{
+		for _, wd := range r.ctx.Session.Weapons {
+			v.data.Weapons = append(v.data.Weapons, &game.Weapon{
 				Design: wd,
 			})
 		}
@@ -159,7 +144,7 @@ func (r *Runner) Init() {
 			r.scene.AddObject(ft)
 		})
 
-		v.data.EventDestroyed.Connect(nil, func(attacker *battle.Vessel) {
+		v.data.EventDestroyed.Connect(nil, func(attacker *game.Vessel) {
 			v.Dispose()
 		})
 	}

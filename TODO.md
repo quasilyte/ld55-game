@@ -15,7 +15,7 @@ Theme: summoning
 TODO (top priority):
 
 * software
-  * errors should block "save" even on different tab
+  * give notification when action is failed due to an error
 * hardware shop
   * select button widget
 * journal
@@ -25,6 +25,7 @@ hardware:
 * vessel design
 * weapon 1
 * weapon 2
+* artifact (various bonuses)
 
 TODO:
 

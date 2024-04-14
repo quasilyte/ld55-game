@@ -4,11 +4,11 @@ import (
 	graphics "github.com/quasilyte/ebitengine-graphics"
 	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/ld55-game/assets"
-	"github.com/quasilyte/ld55-game/battle"
+	"github.com/quasilyte/ld55-game/game"
 )
 
 type projectileNode struct {
-	data *battle.Projectile
+	data *game.Projectile
 
 	scene *scene
 
@@ -17,8 +17,8 @@ type projectileNode struct {
 	// This pos is bound during the projectile construction.
 	targetPos gmath.Vec
 
-	owner  *battle.Vessel
-	target *battle.Vessel
+	owner  *game.Vessel
+	target *game.Vessel
 
 	impactAreaSqr float64
 
@@ -27,9 +27,9 @@ type projectileNode struct {
 }
 
 type projectileConfig struct {
-	Data      *battle.Projectile
-	Target    *battle.Vessel
-	Owner     *battle.Vessel
+	Data      *game.Projectile
+	Target    *game.Vessel
+	Owner     *game.Vessel
 	TargetPos gmath.Vec // Will be different from Target.Pos if using a snipe method
 }
 

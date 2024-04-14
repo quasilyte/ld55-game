@@ -37,6 +37,7 @@ func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "Hardware",
 			OnClick: func() {
+				game.ChangeScene(c.ctx, NewHardwareController(c.ctx))
 			},
 			Tooltip: eui.NewSimpleTooltip(uiRes, tt),
 		})
