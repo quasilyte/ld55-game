@@ -54,7 +54,7 @@ type ProgBranch struct {
 type InstructionKind int
 
 const (
-	UnknownInstruction InstructionKind = iota
+	NopInstruction InstructionKind = iota
 
 	// Common instructions.
 
@@ -87,30 +87,31 @@ type ProgInstructionInfo struct {
 
 	Icon resource.ImageID
 
-	Cond bool
+	Param bool
+	Cond  bool
 }
 
 var ProgInstInfoTab = func() []*ProgInstructionInfo {
 	insts := []*ProgInstructionInfo{
-		UnknownInstruction: {},
+		NopInstruction: {},
 
 		RandomPosInstruction:     {Icon: assets.ImageIconRandomPos},
-		RandomOffsetInstruction:  {},
+		RandomOffsetInstruction:  {Param: true},
 		VesselPosInstruction:     {},
-		TargetPosInstruction:     {},
+		TargetPosInstruction:     {Icon: assets.ImageIconTargetPos},
 		CenterPosInstruction:     {},
-		ChanceInstruction:        {Cond: true},
-		IsLtInstruction:          {Cond: true},
-		IsGtInstruction:          {Cond: true},
-		DistanceToInstruction:    {},
+		ChanceInstruction:        {Param: true, Cond: true},
+		IsLtInstruction:          {Icon: assets.ImageIconIsLt, Param: true, Cond: true},
+		IsGtInstruction:          {Icon: assets.ImageIconIsGt, Param: true, Cond: true},
+		DistanceToInstruction:    {Icon: assets.ImageIconDistanceTo},
 		HealthPercentInstruction: {},
 		EnergyPercentInstruction: {},
 
 		RotateToInstruction:      {Icon: assets.ImageIconRotateTo},
-		MoveForwardInstruction:   {Icon: assets.ImageIconMoveForward},
-		MoveAndRotateInstruction: {},
+		MoveForwardInstruction:   {Param: true, Icon: assets.ImageIconMoveForward},
+		MoveAndRotateInstruction: {Param: true},
 
-		SnapShotInstruction:   {},
+		SnapShotInstruction:   {Icon: assets.ImageIconSnapShot},
 		NormalShotInstruction: {},
 	}
 
@@ -124,12 +125,12 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 type ProgInstruction struct {
 	Info *ProgInstructionInfo
 
-	Params []any
+	Param float64
 }
 
-func MakeInst(kind InstructionKind, params ...any) ProgInstruction {
+func MakeInst(kind InstructionKind, param float64) ProgInstruction {
 	return ProgInstruction{
-		Info:   ProgInstInfoTab[kind],
-		Params: params,
+		Info:  ProgInstInfoTab[kind],
+		Param: param,
 	}
 }

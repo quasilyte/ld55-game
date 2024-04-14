@@ -20,6 +20,11 @@ func registerImageResources(loader *resource.Loader) {
 		ImageIconRandomPos:   {Path: "image/inst/random-pos.png"},
 		ImageIconRotateTo:    {Path: "image/inst/rotate-to.png"},
 		ImageIconMoveForward: {Path: "image/inst/move-forward.png"},
+		ImageIconDistanceTo:  {Path: "image/inst/distance-to.png"},
+		ImageIconTargetPos:   {Path: "image/inst/target-pos.png"},
+		ImageIconIsLt:        {Path: "image/inst/is-lt.png"},
+		ImageIconIsGt:        {Path: "image/inst/is-gt.png"},
+		ImageIconSnapShot:    {Path: "image/inst/snap-shot.png"},
 
 		ImageSpaceBg: {Path: "image/space_bg.png"},
 
@@ -53,6 +58,11 @@ const (
 	ImageIconRandomPos
 	ImageIconRotateTo
 	ImageIconMoveForward
+	ImageIconDistanceTo
+	ImageIconTargetPos
+	ImageIconIsLt
+	ImageIconIsGt
+	ImageIconSnapShot
 
 	ImageSpaceBg
 

@@ -77,11 +77,23 @@ func (c *PlayController) createDefaultProg() {
 	{
 		b := &game.ProgBranch{
 			Instructions: []game.ProgInstruction{
-				game.MakeInst(game.RandomPosInstruction),
-				game.MakeInst(game.RotateToInstruction),
-				game.MakeInst(game.MoveForwardInstruction),
+				game.MakeInst(game.RandomPosInstruction, 0),
+				game.MakeInst(game.RotateToInstruction, 0),
+				game.MakeInst(game.MoveForwardInstruction, 100),
 			},
 		}
 		prog.MovementThread.Branches = append(prog.MovementThread.Branches, b)
+	}
+
+	{
+		b := &game.ProgBranch{
+			Instructions: []game.ProgInstruction{
+				game.MakeInst(game.TargetPosInstruction, 0),
+				game.MakeInst(game.DistanceToInstruction, 0),
+				game.MakeInst(game.IsLtInstruction, 150),
+				game.MakeInst(game.SnapShotInstruction, 0),
+			},
+		}
+		prog.Weapon1Thread.Branches = append(prog.Weapon1Thread.Branches, b)
 	}
 }

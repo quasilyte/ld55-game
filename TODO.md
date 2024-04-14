@@ -14,9 +14,12 @@ Theme: summoning
 
 TODO (top priority):
 
+* software editor
+  * inst value label
+  * enable all buttons
+  * empty slots are nops
 * hardware shop
   * select button widget
-* software editor
 * journal
 
 hardware:

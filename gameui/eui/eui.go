@@ -160,10 +160,13 @@ func NewCenteredLabelWithMaxWidth(text string, ff font.Face, width float64) *wid
 type SlotButtonConfig struct {
 	OnClick func()
 
+	WithLabel bool
+
 	Tooltip *widget.Container
 }
 
 type SlotButton struct {
+	Label     *widget.Text
 	Icon      *widget.Graphic
 	Button    *widget.Button
 	Container *widget.Container
@@ -203,9 +206,19 @@ func NewSlotButton(res *Resources, config SlotButtonConfig) *SlotButton {
 	g := widget.NewGraphic()
 	container.AddChild(g)
 
+	var l *widget.Text
+	if config.WithLabel {
+		l = widget.NewText(
+			widget.TextOpts.Text("", assets.Font1, styles.NormalTextColor),
+			widget.TextOpts.Position(widget.TextPositionCenter, widget.TextPositionEnd),
+		)
+		container.AddChild(l)
+	}
+
 	return &SlotButton{
 		Button:    b,
 		Icon:      g,
+		Label:     l,
 		Container: container,
 	}
 }

@@ -2,6 +2,7 @@ package scenes
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/ebitenui/ebitenui/widget"
@@ -163,7 +164,7 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 	rows.AddChild(eui.NewSeparator(nil, styles.DisabledTextColor))
 
 	{
-		numCols := 8
+		numCols := 10
 		numRows := 3
 		grid := widget.NewContainer(
 			widget.ContainerOpts.Layout(widget.NewGridLayout(
@@ -172,11 +173,12 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 			)),
 		)
 		for row := 0; row < numRows; row++ {
-			grid.AddChild(eui.NewLabel(fmt.Sprintf("Branch %d", row+1), assets.Font1))
+			grid.AddChild(eui.NewLabel(fmt.Sprintf("Branch %d ", row+1), assets.Font1))
 			for col := 0; col < numCols; col++ {
 				tt := eui.NewTooltip(uiRes, "")
 				slotButton := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{
-					Tooltip: tt.Container,
+					Tooltip:   tt.Container,
+					WithLabel: true,
 				})
 				c.slots[row] = append(c.slots[row], &softwareSlot{
 					branchIndex:      row,
@@ -217,14 +219,15 @@ func (c *SoftwareController) updateInstructionSlots() {
 		for j, b := range row {
 			disabled := j >= maxCol
 			b.button.Button.GetWidget().Disabled = disabled
-			if disabled {
-				continue
-			}
-			if branch == nil || j >= len(branch.Instructions) {
+			if disabled || branch == nil || j >= len(branch.Instructions) {
+				b.button.Icon.Image = nil
+				b.button.Label.Label = ""
+				b.tooltipText.Label = c.instDoc(game.MakeInst(game.NopInstruction, 0))
 				continue
 			}
 			inst := branch.Instructions[j]
 			b.button.Icon.Image = c.ctx.Loader.LoadImage(inst.Info.Icon).Data
+			b.button.Label.Label = c.formatInstParam(inst)
 			b.tooltipText.Label = c.instDoc(inst)
 		}
 	}
@@ -240,16 +243,42 @@ func (c *SoftwareController) selectTab(index int) {
 			t.button.TextColor.Idle = styles.NormalTextColor
 		}
 	}
+
+	c.updateInstructionSlots()
+}
+
+func (c *SoftwareController) formatInstParam(inst game.ProgInstruction) string {
+	if !inst.Info.Param {
+		return ""
+	}
+
+	switch inst.Info.Kind {
+	case game.RandomOffsetInstruction, game.IsLtInstruction, game.IsGtInstruction:
+		return strconv.Itoa(int(inst.Param))
+	case game.ChanceInstruction:
+		return strconv.Itoa(int(inst.Param)) + "%"
+	case game.MoveForwardInstruction, game.MoveAndRotateInstruction:
+		return strconv.Itoa(int(inst.Param))
+	default:
+		return ""
+	}
 }
 
 func (c *SoftwareController) instDoc(inst game.ProgInstruction) string {
 	var lines []string
 
 	switch inst.Info.Kind {
+	case game.NopInstruction:
+		lines = []string{
+			"An empty instruction does nothing.",
+			"It's also known as NOP instruction",
+		}
+
 	case game.RandomPosInstruction:
 		lines = []string{
 			"Push a random pos to the stack.",
 		}
+
 	case game.RotateToInstruction:
 		lines = []string{
 			"Rotate to the destination point.",
@@ -260,6 +289,39 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction) string {
 		lines = []string{
 			"Turns on the engine.",
 			"Moves forward for the specified amount of units.",
+		}
+
+	case game.TargetPosInstruction:
+		lines = []string{
+			"Push a target pos to the stack.",
+		}
+
+	case game.DistanceToInstruction:
+		lines = []string{
+			"Pop a stack value and push back a",
+			"distance between that pos and the current",
+			"possition of the vessel.",
+		}
+
+	case game.IsLtInstruction:
+		lines = []string{
+			"Pop a stack value and check",
+			"whether it's less than the value specified.",
+			"If not, go to the next branch.",
+		}
+	case game.IsGtInstruction:
+		lines = []string{
+			"Pop a top stack value and check",
+			"whether it's greater than the value specified.",
+			"If not, go to the next branch.",
+		}
+
+	case game.SnapShotInstruction:
+		lines = []string{
+			"Fires weapon at the target.",
+			"Snap shot allows a faster rate-of-fire with",
+			"a very small accuracy.",
+			"It can be good against unpredictable targets.",
 		}
 	}
 

@@ -225,7 +225,7 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 
 	case game.RandomOffsetInstruction:
 		p := t.stack.PopVec()
-		r := inst.Params[0].(float64)
+		r := inst.Param
 		newPos := p.Add(e.rand.Offset(-r, r))
 		t.stack.Push(stackValue{
 			value: newPos,
@@ -251,20 +251,20 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 		})
 
 	case game.ChanceInstruction:
-		chance := inst.Params[0].(float64)
+		chance := inst.Param
 		if !e.rand.Chance(chance) {
 			return instCancelled
 		}
 
 	case game.IsLtInstruction:
-		x := inst.Params[0].(float64)
+		x := inst.Param
 		y := t.stack.PopFloat()
 		if x < y {
 			return instCancelled
 		}
 
 	case game.IsGtInstruction:
-		x := inst.Params[0].(float64)
+		x := inst.Param
 		y := t.stack.PopFloat()
 		if x > y {
 			return instCancelled
@@ -282,7 +282,7 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 		if inst.firstTick {
 			p := t.stack.PopVec()
 			inst.rotation = e.vessel.Pos.AngleToPoint(p).Normalized()
-			inst.amount = inst.Params[0].(float64)
+			inst.amount = inst.Param
 		}
 		vesselRotation := e.vessel.Rotation.Normalized()
 		delta := vesselRotation.AngleDelta(inst.rotation)
@@ -320,7 +320,7 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 
 	case game.MoveForwardInstruction:
 		if inst.firstTick {
-			inst.amount = inst.Params[0].(float64)
+			inst.amount = inst.Param
 		}
 		if inst.amount > 0 {
 			inst.amount -= e.delta * e.vessel.Design.MaxSpeed

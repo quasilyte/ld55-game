@@ -87,13 +87,13 @@ func (r *Runner) Init() {
 							// },
 							{Info: game.ProgInstInfoTab[game.TargetPosInstruction]},
 							{
-								Info:   game.ProgInstInfoTab[game.RandomOffsetInstruction],
-								Params: []any{40.0},
+								Info:  game.ProgInstInfoTab[game.RandomOffsetInstruction],
+								Param: 40.0,
 							},
 							{Info: game.ProgInstInfoTab[game.RotateToInstruction]},
 							{
-								Info:   game.ProgInstInfoTab[game.MoveForwardInstruction],
-								Params: []any{100.0},
+								Info:  game.ProgInstInfoTab[game.MoveForwardInstruction],
+								Param: 100.0,
 							},
 						},
 					},
@@ -119,8 +119,8 @@ func (r *Runner) Init() {
 								Info: game.ProgInstInfoTab[game.DistanceToInstruction],
 							},
 							{
-								Info:   game.ProgInstInfoTab[game.IsLtInstruction],
-								Params: []any{150.0},
+								Info:  game.ProgInstInfoTab[game.IsLtInstruction],
+								Param: 150.0,
 							},
 							{
 								Info: game.ProgInstInfoTab[game.SnapShotInstruction],
@@ -142,8 +142,8 @@ func (r *Runner) Init() {
 								Info: game.ProgInstInfoTab[game.DistanceToInstruction],
 							},
 							{
-								Info:   game.ProgInstInfoTab[game.IsLtInstruction],
-								Params: []any{200.0},
+								Info:  game.ProgInstInfoTab[game.IsLtInstruction],
+								Param: 200.0,
 							},
 							{
 								Info: game.ProgInstInfoTab[game.NormalShotInstruction],
