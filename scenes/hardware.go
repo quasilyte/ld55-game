@@ -156,6 +156,12 @@ func (c *HardwareController) weaponDoc(wd *game.WeaponDesign) string {
 	var lines []string
 
 	switch wd.Name {
+	case "Scatter Gun":
+		lines = []string{
+			"A low-tech weapon that doesn't need energy to fire.",
+			"It launches 6 projectiles per round, but they",
+			"deal only minor Kinetic damage.",
+		}
 	case "Pulse Laser":
 		lines = []string{
 			"A well-balanced energy weapon.",
@@ -177,8 +183,12 @@ func (c *HardwareController) weaponDoc(wd *game.WeaponDesign) string {
 
 	totalDamage := wd.Damage.Energy + wd.Damage.Kinetic + wd.Damage.Thermal
 	dps := totalDamage * (1.0 / wd.Reload)
-	resultLines = append(resultLines, fmt.Sprintf("DPS: %.1f (E%d K%d T%d)",
-		dps, int(wd.Damage.Energy), int(wd.Damage.Kinetic), int(wd.Damage.Thermal)))
+	multiplier := ""
+	if wd.Burst != 1 {
+		multiplier = fmt.Sprintf("*%d", wd.Burst)
+	}
+	resultLines = append(resultLines, fmt.Sprintf("DPS: %.1f%s (E%d K%d T%d)",
+		dps, multiplier, int(wd.Damage.Energy), int(wd.Damage.Kinetic), int(wd.Damage.Thermal)))
 
 	resultLines = append(resultLines, fmt.Sprintf("Max range: %d", int(wd.MaxRange)))
 	resultLines = append(resultLines, fmt.Sprintf("Energy cost: %d (per shot)", int(wd.EnergyCost)))

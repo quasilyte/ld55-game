@@ -122,6 +122,8 @@ func (n *vesselNode) processWeapons(delta float64) {
 		w.Reload = gmath.ClampMin(w.Reload-delta, 0)
 	}
 
+	ctx := n.scene.Controller().GetGameContext()
+
 	for _, c := range n.commands.FireCommands {
 		if c.WeaponIndex >= uint(len(n.data.Weapons)) {
 			fmt.Printf("warning: invalid weapon index %d\n", c.WeaponIndex)
@@ -136,19 +138,27 @@ func (n *vesselNode) processWeapons(delta float64) {
 			continue
 		}
 
-		// TODO: handle different weapon fire modes, etc.
-		pd := &game.Projectile{
-			Pos:      n.data.Pos,
-			Rotation: n.data.Pos.AngleToPoint(c.TargetPos),
-			Weapon:   w.Design,
+		for i := 0; i < w.Design.Burst; i++ {
+			// TODO: handle different weapon fire modes, etc.
+			targetPos := c.TargetPos
+			firePos := n.data.Pos
+			if i != 0 {
+				targetPos = targetPos.Add(ctx.Rand.Offset(-28, 28))
+				firePos = firePos.Add(ctx.Rand.Offset(-8, 8))
+			}
+			pd := &game.Projectile{
+				Pos:      firePos,
+				Rotation: n.data.Pos.AngleToPoint(targetPos),
+				Weapon:   w.Design,
+			}
+			p := newProjectileNode(projectileConfig{
+				Data:      pd,
+				TargetPos: targetPos,
+				Target:    n.data.Target,
+				Owner:     n.data,
+			})
+			n.scene.AddObject(p)
 		}
-		p := newProjectileNode(projectileConfig{
-			Data:      pd,
-			TargetPos: c.TargetPos,
-			Target:    n.data.Target,
-			Owner:     n.data,
-		})
-		n.scene.AddObject(p)
 
 		if w.Design.FireSound != assets.AudioNone {
 			playSound(n.scene, w.Design.FireSound)

@@ -40,6 +40,8 @@ type WeaponDesign struct {
 
 	ProjectileImage resource.ImageID
 
+	Burst int
+
 	ProjectileSpeed float64
 
 	ProjectileImpactArea float64
@@ -68,6 +70,20 @@ type Projectile struct {
 
 var WeaponDesignList = []*WeaponDesign{
 	{
+		Name:                 "Scatter Gun",
+		EnergyCost:           0,
+		Reload:               1.6,
+		Damage:               Damage{Kinetic: 2},
+		FiringType:           TargetableWeapon,
+		FireSound:            assets.AudioFireScatter1,
+		ProjectileImage:      assets.ImageProjectileScatter,
+		ProjectileSpeed:      300,
+		MaxRange:             240,
+		ProjectileImpactArea: 5,
+		Burst:                6,
+	},
+
+	{
 		Name:                 "Pulse Laser",
 		BuyCost:              120,
 		EnergyCost:           5,
@@ -80,6 +96,7 @@ var WeaponDesignList = []*WeaponDesign{
 		MaxRange:             250,
 		ProjectileImpactArea: 8,
 		ImpactImage:          assets.ImageImpactLaser,
+		Burst:                1,
 	},
 
 	{
@@ -95,5 +112,6 @@ var WeaponDesignList = []*WeaponDesign{
 		MaxRange:             300,
 		ProjectileImpactArea: 10,
 		ImpactImage:          assets.ImageImpactPlasma,
+		Burst:                1,
 	},
 }

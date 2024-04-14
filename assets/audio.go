@@ -6,6 +6,9 @@ import (
 
 func registerAudioResources(loader *resource.Loader) {
 	resources := map[resource.AudioID]resource.AudioInfo{
+		AudioFireScatter1: {Path: "audio/scatter1.wav", Volume: -0.1},
+		AudioFireScatter2: {Path: "audio/scatter2.wav", Volume: -0.1},
+
 		AudioFireLaser1: {Path: "audio/laser1.wav", Volume: -0.4},
 		AudioFireLaser2: {Path: "audio/laser2.wav", Volume: -0.4},
 		AudioFireLaser3: {Path: "audio/laser3.wav", Volume: -0.4},
@@ -24,6 +27,8 @@ func registerAudioResources(loader *resource.Loader) {
 
 func NumSamples(a resource.AudioID) int {
 	switch a {
+	case AudioFireScatter1:
+		return 2
 	case AudioFireLaser1:
 		return 4
 	case AudioFirePlasma1:
@@ -36,6 +41,8 @@ func NumSamples(a resource.AudioID) int {
 const (
 	AudioNone resource.AudioID = iota
 
+	AudioFireScatter1
+	AudioFireScatter2
 	AudioFireLaser1
 	AudioFireLaser2
 	AudioFireLaser3

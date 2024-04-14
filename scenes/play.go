@@ -76,7 +76,8 @@ func (c *PlayController) createDefaultVesselDesign() {
 	s := c.ctx.Session
 
 	s.Weapons = []*game.WeaponDesign{
-		game.FindWeaponDesignByName("Pulse Laser"),
+		// game.FindWeaponDesignByName("Pulse Laser"),
+		game.FindWeaponDesignByName("Scatter Gun"),
 		game.FindWeaponDesignByName("Plasma Cannon"),
 	}
 
