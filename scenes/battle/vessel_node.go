@@ -17,8 +17,10 @@ type vesselNode struct {
 	data  *game.Vessel
 	world *game.World
 
-	sprite *graphics.Sprite
-	aura   *graphics.Rect
+	sprite    *graphics.Sprite
+	aura      *graphics.Rect
+	hpBar     *valueBarNode
+	energyBar *valueBarNode
 
 	commands progsim.VesselCommands
 }
@@ -51,6 +53,17 @@ func (n *vesselNode) Init(s *scene) {
 	n.aura.SetFillColorScale(graphics.ColorScale{}) // Transparent
 	n.aura.SetOutlineColorScale(graphics.ColorScaleFromColor(auraColor))
 
+	{
+		pos := gmath.Pos{Base: &n.data.Pos, Offset: gmath.Vec{Y: 37}}
+		n.hpBar = newValueBarNode(&n.data.Health, n.data.Design.MaxHealth, pos, styles.HealthColor)
+		s.AddObject(n.hpBar)
+	}
+	{
+		pos := gmath.Pos{Base: &n.data.Pos, Offset: gmath.Vec{Y: 43}}
+		n.energyBar = newValueBarNode(&n.data.Energy, n.data.Design.MaxEnergy, pos, styles.EnergyColor)
+		s.AddObject(n.energyBar)
+	}
+
 	if n.data.Alliance != 0 {
 		n.sprite.SetColorScale(graphics.ColorScale{R: 1.1, G: 0.5, B: 1.2, A: 1})
 	}
@@ -59,6 +72,8 @@ func (n *vesselNode) Init(s *scene) {
 func (n *vesselNode) Dispose() {
 	n.sprite.Dispose()
 	n.aura.Dispose()
+	n.hpBar.Dispose()
+	n.energyBar.Dispose()
 }
 
 func (n *vesselNode) IsDisposed() bool {

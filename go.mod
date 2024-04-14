@@ -13,7 +13,7 @@ require (
 	github.com/jfreymuth/oggvorbis v1.0.5 // indirect
 	github.com/jfreymuth/vorbis v1.0.2 // indirect
 	github.com/quasilyte/bitsweetfont v0.0.0-20240408230347-52b6d812c06d // indirect
-	github.com/quasilyte/ebitengine-graphics v0.0.0-20240312101447-e2b48187ac97 // indirect
+	github.com/quasilyte/ebitengine-graphics v0.0.0-20240414215439-bacc414f82af // indirect
 	github.com/quasilyte/ebitengine-input v0.9.1 // indirect
 	github.com/quasilyte/ebitengine-resource v0.5.1-0.20231101125830-f1fc00a87be0 // indirect
 	github.com/quasilyte/gdata v0.8.1 // indirect

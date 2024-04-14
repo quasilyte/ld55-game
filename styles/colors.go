@@ -12,6 +12,9 @@ var (
 	AlliedColor = rgb(0x65cc5e)
 	EnemyColor  = rgb(0xcc5e5e)
 
+	HealthColor = rgb(0x2bf04c)
+	EnergyColor = rgb(0x2bacf0)
+
 	UIDarkBorder = rgb(0x1a263c)
 	UINormal     = rgb(0x2b426a)
 

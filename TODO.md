@@ -14,9 +14,6 @@ Theme: summoning
 
 TODO feedback:
 
-* do not unlock everything at level 1
-* health bar
-* energy bar
 * explicit victory message
 * insert after drag and drop (shift)
 

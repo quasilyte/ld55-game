@@ -108,7 +108,7 @@ var VesselDesignList = []*VesselDesign{
 		Acceleration:  160,
 		MaxHealth:     30,
 		MaxEnergy:     70,
-		EnergyRegen:   15,
+		EnergyRegen:   6,
 		HitboxSize:    4,
 
 		KineticResist: 0.1,
@@ -124,7 +124,7 @@ var VesselDesignList = []*VesselDesign{
 		Acceleration:  150,
 		MaxHealth:     40,
 		MaxEnergy:     50,
-		EnergyRegen:   10,
+		EnergyRegen:   4,
 		HitboxSize:    12,
 
 		KineticResist: 0.3,
@@ -139,8 +139,8 @@ var VesselDesignList = []*VesselDesign{
 		MaxSpeed:      90,
 		Acceleration:  200,
 		MaxHealth:     70,
-		MaxEnergy:     30,
-		EnergyRegen:   14,
+		MaxEnergy:     40,
+		EnergyRegen:   3,
 		HitboxSize:    20,
 
 		KineticResist: 0.1,
@@ -157,7 +157,7 @@ var VesselDesignList = []*VesselDesign{
 		Acceleration:  150,
 		MaxHealth:     120,
 		MaxEnergy:     150,
-		EnergyRegen:   5,
+		EnergyRegen:   6,
 		HitboxSize:    18,
 
 		KineticResist: 0.2,
