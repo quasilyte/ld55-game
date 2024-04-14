@@ -6,6 +6,7 @@ import (
 	"math"
 	"time"
 
+	graphics "github.com/quasilyte/ebitengine-graphics"
 	resource "github.com/quasilyte/ebitengine-resource"
 	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/gscene"
@@ -29,6 +30,8 @@ type Runner struct {
 
 	vessels   []*vesselNode
 	executors []*progsim.Executor
+
+	borders *graphics.Rect
 
 	scene *gscene.RootScene[ControllerAccessor]
 
@@ -221,6 +224,13 @@ func (r *Runner) Init() {
 			}
 		})
 	}
+
+	r.borders = r.ctx.NewRect(r.ctx.WindowSize.X, r.ctx.WindowSize.Y)
+	r.borders.SetCentered(false)
+	r.borders.SetOutlineWidth(2)
+	r.borders.SetOutlineColorScale(graphics.ColorScaleFromColor(styles.SelectedTextColor))
+	r.borders.SetFillColorScale(graphics.ColorScale{})
+	r.scene.AddGraphics(r.borders)
 }
 
 func (r *Runner) Update(delta float64) {
