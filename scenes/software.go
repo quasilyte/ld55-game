@@ -192,6 +192,8 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 			OnClick: func() {
 				if !c.hasErrors {
 					game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+				} else {
+					c.ctx.Audio().PlaySound(assets.AudioErrorBeep)
 				}
 			},
 		})
@@ -403,6 +405,7 @@ func (c *SoftwareController) getSlotInst(slot *softwareSlot) *game.ProgInstructi
 
 func (c *SoftwareController) selectTab(index int) {
 	if c.hasErrors {
+		c.ctx.Audio().PlaySound(assets.AudioErrorBeep)
 		return
 	}
 
@@ -597,6 +600,8 @@ func (c *SoftwareController) Update(delta float64) {
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		if !c.hasErrors {
 			game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+		} else {
+			c.ctx.Audio().PlaySound(assets.AudioErrorBeep)
 		}
 		return
 	}

@@ -17,8 +17,6 @@ TODO (top priority):
 TODO:
 
 * crt filter?
-* journal hints
-* give notification when action is failed due to an error
 * menu bg
 * "enemy in arc" condition
 * instruction progression? (don't unlock all at level 1)

@@ -90,6 +90,8 @@ func registerAudioResources(loader *resource.Loader) {
 		AudioFireFreezer1: {Path: "audio/freezer1.wav", Volume: -0.1},
 		AudioFireFreezer2: {Path: "audio/freezer2.wav", Volume: -0.1},
 		AudioFireFreezer3: {Path: "audio/freezer3.wav", Volume: -0.1},
+
+		AudioErrorBeep: {Path: "audio/error_beep.wav"},
 	}
 
 	for id, info := range resources {
@@ -137,6 +139,8 @@ const (
 	AudioFireFreezer3
 	AudioFireMissile1
 	AudioFireMissile2
+
+	AudioErrorBeep
 
 	AudioMusicMenu
 )
