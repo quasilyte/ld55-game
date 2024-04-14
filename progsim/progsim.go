@@ -43,8 +43,9 @@ func (c *VesselCommands) Reset() {
 }
 
 type VesselFireCommand struct {
-	WeaponIndex uint
-	TargetPos   gmath.Vec
+	WeaponIndex      uint
+	ReloadMultiplier float64
+	TargetPos        gmath.Vec
 }
 
 type branchStatus int
@@ -341,15 +342,17 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 		// TODO: check whether this weapon can be used?
 		weaponIndex := t.weaponIndex()
 		e.commands.FireCommands = append(e.commands.FireCommands, VesselFireCommand{
-			WeaponIndex: uint(weaponIndex),
-			TargetPos:   e.vessel.Target.Pos.Add(e.rand.Offset(-32, 32)),
+			ReloadMultiplier: 0.8,
+			WeaponIndex:      uint(weaponIndex),
+			TargetPos:        e.vessel.Target.Pos.Add(e.rand.Offset(-32, 32)),
 		})
 
 	case game.NormalShotInstruction:
 		weaponIndex := t.weaponIndex()
 		e.commands.FireCommands = append(e.commands.FireCommands, VesselFireCommand{
-			WeaponIndex: uint(weaponIndex),
-			TargetPos:   e.vessel.Target.Pos,
+			ReloadMultiplier: 1.0,
+			WeaponIndex:      uint(weaponIndex),
+			TargetPos:        e.vessel.Target.Pos,
 		})
 	}
 

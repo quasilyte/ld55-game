@@ -143,7 +143,6 @@ func (r *Runner) Init() {
 		if v.data.Artifact != nil {
 			v.data.Artifact.ApplyBonus(v.data)
 		}
-		fmt.Println(v.data.EnergyResist)
 
 		v.data.EventOnDamage.Connect(nil, func(data game.OnDamageData) {
 			if data.Attacker == nil {
@@ -165,12 +164,6 @@ func (r *Runner) Init() {
 }
 
 func (r *Runner) Update(delta float64) {
-	// r.vessels[0].SetCommands(progsim.VesselCommands{
-	// 	FireCommands: []progsim.VesselFireCommand{
-	// 		{WeaponIndex: 0, TargetPos: r.vessels[1].data.Pos},
-	// 	},
-	// })
-
 	for i, e := range r.executors {
 		r.vessels[i].SetCommands(e.RunTick(delta))
 	}
