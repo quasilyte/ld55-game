@@ -59,8 +59,15 @@ func (r *Runner) Init() {
 		Pos:      r.ctx.WindowSize.Mulf(0.5),
 		Rotation: math.Pi,
 
-		Design: *r.ctx.Session.VesselDesign,
-		Prog:   r.ctx.Session.Prog,
+		Design:   *r.ctx.Session.VesselDesign,
+		Prog:     r.ctx.Session.Prog,
+		Artifact: r.ctx.Session.ArtifactDesign,
+	}
+	for _, wd := range r.ctx.Session.Weapons {
+		v := playerVessel
+		v.Weapons = append(v.Weapons, &game.Weapon{
+			Design: wd,
+		})
 	}
 
 	enemyVessel := &game.Vessel{
@@ -123,16 +130,20 @@ func (r *Runner) Init() {
 		r.vessels[1].data.Target = r.world.Vessels[0]
 	}
 
-	// TODO: move this code somewhere else.
+	// TODO: move this code somewhere else?
 	for i := range r.vessels {
 		v := r.vessels[i]
 		v.data.Health = v.data.Design.MaxHealth
 		v.data.Energy = v.data.Design.MaxEnergy
-		for _, wd := range r.ctx.Session.Weapons {
-			v.data.Weapons = append(v.data.Weapons, &game.Weapon{
-				Design: wd,
-			})
+
+		v.data.EnergyResist = v.data.Design.EnergyResist
+		v.data.KineticResist = v.data.Design.KineticResist
+		v.data.ThermalResist = v.data.Design.ThermalResist
+
+		if v.data.Artifact != nil {
+			v.data.Artifact.ApplyBonus(v.data)
 		}
+		fmt.Println(v.data.EnergyResist)
 
 		v.data.EventOnDamage.Connect(nil, func(data game.OnDamageData) {
 			if data.Attacker == nil {

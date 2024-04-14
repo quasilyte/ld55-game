@@ -112,6 +112,43 @@ func (c *HardwareController) Init(scene *gscene.SimpleRootScene) {
 		c.rows = append(c.rows, row)
 	}
 
+	{
+		grid := widget.NewContainer(
+			widget.ContainerOpts.Layout(widget.NewGridLayout(
+				widget.GridLayoutOpts.Columns(len(game.ArtifactDesignList)+1),
+				widget.GridLayoutOpts.Spacing(8, 14),
+			)),
+		)
+
+		l := eui.NewLabel("Bonus", assets.Font1,
+			widget.TextOpts.WidgetOpts(widget.WidgetOpts.MinSize(108, 0)))
+		grid.AddChild(l)
+
+		row := &hardwareRow{}
+
+		for i := range game.ArtifactDesignList {
+			ad := game.ArtifactDesignList[i]
+			slot := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{
+				WithSelector: true,
+				OnClick: func() {
+					session.ArtifactDesign = ad
+					c.updateSlots()
+				},
+				Tooltip: eui.NewSimpleTooltip(uiRes, c.artifactDoc(ad)),
+			})
+			slot.Icon.Image = c.ctx.Loader.LoadImage(ad.Icon).Data
+			grid.AddChild(slot.Container)
+			row.items = append(row.items, &hardwareItem{
+				slot:  slot,
+				value: ad,
+			})
+		}
+
+		rows.AddChild(grid)
+
+		c.rows = append(c.rows, row)
+	}
+
 	rows.AddChild(eui.NewSeparator(nil, styles.TransparentColor))
 
 	{
@@ -144,6 +181,8 @@ func (c *HardwareController) updateSlots() {
 				selected = s.Weapons[0] == item.value.(*game.WeaponDesign)
 			case 2:
 				selected = s.Weapons[1] == item.value.(*game.WeaponDesign)
+			case 3:
+				selected = s.ArtifactDesign == item.value.(*game.ArtifactDesign)
 			}
 			if selected {
 				item.slot.Selector.GetWidget().Visibility = widget.Visibility_Show
@@ -158,6 +197,33 @@ func (c *HardwareController) Update(delta float64) {}
 
 func (c *HardwareController) back() {
 	game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+}
+
+func (c *HardwareController) artifactDoc(ad *game.ArtifactDesign) string {
+	var lines []string
+
+	switch ad.Name {
+	case "E-Shield":
+		lines = []string{
+			"Increases resistance against Energy damage.",
+		}
+	case "K-Shield":
+		lines = []string{
+			"Increases resistance against Kinetic damage.",
+		}
+	case "T-Shield":
+		lines = []string{
+			"Increases resistance against Thermal damage.",
+		}
+	}
+
+	resultLines := []string{
+		ad.Name,
+		"",
+	}
+	resultLines = append(resultLines, lines...)
+
+	return strings.Join(resultLines, "\n")
 }
 
 func (c *HardwareController) weaponDoc(wd *game.WeaponDesign) string {

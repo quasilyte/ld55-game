@@ -40,6 +40,10 @@ func registerImageResources(loader *resource.Loader) {
 
 		ImageSpaceBg: {Path: "image/space_bg.png"},
 
+		ImageItemEnergyShield:  {Path: "image/item/energy-shield.png"},
+		ImageItemKineticShield: {Path: "image/item/kinetic-shield.png"},
+		ImageItemThermalShield: {Path: "image/item/thermal-shield.png"},
+
 		ImageWarning: {Path: "image/warning.png"},
 
 		ImageProjectileScatter: {Path: "image/ammo/scatter_projectile.png"},
@@ -94,6 +98,10 @@ const (
 	ImageIconRand
 	ImageIconSelfHealthPercent
 	ImageIconSelfEnergyPercent
+
+	ImageItemEnergyShield
+	ImageItemKineticShield
+	ImageItemThermalShield
 
 	ImageWarning
 

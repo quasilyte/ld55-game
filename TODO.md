@@ -27,6 +27,9 @@ hardware:
 
 TODO:
 
+* weapon with slow condition
+* homing rockets
+* "enemy in arc" condition
 * instruction progression (don't unlock all at level 1)
 * menu bg
 * weapon/vessel balancing

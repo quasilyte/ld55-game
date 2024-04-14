@@ -84,6 +84,8 @@ func (c *PlayController) createDefaultVesselDesign() {
 	}
 
 	s.VesselDesign = game.FindVesselDesignByName("Fighter")
+
+	s.ArtifactDesign = game.FindArtifactDesignByName("E-Shield")
 }
 
 func (c *PlayController) createDefaultProg() {

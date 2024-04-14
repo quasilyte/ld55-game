@@ -5,13 +5,15 @@ type Session struct {
 
 	Prog *BotProg
 
-	Weapons      []*WeaponDesign
-	VesselDesign *VesselDesign
+	Weapons        []*WeaponDesign
+	VesselDesign   *VesselDesign
+	ArtifactDesign *ArtifactDesign
 }
 
 type SavedVessel struct {
 	Weapons      []string
 	VesselDesign string
+	Artifact     string
 	Prog         *BotProg
 }
 

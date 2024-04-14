@@ -24,7 +24,12 @@ type Vessel struct {
 
 	Target *Vessel
 
-	Weapons []*Weapon
+	Weapons  []*Weapon
+	Artifact *ArtifactDesign
+
+	EnergyResist  float64
+	KineticResist float64
+	ThermalResist float64
 
 	Design VesselDesign
 
@@ -42,9 +47,9 @@ func (v *Vessel) Velocity() gmath.Vec {
 }
 
 func (v *Vessel) OnDamage(d Damage, attacker *Vessel) {
-	totalDamage := ((1.0 - v.Design.EnergyResist) * d.Energy) +
-		((1.0 - v.Design.KineticResist) * d.Kinetic) +
-		((1.0 - v.Design.ThermalResist) * d.Thermal)
+	totalDamage := ((1.0 - v.EnergyResist) * d.Energy) +
+		((1.0 - v.KineticResist) * d.Kinetic) +
+		((1.0 - v.ThermalResist) * d.Thermal)
 	if totalDamage > 0 {
 		v.EventOnDamage.Emit(OnDamageData{
 			Total:    totalDamage,
@@ -101,6 +106,10 @@ var VesselDesignList = []*VesselDesign{
 		MaxEnergy:     50,
 		EnergyRegen:   10,
 		HitboxSize:    12,
+
+		KineticResist: 0.2,
+		EnergyResist:  0.2,
+		ThermalResist: 0,
 	},
 
 	{
@@ -113,5 +122,9 @@ var VesselDesignList = []*VesselDesign{
 		MaxEnergy:     30,
 		EnergyRegen:   14,
 		HitboxSize:    20,
+
+		KineticResist: 0.1,
+		EnergyResist:  0.5,
+		ThermalResist: 0.3,
 	},
 }
