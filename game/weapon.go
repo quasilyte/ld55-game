@@ -50,6 +50,8 @@ type WeaponDesign struct {
 	ProjectileImpactArea float64
 
 	ImpactImage resource.ImageID
+
+	MinLevel int
 }
 
 type WeaponFiringType int
@@ -89,6 +91,7 @@ var WeaponDesignList = []*WeaponDesign{
 		CollisionCheck:       true,
 		ImpactImage:          assets.ImageImpactPusher,
 		Burst:                1,
+		MinLevel:             0,
 	},
 
 	{
@@ -103,6 +106,7 @@ var WeaponDesignList = []*WeaponDesign{
 		MaxRange:             240,
 		ProjectileImpactArea: 5,
 		Burst:                7,
+		MinLevel:             0,
 	},
 
 	{
@@ -119,6 +123,7 @@ var WeaponDesignList = []*WeaponDesign{
 		ProjectileImpactArea: 8,
 		ImpactImage:          assets.ImageImpactLaser,
 		Burst:                1,
+		MinLevel:             0,
 	},
 
 	{
@@ -134,6 +139,7 @@ var WeaponDesignList = []*WeaponDesign{
 		ProjectileImpactArea: 6,
 		ImpactImage:          assets.ImageImpactIon,
 		Burst:                1,
+		MinLevel:             1,
 	},
 
 	{
@@ -150,6 +156,7 @@ var WeaponDesignList = []*WeaponDesign{
 		ProjectileImpactArea: 10,
 		ImpactImage:          assets.ImageImpactPlasma,
 		Burst:                1,
+		MinLevel:             1,
 	},
 
 	{
@@ -166,6 +173,7 @@ var WeaponDesignList = []*WeaponDesign{
 		CollisionCheck:       true,
 		ImpactImage:          assets.ImageImpactLancer,
 		Burst:                1,
+		MinLevel:             2,
 	},
 
 	{
@@ -183,6 +191,7 @@ var WeaponDesignList = []*WeaponDesign{
 		Burst:                1,
 		CollisionCheck:       true,
 		Homing:               120,
+		MinLevel:             2,
 	},
 
 	{
@@ -199,5 +208,6 @@ var WeaponDesignList = []*WeaponDesign{
 		Burst:                2,
 		CollisionCheck:       true,
 		Homing:               100,
+		MinLevel:             2,
 	},
 }

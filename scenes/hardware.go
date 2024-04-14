@@ -80,13 +80,21 @@ func (c *HardwareController) Init(scene *gscene.SimpleRootScene) {
 		c.rows = append(c.rows, row)
 	}
 
+	var weaponsAvailable []*game.WeaponDesign
+	for _, wd := range game.WeaponDesignList {
+		if wd.MinLevel > session.Level {
+			continue
+		}
+		weaponsAvailable = append(weaponsAvailable, wd)
+	}
+
 	for i := 0; i < 2; i++ {
 		weaponIndex := i
 		row := &hardwareRow{}
 
 		grid := widget.NewContainer(
 			widget.ContainerOpts.Layout(widget.NewGridLayout(
-				widget.GridLayoutOpts.Columns(len(game.WeaponDesignList)+1),
+				widget.GridLayoutOpts.Columns(len(weaponsAvailable)+1),
 				widget.GridLayoutOpts.Spacing(8, 14),
 			)),
 		)
@@ -95,8 +103,8 @@ func (c *HardwareController) Init(scene *gscene.SimpleRootScene) {
 			widget.TextOpts.WidgetOpts(widget.WidgetOpts.MinSize(108, 0)))
 		grid.AddChild(l)
 
-		for i := range game.WeaponDesignList {
-			wd := game.WeaponDesignList[i]
+		for i := range weaponsAvailable {
+			wd := weaponsAvailable[i]
 			slot := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{
 				WithSelector: true,
 				Tooltip:      eui.NewSimpleTooltip(uiRes, c.weaponDoc(wd)),
