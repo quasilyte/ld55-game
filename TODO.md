@@ -16,8 +16,6 @@ TODO (top priority):
 
 * software
   * give notification when action is failed due to an error
-* hardware shop
-  * select button widget
 * journal
 
 hardware:

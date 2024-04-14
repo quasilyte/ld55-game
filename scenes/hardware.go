@@ -34,6 +34,7 @@ func NewHardwareController(ctx *game.Context) *HardwareController {
 func (c *HardwareController) Init(scene *gscene.SimpleRootScene) {
 	uiRes := c.ctx.UIResources
 	root := eui.NewRootContainer()
+	session := c.ctx.Session
 
 	rows := eui.NewRowContainer(eui.RowContainerConfig{})
 
@@ -56,6 +57,8 @@ func (c *HardwareController) Init(scene *gscene.SimpleRootScene) {
 			slot := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{
 				WithSelector: true,
 				OnClick: func() {
+					session.VesselDesign = vd
+					c.updateSlots()
 				},
 			})
 			slot.Icon.Image = c.ctx.Loader.LoadImage(vd.Image).Data
@@ -72,6 +75,7 @@ func (c *HardwareController) Init(scene *gscene.SimpleRootScene) {
 	}
 
 	for i := 0; i < 2; i++ {
+		weaponIndex := i
 		row := &hardwareRow{}
 
 		grid := widget.NewContainer(
@@ -90,6 +94,10 @@ func (c *HardwareController) Init(scene *gscene.SimpleRootScene) {
 			slot := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{
 				WithSelector: true,
 				Tooltip:      eui.NewSimpleTooltip(uiRes, c.weaponDoc(wd)),
+				OnClick: func() {
+					session.Weapons[weaponIndex] = wd
+					c.updateSlots()
+				},
 			})
 			slot.Icon.Image = c.ctx.Loader.LoadImage(wd.ProjectileImage).Data
 			grid.AddChild(slot.Container)
