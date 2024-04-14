@@ -6,6 +6,7 @@ import (
 	"math"
 	"time"
 
+	resource "github.com/quasilyte/ebitengine-resource"
 	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/gsignal"
@@ -193,6 +194,31 @@ func (r *Runner) Init() {
 		v.data.EventDestroyed.Connect(nil, func(attacker *game.Vessel) {
 			r.EventBattleOver.Emit(v.data.Alliance == 1)
 			v.Dispose()
+			r.ctx.Audio().PlaySound(assets.AudioVesselExplosion)
+
+			effects := [...]resource.ImageID{
+				assets.ImageImpactPusher,
+				assets.ImageImpactPusher,
+				assets.ImageImpactPusher,
+				assets.ImageImpactPusher,
+				assets.ImageImpactPusher,
+				assets.ImageImpactPlasma,
+				assets.ImageImpactPlasma,
+				assets.ImageImpactPlasma,
+				assets.ImageImpactPlasma,
+				assets.ImageImpactPlasma,
+				assets.ImageImpactIon,
+				assets.ImageImpactIon,
+				assets.ImageImpactIon,
+				assets.ImageImpactIon,
+				assets.ImageImpactIon,
+				assets.ImageImpactIon,
+				assets.ImageImpactIon,
+			}
+			for _, id := range &effects {
+				e := newEffectNode(v.data.Pos.Add(r.ctx.Rand.Offset(-16, 16)), id)
+				r.scene.AddObject(e)
+			}
 		})
 	}
 }

@@ -91,6 +91,8 @@ func registerAudioResources(loader *resource.Loader) {
 		AudioFireFreezer2: {Path: "audio/freezer2.wav", Volume: -0.1},
 		AudioFireFreezer3: {Path: "audio/freezer3.wav", Volume: -0.1},
 
+		AudioVesselExplosion: {Path: "audio/vessel_explosion.wav", Volume: -0.1},
+
 		AudioErrorBeep:  {Path: "audio/error_beep.wav"},
 		AudioAckBeep:    {Path: "audio/ack.wav"},
 		AudioDeleteBeep: {Path: "audio/delete.wav"},
@@ -142,6 +144,8 @@ const (
 	AudioFireFreezer3
 	AudioFireMissile1
 	AudioFireMissile2
+
+	AudioVesselExplosion
 
 	AudioErrorBeep
 	AudioAckBeep

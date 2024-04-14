@@ -139,7 +139,7 @@ var VesselDesignList = []*VesselDesign{
 		MaxSpeed:      90,
 		Acceleration:  200,
 		MaxHealth:     70,
-		MaxEnergy:     40,
+		MaxEnergy:     90,
 		EnergyRegen:   3,
 		HitboxSize:    20,
 
@@ -156,7 +156,7 @@ var VesselDesignList = []*VesselDesign{
 		MaxSpeed:      90,
 		Acceleration:  150,
 		MaxHealth:     120,
-		MaxEnergy:     150,
+		MaxEnergy:     170,
 		EnergyRegen:   6,
 		HitboxSize:    18,
 
