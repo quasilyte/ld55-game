@@ -15,10 +15,7 @@ Theme: summoning
 TODO (top priority):
 
 * insert after drag and drop (shift)
-* explicit victory message (sound effect?)
-* vessel design tooltips
 * crt filter?
-* vessel explosion effect (animation)
 
 TODO:
 
