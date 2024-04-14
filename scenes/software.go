@@ -1,7 +1,10 @@
 package scenes
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
+	"runtime"
 	"strconv"
 	"strings"
 
@@ -580,6 +583,32 @@ func (c *SoftwareController) Update(delta float64) {
 	}
 
 	c.handleDragAndDrop()
+
+	if runtime.GOOS != "wasm" {
+		if inpututil.IsKeyJustPressed(ebiten.KeyGraveAccent) {
+			c.saveVessel()
+		}
+	}
+}
+
+func (c *SoftwareController) saveVessel() {
+	session := c.ctx.Session
+
+	saved := game.SavedVessel{
+		VesselDesign: session.VesselDesign.Name,
+		Prog:         session.Prog.Compact(),
+	}
+	for _, wd := range session.Weapons {
+		saved.Weapons = append(saved.Weapons, wd.Name)
+	}
+
+	jsonData, err := json.Marshal(saved)
+	if err != nil {
+		panic(err)
+	}
+	if err := os.WriteFile("saved_vessel.json", jsonData, 0o644); err != nil {
+		panic(err)
+	}
 }
 
 func (c *SoftwareController) handleDragAndDrop() {

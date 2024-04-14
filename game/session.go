@@ -9,6 +9,12 @@ type Session struct {
 	VesselDesign *VesselDesign
 }
 
+type SavedVessel struct {
+	Weapons      []string
+	VesselDesign string
+	Prog         *BotProg
+}
+
 func NewSession() *Session {
 	return &Session{
 		Prog: NewBotProg(),

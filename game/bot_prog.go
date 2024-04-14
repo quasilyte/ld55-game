@@ -27,6 +27,15 @@ func NewBotProg() *BotProg {
 	}
 }
 
+func (p *BotProg) Compact() *BotProg {
+	return &BotProg{
+		MovementThread: p.MovementThread.Compact(),
+		Weapon1Thread:  p.Weapon1Thread.Compact(),
+		Weapon2Thread:  p.Weapon2Thread.Compact(),
+		DefThread:      p.DefThread.Compact(),
+	}
+}
+
 func (p *BotProg) NumThreads() int {
 	return 4
 }
@@ -57,8 +66,31 @@ type ProgThread struct {
 	Branches []*ProgBranch
 }
 
+func (t *ProgThread) Compact() *ProgThread {
+	t2 := &ProgThread{Kind: t.Kind}
+	for _, b := range t.Branches {
+		b2 := b.Compact()
+		if len(b2.Instructions) == 0 {
+			continue
+		}
+		t2.Branches = append(t2.Branches, b2)
+	}
+	return t2
+}
+
 type ProgBranch struct {
 	Instructions []ProgInstruction
+}
+
+func (b *ProgBranch) Compact() *ProgBranch {
+	b2 := &ProgBranch{}
+	for _, inst := range b.Instructions {
+		if inst.Info.Kind == NopInstruction {
+			continue
+		}
+		b2.Instructions = append(b2.Instructions, inst)
+	}
+	return b2
 }
 
 type InstructionKind int
