@@ -15,7 +15,6 @@ Theme: summoning
 TODO (top priority):
 
 * software
-  * auto-detect type errors
   * errors should block "save" even on different tab
 * hardware shop
   * select button widget
@@ -29,7 +28,6 @@ hardware:
 
 TODO:
 
-* default prog (in session)
 * instruction progression (don't unlock all at level 1)
 * menu bg
 * weapon/vessel balancing

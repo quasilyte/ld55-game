@@ -398,6 +398,10 @@ func (c *SoftwareController) getSlotInst(slot *softwareSlot) *game.ProgInstructi
 }
 
 func (c *SoftwareController) selectTab(index int) {
+	if c.hasErrors {
+		return
+	}
+
 	for _, t := range c.tabs {
 		selected := t.index == index
 		if selected {
