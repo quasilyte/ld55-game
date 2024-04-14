@@ -46,6 +46,7 @@ func registerImageResources(loader *resource.Loader) {
 		ImageImpactPlasma: {Path: "image/effects/plasma_impact.png", FrameWidth: 11},
 
 		ImageVesselNormal1: {Path: "image/vessel/normal1.png"},
+		ImageVesselLarge1:  {Path: "image/vessel/large1.png"},
 	}
 
 	for id, info := range resources {
@@ -95,4 +96,5 @@ const (
 	ImageImpactPlasma
 
 	ImageVesselNormal1
+	ImageVesselLarge1
 )

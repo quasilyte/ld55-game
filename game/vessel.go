@@ -90,4 +90,16 @@ var VesselDesignList = []*VesselDesign{
 		EnergyRegen:   10,
 		HitboxSize:    14,
 	},
+
+	{
+		Image:         assets.ImageVesselLarge1,
+		Name:          "Scorpion",
+		RotationSpeed: 1.6,
+		MaxSpeed:      130,
+		Acceleration:  200,
+		MaxHealth:     90,
+		MaxEnergy:     30,
+		EnergyRegen:   12,
+		HitboxSize:    22,
+	},
 }
