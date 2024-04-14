@@ -85,25 +85,25 @@ type VesselDesign struct {
 var VesselDesignList = []*VesselDesign{
 	{
 		Image:         assets.ImageVesselNormal1,
-		Name:          "Destroyer",
+		Name:          "Fighter",
 		RotationSpeed: 2.0,
 		MaxSpeed:      150,
 		Acceleration:  150,
 		MaxHealth:     50,
 		MaxEnergy:     50,
 		EnergyRegen:   10,
-		HitboxSize:    14,
+		HitboxSize:    12,
 	},
 
 	{
 		Image:         assets.ImageVesselLarge1,
-		Name:          "Scorpion",
+		Name:          "Destroyer",
 		RotationSpeed: 1.6,
 		MaxSpeed:      130,
 		Acceleration:  200,
 		MaxHealth:     90,
 		MaxEnergy:     30,
-		EnergyRegen:   12,
-		HitboxSize:    22,
+		EnergyRegen:   14,
+		HitboxSize:    20,
 	},
 }

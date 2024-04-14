@@ -131,4 +131,19 @@ var WeaponDesignList = []*WeaponDesign{
 		ImpactImage:          assets.ImageImpactPlasma,
 		Burst:                1,
 	},
+
+	{
+		Name:                 "Lancer",
+		EnergyCost:           16,
+		Reload:               1.0,
+		Damage:               Damage{Energy: 12},
+		FiringType:           FixedAngleWeapon,
+		FireSound:            assets.AudioFireLancer1,
+		ProjectileImage:      assets.ImageProjectileLancer,
+		ProjectileSpeed:      420,
+		MaxRange:             400,
+		ProjectileImpactArea: 8,
+		ImpactImage:          assets.ImageImpactLancer,
+		Burst:                1,
+	},
 }

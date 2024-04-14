@@ -177,6 +177,11 @@ func (c *HardwareController) weaponDoc(wd *game.WeaponDesign) string {
 			"The primary damage comes from Thermal effect.",
 			"Projectiles move slowly.",
 		}
+	case "Lancer":
+		lines = []string{
+			"The heaviest-hitting laser you can find.",
+			"It fires in a straight direction only.",
+		}
 	}
 
 	resultLines := []string{
@@ -197,6 +202,12 @@ func (c *HardwareController) weaponDoc(wd *game.WeaponDesign) string {
 
 	resultLines = append(resultLines, fmt.Sprintf("Max range: %d", int(wd.MaxRange)))
 	resultLines = append(resultLines, fmt.Sprintf("Energy cost: %d (per shot)", int(wd.EnergyCost)))
+	switch wd.FiringType {
+	case game.TargetableWeapon:
+		resultLines = append(resultLines, "Targeting: fires at targeted vessel")
+	case game.FixedAngleWeapon:
+		resultLines = append(resultLines, "Targeting: fixed frontal attack")
+	}
 
 	return strings.Join(resultLines, "\n")
 }

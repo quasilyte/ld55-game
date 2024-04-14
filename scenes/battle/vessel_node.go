@@ -142,13 +142,19 @@ func (n *vesselNode) processWeapons(delta float64) {
 			// TODO: handle different weapon fire modes, etc.
 			targetPos := c.TargetPos
 			firePos := n.data.Pos
-			if i != 0 {
-				targetPos = targetPos.Add(ctx.Rand.Offset(-28, 28))
-				firePos = firePos.Add(ctx.Rand.Offset(-8, 8))
+			rotation := n.data.Rotation
+			if w.Design.FiringType == game.TargetableWeapon {
+				if i != 0 {
+					targetPos = targetPos.Add(ctx.Rand.Offset(-28, 28))
+					firePos = firePos.Add(ctx.Rand.Offset(-8, 8))
+				}
+				rotation = n.data.Pos.AngleToPoint(targetPos)
+			} else {
+				targetPos = n.data.Pos.MoveInDirection(w.Design.MaxRange, rotation)
 			}
 			pd := &game.Projectile{
 				Pos:      firePos,
-				Rotation: n.data.Pos.AngleToPoint(targetPos),
+				Rotation: rotation,
 				Weapon:   w.Design,
 			}
 			p := newProjectileNode(projectileConfig{

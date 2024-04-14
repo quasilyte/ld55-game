@@ -66,6 +66,14 @@ func (p *projectileNode) Update(delta float64) {
 	if p.distLimit <= 0 || p.data.Pos.DistanceTo(p.targetPos) < travelled {
 		p.detonate()
 	}
+
+	if p.data.Weapon.FiringType != game.FixedAngleWeapon {
+		return
+	}
+	hitboxSize := p.data.Weapon.ProjectileImpactArea + p.target.Design.HitboxSize
+	if p.data.Pos.DistanceTo(p.target.Pos) < hitboxSize {
+		p.detonate()
+	}
 }
 
 func (p *projectileNode) detonate() {
