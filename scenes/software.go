@@ -6,6 +6,8 @@ import (
 	"strings"
 
 	"github.com/ebitenui/ebitenui/widget"
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/game"
@@ -18,6 +20,7 @@ type SoftwareController struct {
 
 	prog *game.BotProg
 
+	hoverSlot   *softwareSlot
 	selectedTab *softwareTab
 	tabs        []*softwareTab
 
@@ -176,16 +179,30 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 			grid.AddChild(eui.NewLabel(fmt.Sprintf("Branch %d ", row+1), assets.Font1))
 			for col := 0; col < numCols; col++ {
 				tt := eui.NewTooltip(uiRes, "")
+				slot := &softwareSlot{}
 				slotButton := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{
 					Tooltip:   tt.Container,
 					WithLabel: true,
+					OnHoverStart: func(sb *eui.SlotButton) {
+						if sb.Label == nil || sb.Label.Label == "" {
+							return
+						}
+						sb.Label.Color = styles.AlliedColor
+						c.hoverSlot = slot
+					},
+					OnHoverEnd: func(sb *eui.SlotButton) {
+						if sb.Label == nil || sb.Label.Label == "" {
+							return
+						}
+						sb.Label.Color = styles.NormalTextColor
+						c.hoverSlot = nil
+					},
 				})
-				c.slots[row] = append(c.slots[row], &softwareSlot{
-					branchIndex:      row,
-					instructionIndex: col,
-					button:           slotButton,
-					tooltipText:      tt.Text,
-				})
+				slot.branchIndex = row
+				slot.instructionIndex = col
+				slot.button = slotButton
+				slot.tooltipText = tt.Text
+				c.slots[row] = append(c.slots[row], slot)
 				grid.AddChild(slotButton.Container)
 				if col != numCols-1 {
 					grid.AddChild(eui.NewCenteredLabel(">", assets.Font1))
@@ -231,6 +248,10 @@ func (c *SoftwareController) updateInstructionSlots() {
 			b.tooltipText.Label = c.instDoc(inst)
 		}
 	}
+}
+
+func (c *SoftwareController) getSlotInst(slot *softwareSlot) *game.ProgInstruction {
+	return &c.selectedTab.thread.Branches[slot.branchIndex].Instructions[slot.instructionIndex]
 }
 
 func (c *SoftwareController) selectTab(index int) {
@@ -325,7 +346,48 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction) string {
 		}
 	}
 
+	if inst.Info.Param {
+		lines = append(lines, "", "Hover and start typing to change the value.")
+	}
+
 	return strings.Join(lines, "\n")
 }
 
-func (c *SoftwareController) Update(delta float64) {}
+func (c *SoftwareController) Update(delta float64) {
+	if c.maybeEditValue() {
+		c.updateInstructionSlots()
+	}
+}
+
+func (c *SoftwareController) maybeEditValue() bool {
+	if c.hoverSlot == nil {
+		return false
+	}
+
+	inst := c.getSlotInst(c.hoverSlot)
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyBackspace) {
+		s := strconv.Itoa(int(inst.Param))
+		if len(s) >= 2 {
+			v, _ := strconv.ParseFloat(s[:len(s)-1], 64)
+			inst.SetParam(v)
+		} else {
+			inst.SetParam(0)
+		}
+		return true
+	}
+
+	for k := ebiten.KeyDigit0; k <= ebiten.KeyDigit9; k++ {
+		if !inpututil.IsKeyJustPressed(k) {
+			continue
+		}
+		kv := k - ebiten.KeyDigit0
+		s := strconv.Itoa(int(inst.Param))
+		s += strconv.Itoa(int(kv))
+		v, _ := strconv.ParseFloat(s, 64)
+		inst.SetParam(v)
+		return true
+	}
+
+	return false
+}

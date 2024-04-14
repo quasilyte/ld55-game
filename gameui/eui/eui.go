@@ -160,6 +160,9 @@ func NewCenteredLabelWithMaxWidth(text string, ff font.Face, width float64) *wid
 type SlotButtonConfig struct {
 	OnClick func()
 
+	OnHoverStart func(b *SlotButton)
+	OnHoverEnd   func(b *SlotButton)
+
 	WithLabel bool
 
 	Tooltip *widget.Container
@@ -192,12 +195,25 @@ func NewSlotButton(res *Resources, config SlotButtonConfig) *SlotButton {
 		// widget.ButtonOpts.WidgetOpts(widget.WidgetOpts.MinSize(64, 64)),
 	}
 
+	sb := &SlotButton{}
+
 	if config.Tooltip != nil {
 		tt := widget.NewToolTip(
 			widget.ToolTipOpts.Content(config.Tooltip),
 			widget.ToolTipOpts.Delay(time.Second),
 		)
 		options = append(options, widget.ButtonOpts.WidgetOpts(widget.WidgetOpts.ToolTip(tt)))
+	}
+
+	if config.OnHoverStart != nil {
+		options = append(options, widget.ButtonOpts.CursorEnteredHandler(func(args *widget.ButtonHoverEventArgs) {
+			config.OnHoverStart(sb)
+		}))
+	}
+	if config.OnHoverEnd != nil {
+		options = append(options, widget.ButtonOpts.CursorExitedHandler(func(args *widget.ButtonHoverEventArgs) {
+			config.OnHoverEnd(sb)
+		}))
 	}
 
 	b := widget.NewButton(options...)
@@ -215,12 +231,11 @@ func NewSlotButton(res *Resources, config SlotButtonConfig) *SlotButton {
 		container.AddChild(l)
 	}
 
-	return &SlotButton{
-		Button:    b,
-		Icon:      g,
-		Label:     l,
-		Container: container,
-	}
+	sb.Button = b
+	sb.Icon = g
+	sb.Label = l
+	sb.Container = container
+	return sb
 }
 
 func NewButton(res *Resources, config ButtonConfig) *widget.Button {

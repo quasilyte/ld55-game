@@ -2,6 +2,7 @@ package game
 
 import (
 	resource "github.com/quasilyte/ebitengine-resource"
+	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/ld55-game/assets"
 )
 
@@ -87,6 +88,8 @@ type ProgInstructionInfo struct {
 
 	Icon resource.ImageID
 
+	MaxParam float64
+
 	Param bool
 	Cond  bool
 }
@@ -96,11 +99,11 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 		NopInstruction: {},
 
 		RandomPosInstruction:     {Icon: assets.ImageIconRandomPos},
-		RandomOffsetInstruction:  {Param: true},
+		RandomOffsetInstruction:  {Param: true, MaxParam: 600},
 		VesselPosInstruction:     {},
 		TargetPosInstruction:     {Icon: assets.ImageIconTargetPos},
 		CenterPosInstruction:     {},
-		ChanceInstruction:        {Param: true, Cond: true},
+		ChanceInstruction:        {Param: true, MaxParam: 100, Cond: true},
 		IsLtInstruction:          {Icon: assets.ImageIconIsLt, Param: true, Cond: true},
 		IsGtInstruction:          {Icon: assets.ImageIconIsGt, Param: true, Cond: true},
 		DistanceToInstruction:    {Icon: assets.ImageIconDistanceTo},
@@ -108,8 +111,8 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 		EnergyPercentInstruction: {},
 
 		RotateToInstruction:      {Icon: assets.ImageIconRotateTo},
-		MoveForwardInstruction:   {Param: true, Icon: assets.ImageIconMoveForward},
-		MoveAndRotateInstruction: {Param: true},
+		MoveForwardInstruction:   {Param: true, MaxParam: 1000, Icon: assets.ImageIconMoveForward},
+		MoveAndRotateInstruction: {Param: true, MaxParam: 1000},
 
 		SnapShotInstruction:   {Icon: assets.ImageIconSnapShot},
 		NormalShotInstruction: {},
@@ -129,8 +132,13 @@ type ProgInstruction struct {
 }
 
 func MakeInst(kind InstructionKind, param float64) ProgInstruction {
-	return ProgInstruction{
-		Info:  ProgInstInfoTab[kind],
-		Param: param,
+	inst := ProgInstruction{
+		Info: ProgInstInfoTab[kind],
 	}
+	inst.SetParam(param)
+	return inst
+}
+
+func (inst *ProgInstruction) SetParam(v float64) {
+	inst.Param = gmath.Clamp(v, 0, inst.Info.MaxParam)
 }

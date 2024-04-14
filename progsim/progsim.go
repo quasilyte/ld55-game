@@ -252,7 +252,7 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 
 	case game.ChanceInstruction:
 		chance := inst.Param
-		if !e.rand.Chance(chance) {
+		if !e.rand.Chance(chance * 0.01) {
 			return instCancelled
 		}
 
