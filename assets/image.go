@@ -59,6 +59,7 @@ func registerImageResources(loader *resource.Loader) {
 		ImageImpactLancer: {Path: "image/effects/lancer_impact.png", FrameWidth: 8},
 		ImageImpactPusher: {Path: "image/effects/pusher_impact.png", FrameWidth: 20},
 
+		ImageVesselSmall1:  {Path: "image/vessel/small1.png"},
 		ImageVesselNormal1: {Path: "image/vessel/normal1.png"},
 		ImageVesselLarge1:  {Path: "image/vessel/large1.png"},
 	}
@@ -123,6 +124,7 @@ const (
 	ImageImpactLancer
 	ImageImpactPusher
 
+	ImageVesselSmall1
 	ImageVesselNormal1
 	ImageVesselLarge1
 )

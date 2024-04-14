@@ -97,9 +97,25 @@ type VesselDesign struct {
 
 var VesselDesignList = []*VesselDesign{
 	{
+		Image:         assets.ImageVesselSmall1,
+		Name:          "Machpella",
+		RotationSpeed: 2,
+		MaxSpeed:      160,
+		Acceleration:  160,
+		MaxHealth:     35,
+		MaxEnergy:     70,
+		EnergyRegen:   15,
+		HitboxSize:    4,
+
+		KineticResist: 0.1,
+		EnergyResist:  0.1,
+		ThermalResist: 0.1,
+	},
+
+	{
 		Image:         assets.ImageVesselNormal1,
 		Name:          "Fighter",
-		RotationSpeed: 2.0,
+		RotationSpeed: 2.5,
 		MaxSpeed:      150,
 		Acceleration:  150,
 		MaxHealth:     50,
@@ -107,7 +123,7 @@ var VesselDesignList = []*VesselDesign{
 		EnergyRegen:   10,
 		HitboxSize:    12,
 
-		KineticResist: 0.2,
+		KineticResist: 0.3,
 		EnergyResist:  0.2,
 		ThermalResist: 0,
 	},
