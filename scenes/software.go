@@ -167,6 +167,9 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 			Tooltip: eui.NewSimpleTooltip(uiRes, strings.Join([]string{
 				"Save edits and go back.",
 			}, "\n")),
+			OnClick: func() {
+				game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+			},
 		})
 		sysTabs.AddChild(saveButton)
 
@@ -234,18 +237,12 @@ func (c *SoftwareController) updateInstructionSlots() {
 	thread := c.selectedTab.thread
 
 	for i, row := range c.slots {
-		var maxCol int
 		var branch *game.ProgBranch
-		if i >= len(thread.Branches) {
-			maxCol = 1
-		} else {
+		if i < len(thread.Branches) {
 			branch = thread.Branches[i]
-			maxCol = len(branch.Instructions) + 1
 		}
 		for j, b := range row {
-			disabled := j >= maxCol
-			b.button.Button.GetWidget().Disabled = disabled
-			if disabled || branch == nil || j >= len(branch.Instructions) {
+			if branch == nil || j >= len(branch.Instructions) {
 				b.button.Icon.Image = nil
 				b.button.Label.Label = ""
 				b.tooltipText.Label = c.instDoc(game.MakeInst(game.NopInstruction, 0))
