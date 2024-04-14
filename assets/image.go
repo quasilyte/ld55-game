@@ -17,6 +17,8 @@ func registerImageResources(loader *resource.Loader) {
 		ImageUISlotHover:      {Path: "image/slot-hover.png"},
 		ImageUISlotDisabled:   {Path: "image/slot-disabled.png"},
 
+		ImageSlotSelector: {Path: "image/slot-selector.png"},
+
 		ImageIconRandomPos:         {Path: "image/inst/random-pos.png"},
 		ImageIconRotateTo:          {Path: "image/inst/rotate-to.png"},
 		ImageIconMoveForward:       {Path: "image/inst/move-forward.png"},
@@ -66,6 +68,8 @@ const (
 	ImageUISlotIdle
 	ImageUISlotHover
 	ImageUISlotDisabled
+
+	ImageSlotSelector
 
 	ImageIconRandomPos
 	ImageIconRotateTo

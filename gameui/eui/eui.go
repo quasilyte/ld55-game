@@ -17,6 +17,7 @@ type Resources struct {
 	button     *buttonResource
 	slotButton *buttonResource
 	tooltip    *tooltipResources
+	selector   *ebiten.Image
 }
 
 type buttonResource struct {
@@ -34,6 +35,8 @@ type tooltipResources struct {
 
 func LoadResources(loader *resource.Loader) *Resources {
 	res := &Resources{}
+
+	res.selector = loader.LoadImage(assets.ImageSlotSelector).Data
 
 	{
 		disabled := nineSliceImage(loader.LoadImage(assets.ImageUIButtonDisabled).Data, 16, 16)
@@ -163,7 +166,8 @@ type SlotButtonConfig struct {
 	OnHoverStart func(b *SlotButton)
 	OnHoverEnd   func(b *SlotButton)
 
-	WithLabel bool
+	WithSelector bool
+	WithLabel    bool
 
 	Tooltip *widget.Container
 }
@@ -171,6 +175,7 @@ type SlotButtonConfig struct {
 type SlotButton struct {
 	Label     *widget.Text
 	Icon      *widget.Graphic
+	Selector  *widget.Graphic
 	Button    *widget.Button
 	Container *widget.Container
 }
@@ -214,6 +219,13 @@ func NewSlotButton(res *Resources, config SlotButtonConfig) *SlotButton {
 		options = append(options, widget.ButtonOpts.CursorExitedHandler(func(args *widget.ButtonHoverEventArgs) {
 			config.OnHoverEnd(sb)
 		}))
+	}
+
+	if config.WithSelector {
+		s := widget.NewGraphic(widget.GraphicOpts.Image(res.selector))
+		s.GetWidget().Visibility = widget.Visibility_Hide
+		container.AddChild(s)
+		sb.Selector = s
 	}
 
 	b := widget.NewButton(options...)
