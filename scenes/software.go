@@ -382,9 +382,52 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction, instBar bool) st
 			"Moves forward for the specified amount of units.",
 		}
 
+	case game.MoveAndRotateInstruction:
+		lines = []string{
+			"Combines rotation and movement.",
+			"Rotates to the destination point.",
+			"The engines will not be disabled while turning.",
+			"Moves forward for the specified amount of units.",
+			"The destination point will be popped from the stack.",
+		}
+
+	case game.RandomOffsetInstruction:
+		lines = []string{
+			"Adds a random offset to the pos",
+			"at the top of the stack.",
+			"The offset radius is controlled via parameter.",
+		}
+
+	case game.CenterPosInstruction:
+		lines = []string{
+			"Push center of the map pos to the stack.",
+		}
+
+	case game.VesselPosInstruction:
+		lines = []string{
+			"Push own vessel's pos to the stack.",
+		}
+
 	case game.TargetPosInstruction:
 		lines = []string{
 			"Push a target pos to the stack.",
+		}
+
+	case game.ChanceInstruction:
+		lines = []string{
+			"Go to the next branch if roll fails.",
+			"The roll success rate is specified via parameter.",
+			"Example: a value of 25 (%) fails 1/4 of times.",
+		}
+
+	case game.HealthPercentInstruction:
+		lines = []string{
+			"Push own vessel's health % to the stack.",
+		}
+
+	case game.EnergyPercentInstruction:
+		lines = []string{
+			"Push own vessel's energy % to the stack.",
 		}
 
 	case game.DistanceToInstruction:
@@ -413,6 +456,14 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction, instBar bool) st
 			"Snap shot allows a faster rate-of-fire with",
 			"a very small accuracy.",
 			"It can be good against unpredictable targets.",
+		}
+
+	case game.NormalShotInstruction:
+		lines = []string{
+			"Fires weapon at the target.",
+			"Normal shot takes the target's current pos",
+			"as the aiming point.",
+			"It works the best against slow or immobile targets.",
 		}
 	}
 
