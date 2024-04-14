@@ -12,13 +12,10 @@ Theme: summoning
 - Final testing - 1:00
 - Deploy - 1:00 (wasm)
 
-TODO feedback:
-
-* explicit victory message
-* insert after drag and drop (shift)
-
 TODO (top priority):
 
+* insert after drag and drop (shift)
+* explicit victory message (sound effect?)
 * vessel design tooltips
 * crt filter?
 * vessel explosion effect (animation)

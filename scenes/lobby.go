@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/game"
@@ -100,12 +102,12 @@ func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 
 	{
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
-			Text: "Save and Exit",
+			Text: "Back",
 			OnClick: func() {
+				c.back()
 			},
 		})
 		rows.AddChild(b)
-		b.GetWidget().Disabled = true
 	}
 
 	root.AddChild(rows)
@@ -113,4 +115,13 @@ func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 	initUI(scene, root)
 }
 
-func (c *LobbyController) Update(delta float64) {}
+func (c *LobbyController) Update(delta float64) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+		c.back()
+		return
+	}
+}
+
+func (c *LobbyController) back() {
+	game.ChangeScene(c.ctx, NewPlayController(c.ctx))
+}

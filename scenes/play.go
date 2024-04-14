@@ -32,9 +32,10 @@ func (c *PlayController) Init(scene *gscene.SimpleRootScene) {
 		b := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "Continue",
 			OnClick: func() {
+				game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
 			},
 		})
-		b.GetWidget().Disabled = true
+		b.GetWidget().Disabled = c.ctx.Session == nil
 		rows.AddChild(b)
 	}
 
