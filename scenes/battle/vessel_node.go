@@ -86,10 +86,10 @@ func (n *vesselNode) Update(delta float64) {
 }
 
 func (n *vesselNode) processMovement(delta float64) {
-	deceleration := 0.1
+	deceleration := 0.25
 
 	if n.commands.RotateLeft || n.commands.RotateRight {
-		deceleration = 0.4
+		deceleration = 0.6
 	}
 
 	if n.commands.MoveForward {

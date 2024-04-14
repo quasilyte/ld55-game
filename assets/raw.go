@@ -1,0 +1,26 @@
+package assets
+
+import (
+	resource "github.com/quasilyte/ebitengine-resource"
+)
+
+func registerRawResources(loader *resource.Loader) {
+	resources := map[resource.RawID]resource.RawInfo{
+		RawLevel1EnemyJSON: {Path: "levels/level1_enemy.json"},
+		RawLevel2EnemyJSON: {Path: "levels/level2_enemy.json"},
+		RawLevel3EnemyJSON: {Path: "levels/level3_enemy.json"},
+	}
+
+	for id, info := range resources {
+		loader.RawRegistry.Set(id, info)
+		loader.LoadRaw(id)
+	}
+}
+
+const (
+	RawNone resource.RawID = iota
+
+	RawLevel1EnemyJSON
+	RawLevel2EnemyJSON
+	RawLevel3EnemyJSON
+)

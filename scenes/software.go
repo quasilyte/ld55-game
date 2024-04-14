@@ -425,6 +425,8 @@ func (c *SoftwareController) formatInstParam(inst game.ProgInstruction) string {
 	}
 
 	switch inst.Info.Kind {
+	case game.WaitInstruction:
+		return strconv.Itoa(int(inst.Param))
 	case game.RandomOffsetInstruction, game.IsLtInstruction, game.IsGtInstruction:
 		return strconv.Itoa(int(inst.Param))
 	case game.ChanceInstruction:
@@ -444,6 +446,14 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction, instBar bool) st
 		lines = []string{
 			"An empty instruction does nothing.",
 			"It's also known as NOP instruction",
+		}
+
+	case game.WaitInstruction:
+		lines = []string{
+			"Wait blocks the running branch for the specified",
+			"number of processing ticks.",
+			"Normally, there are ~60 processing ticks in second.",
+			"Therefore, a value of 30 is approximately 1/2 of a second.",
 		}
 
 	case game.RandomPosInstruction:
@@ -597,6 +607,7 @@ func (c *SoftwareController) saveVessel() {
 	saved := game.SavedVessel{
 		VesselDesign: session.VesselDesign.Name,
 		Prog:         session.Prog.Compact(),
+		Artifact:     session.ArtifactDesign.Name,
 	}
 	for _, wd := range session.Weapons {
 		saved.Weapons = append(saved.Weapons, wd.Name)

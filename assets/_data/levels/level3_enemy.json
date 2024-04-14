@@ -1,0 +1,69 @@
+{
+ "Weapons": [
+  "Lancer",
+  "Scatter Gun"
+ ],
+ "VesselDesign": "Destroyer",
+ "Artifact": "T-Shield",
+ "Prog": {
+  "MovementThread": {
+   "Kind": 1,
+   "Branches": [
+    {
+     "Instructions": [
+      {
+       "Tag": 4,
+       "Param": 0
+      },
+      {
+       "Tag": 13,
+       "Param": 0
+      }
+     ]
+    }
+   ]
+  },
+  "Weapon1Thread": {
+   "Kind": 2,
+   "Branches": [
+    {
+     "Instructions": [
+      {
+       "Tag": 16,
+       "Param": 0
+      }
+     ]
+    }
+   ]
+  },
+  "Weapon2Thread": {
+   "Kind": 4,
+   "Branches": [
+    {
+     "Instructions": [
+      {
+       "Tag": 4,
+       "Param": 0
+      },
+      {
+       "Tag": 12,
+       "Param": 0
+      },
+      {
+       "Tag": 7,
+       "Param": 260
+      },
+      {
+       "Tag": 16,
+       "Param": 0
+      }
+     ]
+    }
+   ]
+  },
+  "DefThread": {
+   "Kind": 8,
+   "Branches": null
+  }
+ }
+}

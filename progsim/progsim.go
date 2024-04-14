@@ -288,6 +288,15 @@ func (e *Executor) runInst(t *runningThread, inst *runningInst) instStatus {
 			tag:   "distance to",
 		})
 
+	case game.WaitInstruction:
+		if inst.firstTick {
+			inst.amount = inst.Param / 60.0
+		}
+		inst.amount -= e.delta
+		if inst.amount > 0 {
+			return instRunning
+		}
+
 	case game.MoveAndRotateInstruction:
 		if inst.firstTick {
 			p := t.stack.PopVec()

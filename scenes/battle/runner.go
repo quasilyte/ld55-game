@@ -1,6 +1,7 @@
 package battle
 
 import (
+	"encoding/json"
 	"fmt"
 	"math"
 	"time"
@@ -44,6 +45,9 @@ func NewRunner(config RunnerConfig) *Runner {
 }
 
 func (r *Runner) Init() {
+	session := r.ctx.Session
+	level := game.Levels[session.Level]
+
 	spaceBg := r.ctx.Loader.LoadImage(assets.ImageSpaceBg).Data
 	for y := 0.0; y < r.ctx.WindowSize.Y; y += float64(spaceBg.Bounds().Dy()) {
 		for x := 0.0; x < r.ctx.WindowSize.X; x += float64(spaceBg.Bounds().Dx()) {
@@ -56,7 +60,10 @@ func (r *Runner) Init() {
 
 	playerVessel := &game.Vessel{
 		Alliance: 0,
-		Pos:      r.ctx.WindowSize.Mulf(0.5),
+		Pos: gmath.Vec{
+			X: level.Dist,
+			Y: r.ctx.WindowSize.Y * 0.5,
+		},
 		Rotation: math.Pi,
 
 		Design:   *r.ctx.Session.VesselDesign,
@@ -72,24 +79,45 @@ func (r *Runner) Init() {
 
 	enemyVessel := &game.Vessel{
 		Alliance: 1,
-		Pos:      gmath.Vec{X: 256, Y: 256},
-		Rotation: 0,
-
-		Design: game.VesselDesign{
-			Image:         assets.ImageVesselNormal1,
-			RotationSpeed: 2.0,
-			MaxSpeed:      150,
-			Acceleration:  150,
-			EnergyResist:  0.1,
-			KineticResist: 0.2,
-			ThermalResist: 0.0,
-			MaxHealth:     50,
-			MaxEnergy:     50,
-			HitboxSize:    14,
+		Pos: gmath.Vec{
+			X: r.ctx.WindowSize.X - level.Dist,
+			Y: r.ctx.WindowSize.Y * 0.5,
 		},
-
-		Prog: game.NewBotProg(),
 	}
+	{
+		enemyData := r.ctx.Loader.LoadRaw(level.Enemy).Data
+		var vesselData game.SavedVessel
+		if err := json.Unmarshal(enemyData, &vesselData); err != nil {
+			panic(err)
+		}
+		enemyVessel.Design = *game.FindVesselDesignByName(vesselData.VesselDesign)
+		enemyVessel.Artifact = game.FindArtifactDesignByName(vesselData.Artifact)
+		for _, weaponName := range vesselData.Weapons {
+			enemyVessel.Weapons = append(enemyVessel.Weapons, &game.Weapon{
+				Design: game.FindWeaponDesignByName(weaponName),
+			})
+		}
+		enemyVessel.Prog = vesselData.Prog
+	}
+
+	// 	Pos:      gmath.Vec{X: 256, Y: 256},
+	// 	Rotation: 0,
+
+	// 	Design: game.VesselDesign{
+	// 		Image:         assets.ImageVesselNormal1,
+	// 		RotationSpeed: 2.0,
+	// 		MaxSpeed:      150,
+	// 		Acceleration:  150,
+	// 		EnergyResist:  0.1,
+	// 		KineticResist: 0.2,
+	// 		ThermalResist: 0.0,
+	// 		MaxHealth:     50,
+	// 		MaxEnergy:     50,
+	// 		HitboxSize:    14,
+	// 	},
+
+	// 	Prog: game.NewBotProg(),
+	// }
 
 	r.world = &game.World{
 		Vessels: []*game.Vessel{
@@ -135,6 +163,8 @@ func (r *Runner) Init() {
 		v := r.vessels[i]
 		v.data.Health = v.data.Design.MaxHealth
 		v.data.Energy = v.data.Design.MaxEnergy
+
+		v.data.Rotation = v.data.Pos.AngleToPoint(v.world.Size.Mulf(0.5))
 
 		v.data.EnergyResist = v.data.Design.EnergyResist
 		v.data.KineticResist = v.data.Design.KineticResist

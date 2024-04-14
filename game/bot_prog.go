@@ -125,6 +125,12 @@ const (
 
 	SnapShotInstruction
 	NormalShotInstruction
+
+	// Instruction added after saves were introduced.
+	// They should be somewhere above, but I don't
+	// have time to fix save/load.
+
+	WaitInstruction
 )
 
 type ProgInstructionInfo struct {
@@ -160,6 +166,7 @@ var ProgInstInfoTab = func() []*ProgInstructionInfo {
 		DistanceToInstruction:    {Icon: assets.ImageIconDistanceTo, Mask: anyThreadMask, StackChange: 0, StackInType: "vec2", StackOutType: "float"},
 		HealthPercentInstruction: {Icon: assets.ImageIconSelfHealthPercent, Mask: anyThreadMask, StackChange: +1, StackOutType: "float"},
 		EnergyPercentInstruction: {Icon: assets.ImageIconSelfEnergyPercent, Mask: anyThreadMask, StackChange: +1, StackOutType: "float"},
+		WaitInstruction:          {Icon: assets.ImageIconWait, Mask: anyThreadMask, Param: true, MaxParam: 9999, DefaultParam: 30},
 
 		RotateToInstruction:      {Icon: assets.ImageIconRotateTo, Mask: MovementThread, StackChange: -1, StackInType: "vec2"},
 		MoveForwardInstruction:   {Icon: assets.ImageIconMoveForward, Param: true, MaxParam: 999, DefaultParam: 100, Mask: MovementThread},
