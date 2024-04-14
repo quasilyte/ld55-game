@@ -11,7 +11,9 @@ import (
 type BattleController struct {
 	ctx *game.Context
 
-	pause bool
+	pause       bool
+	exitPending bool
+	exitDelay   float64
 
 	runner *battle.Runner
 }
@@ -40,7 +42,20 @@ func (c *BattleController) Update(delta float64) {
 		c.runner.Update(delta)
 	}
 
-	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+	if c.exitPending {
+		c.exitDelay -= delta
+		if c.exitDelay <= 0 {
+			if c.ctx.Session.Level+1 > len(game.Levels) {
+				// TODO: go to credits?
+				game.ChangeScene(c.ctx, NewMainMenuController(c.ctx))
+				return
+			}
+			game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+			return
+		}
+	}
+
+	if !c.exitPending && inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyTab) {
@@ -49,14 +64,14 @@ func (c *BattleController) Update(delta float64) {
 }
 
 func (c *BattleController) finishBattle(victory bool) {
-	if victory {
-		c.ctx.Session.Level++
-		if c.ctx.Session.Level+1 > len(game.Levels) {
-			// TODO: go to credits?
-			game.ChangeScene(c.ctx, NewMainMenuController(c.ctx))
-			return
-		}
+	if c.exitPending {
+		return
 	}
 
-	game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+	c.exitPending = true
+	c.exitDelay = 2
+
+	if victory {
+		c.ctx.Session.Level++
+	}
 }
