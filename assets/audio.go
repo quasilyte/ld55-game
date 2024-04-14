@@ -21,6 +21,9 @@ func registerAudioResources(loader *resource.Loader) {
 		AudioFireIon1: {Path: "audio/ion1.wav", Volume: -0.5},
 		AudioFireIon2: {Path: "audio/ion2.wav", Volume: -0.5},
 
+		AudioFireMissile1: {Path: "audio/missile1.wav", Volume: -0.3},
+		AudioFireMissile2: {Path: "audio/missile2.wav", Volume: -0.3},
+
 		AudioFireLancer1: {Path: "audio/lancer1.wav", Volume: -0.4},
 		AudioFireLancer2: {Path: "audio/lancer2.wav", Volume: -0.4},
 		AudioFireLancer3: {Path: "audio/lancer3.wav", Volume: -0.4},
@@ -43,7 +46,7 @@ func registerAudioResources(loader *resource.Loader) {
 
 func NumSamples(a resource.AudioID) int {
 	switch a {
-	case AudioFireScatter1, AudioFireIon1:
+	case AudioFireScatter1, AudioFireIon1, AudioFireMissile1:
 		return 2
 	case AudioFireLaser1, AudioFireLancer1:
 		return 4
@@ -78,4 +81,6 @@ const (
 	AudioFireFreezer1
 	AudioFireFreezer2
 	AudioFireFreezer3
+	AudioFireMissile1
+	AudioFireMissile2
 )

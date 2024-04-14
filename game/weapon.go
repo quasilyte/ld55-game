@@ -182,6 +182,22 @@ var WeaponDesignList = []*WeaponDesign{
 		ImpactImage:          assets.ImageImpactFreezer,
 		Burst:                1,
 		CollisionCheck:       true,
-		Homing:               150,
+		Homing:               120,
+	},
+
+	{
+		Name:                 "Missile Launcher",
+		Reload:               4,
+		Damage:               Damage{Thermal: 5},
+		FiringType:           FixedAngleWeapon,
+		FireSound:            assets.AudioFireMissile1,
+		ProjectileImage:      assets.ImageProjectileMissile,
+		ProjectileSpeed:      160,
+		MaxRange:             450,
+		ProjectileImpactArea: 8,
+		ImpactImage:          assets.ImageImpactMissile,
+		Burst:                2,
+		CollisionCheck:       true,
+		Homing:               100,
 	},
 }

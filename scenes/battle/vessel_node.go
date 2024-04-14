@@ -174,6 +174,10 @@ func (n *vesselNode) processWeapons(delta float64) {
 				rotation = n.data.Pos.AngleToPoint(targetPos)
 			} else {
 				targetPos = n.data.Pos.MoveInDirection(w.Design.MaxRange, rotation)
+				if i != 0 {
+					targetPos = targetPos.Add(ctx.Rand.Offset(-28, 28))
+					firePos = firePos.Add(ctx.Rand.Offset(-8, 8))
+				}
 			}
 			pd := &game.Projectile{
 				Pos:      firePos,

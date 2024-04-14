@@ -230,9 +230,13 @@ func (c *HardwareController) weaponDoc(wd *game.WeaponDesign) string {
 	var lines []string
 
 	switch wd.Name {
+	case "Missile Launcher":
+		lines = []string{
+			"Fires two homing missiles.",
+		}
 	case "Freezer":
 		lines = []string{
-			"Shoots slightly homing projectiles.",
+			"Shoots homing projectiles.",
 			"Every hit slows down the target temporarily.",
 		}
 	case "Pusher":
