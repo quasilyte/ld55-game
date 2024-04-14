@@ -153,6 +153,15 @@ func (c *SoftwareController) Init(scene *gscene.SimpleRootScene) {
 					Position: widget.RowLayoutPositionCenter,
 				}))))
 
+		testButton := eui.NewButton(uiRes, eui.ButtonConfig{
+			Text: "Test",
+			Tooltip: eui.NewSimpleTooltip(uiRes, strings.Join([]string{
+				"Do a quick test of your program.",
+			}, "\n")),
+		})
+		testButton.GetWidget().Disabled = true
+		sysTabs.AddChild(testButton)
+
 		saveButton := eui.NewButton(uiRes, eui.ButtonConfig{
 			Text: "Save",
 			Tooltip: eui.NewSimpleTooltip(uiRes, strings.Join([]string{
