@@ -138,7 +138,7 @@ var VesselDesignList = []*VesselDesign{
 		RotationSpeed: 1.6,
 		MaxSpeed:      90,
 		Acceleration:  200,
-		MaxHealth:     80,
+		MaxHealth:     70,
 		MaxEnergy:     30,
 		EnergyRegen:   14,
 		HitboxSize:    20,
