@@ -59,19 +59,19 @@ func (c *LobbyController) Init(scene *gscene.SimpleRootScene) {
 		rows.AddChild(b)
 	}
 
-	{
-		tt := strings.Join([]string{
-			"Journal contains hints and recon info.",
-			"Knowledge is the key!",
-		}, "\n")
-		b := eui.NewButton(uiRes, eui.ButtonConfig{
-			Text: "Journal",
-			OnClick: func() {
-			},
-			Tooltip: eui.NewSimpleTooltip(uiRes, tt),
-		})
-		rows.AddChild(b)
-	}
+	// {
+	// 	tt := strings.Join([]string{
+	// 		"Journal contains hints and recon info.",
+	// 		"Knowledge is the key!",
+	// 	}, "\n")
+	// 	b := eui.NewButton(uiRes, eui.ButtonConfig{
+	// 		Text: "Journal",
+	// 		OnClick: func() {
+	// 		},
+	// 		Tooltip: eui.NewSimpleTooltip(uiRes, tt),
+	// 	})
+	// 	rows.AddChild(b)
+	// }
 
 	{
 		s := fmt.Sprintf("Level %d", c.ctx.Session.Level+1)

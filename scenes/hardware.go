@@ -5,6 +5,8 @@ import (
 	"strings"
 
 	"github.com/ebitenui/ebitenui/widget"
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/game"
@@ -193,7 +195,12 @@ func (c *HardwareController) updateSlots() {
 	}
 }
 
-func (c *HardwareController) Update(delta float64) {}
+func (c *HardwareController) Update(delta float64) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+		game.ChangeScene(c.ctx, NewLobbyController(c.ctx))
+		return
+	}
+}
 
 func (c *HardwareController) back() {
 	game.ChangeScene(c.ctx, NewLobbyController(c.ctx))

@@ -1,6 +1,8 @@
 package scenes
 
 import (
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/quasilyte/gscene"
 	"github.com/quasilyte/ld55-game/assets"
 	"github.com/quasilyte/ld55-game/game"
@@ -66,7 +68,12 @@ func (c *PlayController) Init(scene *gscene.SimpleRootScene) {
 	initUI(scene, root)
 }
 
-func (c *PlayController) Update(delta float64) {}
+func (c *PlayController) Update(delta float64) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+		game.ChangeScene(c.ctx, NewMainMenuController(c.ctx))
+		return
+	}
+}
 
 func (c *PlayController) back() {
 	game.ChangeScene(c.ctx, NewMainMenuController(c.ctx))

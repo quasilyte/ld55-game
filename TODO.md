@@ -14,35 +14,22 @@ Theme: summoning
 
 TODO (top priority):
 
-* software
-  * give notification when action is failed due to an error
-* journal
-
-hardware:
-
-* vessel design
-* weapon 1
-* weapon 2
-* artifact (various bonuses)
-
 TODO:
 
-* weapon with slow condition
-* homing rockets
-* "enemy in arc" condition
-* instruction progression (don't unlock all at level 1)
+* journal hints
+* give notification when action is failed due to an error
+* music
 * menu bg
+* "enemy in arc" condition
+* instruction progression? (don't unlock all at level 1)
 * weapon/vessel balancing
 * vessel explosion effect (animation)
-* cpu costs for different actions (snap/normal/snipe)
-* sound level balancing (sfx)
 
 TODO (polishing):
 
+* credits screen (you get there after winning)
+* sound level balancing (sfx)
 * optimize sfx (if needed)
-* add input system
-* add graphic layers
-* add hotkeys support (at least "go back" at esc)
 * button press sfx
 
 Game loop:
