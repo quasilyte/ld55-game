@@ -663,6 +663,7 @@ func (c *SoftwareController) handleDragAndDrop() {
 	if c.hoverSlot != nil {
 		inst := c.getSlotInst(c.hoverSlot)
 		*inst = c.draggingInst.inst
+		c.ctx.Audio().PlaySound(assets.AudioAckBeep)
 		c.updateInstructionSlots()
 	}
 
@@ -690,6 +691,7 @@ func (c *SoftwareController) maybeRemoveSlot() bool {
 
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonRight) {
 		*inst = game.MakeInst(game.NopInstruction, 0)
+		c.ctx.Audio().PlaySound(assets.AudioDeleteBeep)
 		return true
 	}
 
@@ -704,6 +706,7 @@ func (c *SoftwareController) maybeEditValue() bool {
 	inst := c.getSlotInst(c.hoverSlot)
 
 	if inpututil.IsKeyJustPressed(ebiten.KeyBackspace) {
+		c.ctx.Audio().PlaySound(assets.AudioClickBeep)
 		s := strconv.Itoa(int(inst.Param))
 		if len(s) >= 2 {
 			v, _ := strconv.ParseFloat(s[:len(s)-1], 64)
@@ -718,6 +721,7 @@ func (c *SoftwareController) maybeEditValue() bool {
 		if !inpututil.IsKeyJustPressed(k) {
 			continue
 		}
+		c.ctx.Audio().PlaySound(assets.AudioClickBeep)
 		kv := k - ebiten.KeyDigit0
 		s := strconv.Itoa(int(inst.Param))
 		s += strconv.Itoa(int(kv))

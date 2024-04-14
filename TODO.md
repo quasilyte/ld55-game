@@ -28,7 +28,6 @@ TODO (polishing):
 * credits screen (you get there after winning)
 * sound level balancing (sfx)
 * optimize sfx (if needed)
-* button press sfx
 
 Game loop:
 
