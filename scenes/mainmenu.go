@@ -45,6 +45,7 @@ func (c *MainMenuController) Init(scene *gscene.SimpleRootScene) {
 			OnClick: func() {
 			},
 		})
+		b.GetWidget().Disabled = true
 		rows.AddChild(b)
 	}
 

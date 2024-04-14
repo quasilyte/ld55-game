@@ -12,16 +12,25 @@ Theme: summoning
 - Final testing - 1:00
 - Deploy - 1:00 (wasm)
 
+TODO feedback:
+
+* do not unlock everything at level 1
+* health bar
+* energy bar
+* explicit victory message
+
 TODO (top priority):
+
+* vessel design tooltips
+* crt filter?
+* vessel explosion effect (animation)
 
 TODO:
 
-* crt filter?
 * menu bg
 * "enemy in arc" condition
 * instruction progression? (don't unlock all at level 1)
 * weapon/vessel balancing
-* vessel explosion effect (animation)
 
 TODO (polishing):
 

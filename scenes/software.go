@@ -505,13 +505,13 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction, instBar bool) st
 
 	case game.TargetPosInstruction:
 		lines = []string{
-			"Push a target pos to the stack.",
+			"Push an enemy pos to the stack.",
 		}
 
 	case game.TargetSpeedInstruction:
 		lines = []string{
-			"Push a target speed to the stack.",
-			"Target speed is a velocity vector length.",
+			"Push an enemy speed to the stack.",
+			"The enemy speed is a velocity vector length.",
 		}
 
 	case game.ChanceInstruction:
@@ -557,9 +557,16 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction, instBar bool) st
 			"If it's not out-of-bounds, go to the next branch.",
 		}
 
+	case game.AimShotInstruction:
+		lines = []string{
+			"Fires weapon at the enemy.",
+			"Aimed shot tries to predict the enemy position",
+			"while targeting.",
+		}
+
 	case game.SnapShotInstruction:
 		lines = []string{
-			"Fires weapon at the target.",
+			"Fires weapon at the enemy.",
 			"Snap shot allows a faster rate-of-fire with",
 			"a very small accuracy.",
 			"It can be good against unpredictable targets.",
@@ -567,8 +574,8 @@ func (c *SoftwareController) instDoc(inst game.ProgInstruction, instBar bool) st
 
 	case game.NormalShotInstruction:
 		lines = []string{
-			"Fires weapon at the target.",
-			"Normal shot takes the target's current pos",
+			"Fires weapon at the enemy.",
+			"Normal shot takes the enemy's current pos",
 			"as the aiming point.",
 			"It works the best against slow or immobile targets.",
 		}
