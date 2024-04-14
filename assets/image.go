@@ -69,6 +69,7 @@ func registerImageResources(loader *resource.Loader) {
 		ImageVesselSmall1:  {Path: "image/vessel/small1.png"},
 		ImageVesselNormal1: {Path: "image/vessel/normal1.png"},
 		ImageVesselLarge1:  {Path: "image/vessel/large1.png"},
+		ImageVesselLarge2:  {Path: "image/vessel/large2.png"},
 	}
 
 	for id, info := range resources {
@@ -141,4 +142,5 @@ const (
 	ImageVesselSmall1
 	ImageVesselNormal1
 	ImageVesselLarge1
+	ImageVesselLarge2
 )

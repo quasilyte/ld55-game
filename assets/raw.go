@@ -11,6 +11,7 @@ func registerRawResources(loader *resource.Loader) {
 		RawLevel3EnemyJSON: {Path: "levels/level3_enemy.json"},
 		RawLevel4EnemyJSON: {Path: "levels/level4_enemy.json"},
 		RawLevel5EnemyJSON: {Path: "levels/level5_enemy.json"},
+		RawLevel6EnemyJSON: {Path: "levels/level6_enemy.json"},
 	}
 
 	for id, info := range resources {
@@ -27,4 +28,5 @@ const (
 	RawLevel3EnemyJSON
 	RawLevel4EnemyJSON
 	RawLevel5EnemyJSON
+	RawLevel6EnemyJSON
 )

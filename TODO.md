@@ -14,10 +14,12 @@ Theme: summoning
 
 TODO feedback:
 
+* final boss battle
 * do not unlock everything at level 1
 * health bar
 * energy bar
 * explicit victory message
+* insert after drag and drop (shift)
 
 TODO (top priority):
 

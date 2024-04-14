@@ -147,4 +147,21 @@ var VesselDesignList = []*VesselDesign{
 		EnergyResist:  0.5,
 		ThermalResist: 0.3,
 	},
+
+	// An improved Destroyed as a final boss.
+	{
+		Image:         assets.ImageVesselLarge2,
+		Name:          "Boss",
+		RotationSpeed: 1.8,
+		MaxSpeed:      90,
+		Acceleration:  150,
+		MaxHealth:     120,
+		MaxEnergy:     150,
+		EnergyRegen:   5,
+		HitboxSize:    18,
+
+		KineticResist: 0.2,
+		EnergyResist:  0.5,
+		ThermalResist: 0.5,
+	},
 }

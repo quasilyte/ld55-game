@@ -43,7 +43,7 @@ func (c *HardwareController) Init(scene *gscene.SimpleRootScene) {
 	{
 		grid := widget.NewContainer(
 			widget.ContainerOpts.Layout(widget.NewGridLayout(
-				widget.GridLayoutOpts.Columns(len(game.VesselDesignList)+1),
+				widget.GridLayoutOpts.Columns(len(game.VesselDesignList)+1-1),
 				widget.GridLayoutOpts.Spacing(8, 14),
 			)),
 		)
@@ -56,6 +56,9 @@ func (c *HardwareController) Init(scene *gscene.SimpleRootScene) {
 
 		for i := range game.VesselDesignList {
 			vd := game.VesselDesignList[i]
+			if vd.Name == "Boss" {
+				continue
+			}
 			slot := eui.NewSlotButton(uiRes, eui.SlotButtonConfig{
 				WithSelector: true,
 				Tooltip:      eui.NewSimpleTooltip(uiRes, c.vesselDoc(vd)),

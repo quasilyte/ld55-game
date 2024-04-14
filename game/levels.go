@@ -35,4 +35,9 @@ var Levels = []*Level{
 		Dist:  320,
 		Enemy: assets.RawLevel5EnemyJSON,
 	},
+
+	{
+		Dist:  96,
+		Enemy: assets.RawLevel6EnemyJSON,
+	},
 }
