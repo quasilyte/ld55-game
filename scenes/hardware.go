@@ -166,6 +166,11 @@ func (c *HardwareController) weaponDoc(wd *game.WeaponDesign) string {
 		lines = []string{
 			"A well-balanced energy weapon.",
 		}
+	case "Ion Cannon":
+		lines = []string{
+			"A long-range ion cannon.",
+			"Every hit burns some of the target's energy.",
+		}
 	case "Plasma Cannon":
 		lines = []string{
 			"Deals more damage than a Pulse Laser.",

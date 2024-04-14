@@ -47,6 +47,10 @@ func (v *Vessel) OnDamage(d Damage, attacker *Vessel) {
 			v.EventDestroyed.Emit(attacker)
 		}
 	}
+
+	if d.Energy > 0 {
+		v.Energy = gmath.ClampMin(v.Energy-d.DrainEnergy, 0)
+	}
 }
 
 func FindVesselDesignByName(name string) *VesselDesign {

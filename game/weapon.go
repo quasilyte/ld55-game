@@ -60,6 +60,8 @@ type Damage struct {
 	Energy  float64
 	Kinetic float64
 	Thermal float64
+
+	DrainEnergy float64
 }
 
 type Projectile struct {
@@ -87,7 +89,7 @@ var WeaponDesignList = []*WeaponDesign{
 		Name:                 "Pulse Laser",
 		BuyCost:              120,
 		EnergyCost:           5,
-		Reload:               0.5,
+		Reload:               0.45,
 		Damage:               Damage{Energy: 3},
 		FiringType:           TargetableWeapon,
 		FireSound:            assets.AudioFireLaser1,
@@ -96,6 +98,21 @@ var WeaponDesignList = []*WeaponDesign{
 		MaxRange:             250,
 		ProjectileImpactArea: 8,
 		ImpactImage:          assets.ImageImpactLaser,
+		Burst:                1,
+	},
+
+	{
+		Name:                 "Ion Cannon",
+		EnergyCost:           4,
+		Reload:               0.5,
+		Damage:               Damage{Energy: 1, DrainEnergy: 6},
+		FiringType:           TargetableWeapon,
+		FireSound:            assets.AudioFireIon1,
+		ProjectileImage:      assets.ImageProjectileIon,
+		ProjectileSpeed:      450,
+		MaxRange:             350,
+		ProjectileImpactArea: 6,
+		ImpactImage:          assets.ImageImpactIon,
 		Burst:                1,
 	},
 
