@@ -1,6 +1,8 @@
 package progsim
 
 import (
+	"fmt"
+
 	"github.com/quasilyte/gmath"
 	"github.com/quasilyte/ld55-game/game"
 )
@@ -150,12 +152,15 @@ func (e *Executor) RunTick(delta float64) VesselCommands {
 func (e *Executor) runThread(t *runningThread) {
 	for i := t.currentBranch; i < len(t.branches); i++ {
 		b := t.branches[i]
-		t.stack.Clear()
+		if len(t.stack.values) >= 12 {
+			fmt.Printf("warning: thread stack len is %d\n", len(t.stack.values))
+		}
 
 		s := e.runBranch(t, b)
 		if s == branchFinished {
 			// This will cause the current branch to
 			// become 0.
+			t.stack.Clear()
 			break
 		}
 		if s == branchRunning {
